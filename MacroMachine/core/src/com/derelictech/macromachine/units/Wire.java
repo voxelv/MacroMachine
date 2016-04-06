@@ -1,7 +1,6 @@
 package com.derelictech.macromachine.units;
 
 import com.derelictech.macromachine.e_net.AbstractEUnit;
-import com.derelictech.macromachine.e_net.EUnit;
 
 /**
  * Created by Tim on 4/5/2016.

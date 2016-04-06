@@ -17,4 +17,9 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     public ENetwork getNetwork() {
         return network;
     }
+
+    @Override
+    public void setNetwork(ENetwork net) {
+        this.network = net;
+    }
 }
