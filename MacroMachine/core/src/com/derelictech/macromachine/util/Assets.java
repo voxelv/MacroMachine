@@ -1,4 +1,4 @@
-package util;
+package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

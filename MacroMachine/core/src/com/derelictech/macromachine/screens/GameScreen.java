@@ -1,4 +1,4 @@
-package screens;
+package com.derelictech.macromachine.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import util.Const;
+import com.derelictech.macromachine.util.Const;
 
 /**
  * Created by Tim on 4/5/2016.

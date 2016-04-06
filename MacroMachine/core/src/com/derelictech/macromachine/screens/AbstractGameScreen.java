@@ -1,4 +1,4 @@
-package screens;
+package com.derelictech.macromachine.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ScreenAdapter;

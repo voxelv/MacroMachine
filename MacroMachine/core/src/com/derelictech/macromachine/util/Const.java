@@ -1,4 +1,4 @@
-package util;
+package com.derelictech.macromachine.util;
 
 /**
  * Created by Tim on 4/5/2016.

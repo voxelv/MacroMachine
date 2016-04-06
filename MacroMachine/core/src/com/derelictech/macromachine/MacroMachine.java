@@ -1,8 +1,8 @@
 package com.derelictech.macromachine;
 
 import com.badlogic.gdx.Game;
-import screens.GameScreen;
-import util.Assets;
+import com.derelictech.macromachine.screens.GameScreen;
+import com.derelictech.macromachine.util.Assets;
 
 public class MacroMachine extends Game {
 
