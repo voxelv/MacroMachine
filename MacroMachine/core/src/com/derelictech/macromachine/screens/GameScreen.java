@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.derelictech.macromachine.units.Wire;
 import com.derelictech.macromachine.util.Const;
 
 /**
@@ -24,13 +25,18 @@ public class GameScreen extends AbstractGameScreen {
         camera = new OrthographicCamera();
         viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         stage = new Stage(viewport);
+        camera.update();
 
         Gdx.input.setInputProcessor(stage);
+
+        Wire testWire = new Wire();
+        stage.addActor(testWire);
+
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
@@ -39,6 +45,7 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
+        viewport.update(width, height, true);
+        camera.update();
     }
 }
