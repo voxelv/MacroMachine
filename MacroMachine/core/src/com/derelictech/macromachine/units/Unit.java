@@ -20,4 +20,10 @@ public class Unit extends Group implements Item {
     public void draw(Batch batch, float parentAlpha) {
         sprite.draw(batch, parentAlpha);
     }
+
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        sprite.setSize(width, height);
+    }
 }
