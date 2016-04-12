@@ -2,6 +2,7 @@ package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -13,6 +14,7 @@ public class Assets implements Disposable{
     public static Assets inst = new Assets();
 
     private TextureAtlas atlas;
+    private Array<TextureRegion> wireTextures = new Array<TextureRegion>();
 
     public void init() {
         try {
@@ -35,8 +37,17 @@ public class Assets implements Disposable{
         return null;
     }
 
+    public Array<TextureRegion> getWireTextures() {
+        Array<TextureAtlas.AtlasRegion> regions = atlas.findRegions("units/wire");
+        for(TextureAtlas.AtlasRegion ar : regions) {
+            wireTextures.add(ar);
+        }
+        return wireTextures;
+    }
+
     @Override
     public void dispose() {
         if(atlas != null) atlas.dispose();
+        wireTextures.clear();
     }
 }
