@@ -23,12 +23,14 @@ public class TheCell extends Group {
 
         UnitFactory.inst.createWireUnit(cellGrid, 1, 1);
         UnitFactory.inst.createWireUnit(cellGrid, 2, 1);
-//        UnitFactory.inst.createWireUnit(cellGrid, 3, 1);
-//        UnitFactory.inst.createWireUnit(cellGrid, 1, 2);
-//        UnitFactory.inst.createWireUnit(cellGrid, 3, 2);
-//        UnitFactory.inst.createWireUnit(cellGrid, 1, 3);
-//        UnitFactory.inst.createWireUnit(cellGrid, 2, 3);
-//        UnitFactory.inst.createWireUnit(cellGrid, 3, 3);
+        UnitFactory.inst.createWireUnit(cellGrid, 3, 1);
+        UnitFactory.inst.createWireUnit(cellGrid, 1, 2);
+        UnitFactory.inst.createWireUnit(cellGrid, 2, 2);
+        UnitFactory.inst.createWireUnit(cellGrid, 3, 2);
+        UnitFactory.inst.createWireUnit(cellGrid, 1, 3);
+        UnitFactory.inst.createWireUnit(cellGrid, 2, 3);
+        UnitFactory.inst.createWireUnit(cellGrid, 3, 3);
+
         System.out.println(cellGrid.toString());
     }
 

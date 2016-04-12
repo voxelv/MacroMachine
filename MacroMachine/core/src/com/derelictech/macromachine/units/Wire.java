@@ -38,6 +38,10 @@ public class Wire extends AbstractEUnit {
                 System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
                 addConnection(dir);
             }
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).addConnection(dir.invert());
+            }
         }
     }
 
