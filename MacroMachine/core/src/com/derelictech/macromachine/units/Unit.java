@@ -24,12 +24,8 @@ public abstract class Unit extends Group implements Item {
         return cellGrid;
     }
 
-    public void setGridX(int gridX) {
-        this.gridX = gridX;
-    }
-
-    public void setGridY(int gridY) {
-        this.gridY = gridY;
+    public void setCellGrid(CellGrid cellGrid) {
+        this.cellGrid = cellGrid;
     }
 
     public int getGridX() {
@@ -38,6 +34,41 @@ public abstract class Unit extends Group implements Item {
 
     public int getGridY() {
         return gridY;
+    }
+
+    protected Unit getNeighbor(GridDirection dir) {
+        Unit unit = null;
+        switch(dir) {
+            case RIGHT:
+                if(gridX == cellGrid.getRows() - 1) break;      // Stop at edge of grid
+                unit = cellGrid.getUnitAt(gridX + 1, gridY);    // Get the unit
+                break;
+
+            case UP:
+                if(gridY == cellGrid.getCols() - 1) break;      // Stop at edge of grid
+                unit = cellGrid.getUnitAt(gridX, gridY + 1);    // Get the unit
+                break;
+
+            case LEFT:
+                if(gridX == 0) break;                           // Stop at edge of grid
+                unit = cellGrid.getUnitAt(gridX - 1, gridY);    // Get the unit
+                break;
+
+            case DOWN:
+                if(gridY == 0) break;                           // Stop at edge of grid
+                unit = cellGrid.getUnitAt(gridX, gridY - 1);    // Get the unit
+                break;
+
+            default:
+                break;
+        }
+        return unit;
+    }
+
+    public void setGridPos(int x, int y) {
+        gridX = x;
+        gridY = y;
+        setPosition(x, y);
     }
 
     @Override
@@ -55,36 +86,5 @@ public abstract class Unit extends Group implements Item {
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
         sprite.setPosition(x, y);
-    }
-
-    protected Unit getNeighbor(GridDirection dir) {
-        Unit unit = null;
-        switch(dir) {
-            case RIGHT:
-                if(gridX == cellGrid.getRows() - 1) break;      // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX + 1, gridY);    // Get the unit
-
-            case UP:
-                if(gridY == cellGrid.getCols() - 1) break;      // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY + 1);    // Get the unit
-
-            case LEFT:
-                if(gridX == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX - 1, gridY);    // Get the unit
-
-            case DOWN:
-                if(gridY == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY - 1);    // Get the unit
-
-            default:
-                break;
-        }
-        return unit;
-    }
-
-    public void setGridPos(int x, int y) {
-        gridX = x;
-        gridY = y;
-        setPosition(x, y);
     }
 }

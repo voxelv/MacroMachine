@@ -41,9 +41,7 @@ public class GameScreen extends AbstractGameScreen {
         //hui_input = new //input processor based for the hui
 
         Gdx.input.setInputProcessor(stage);
-
-        Wire testWire = new Wire();
-        stage.addActor(testWire);
+        
         TheCell cell = new TheCell();
         cell.setPosition(10, 10);
         stage.addActor(cell);
