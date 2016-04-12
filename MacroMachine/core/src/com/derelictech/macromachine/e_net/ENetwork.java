@@ -4,7 +4,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Manages a network of EUnits, EProducers, EConsumers, and EStorage.
+ *
+ * DOES NOT manage sides of the units in the network, just worries about itself.
+ *
+ * @author Tim Slippy, voxelv
  */
 public class ENetwork implements Disposable{
 
@@ -33,7 +37,7 @@ public class ENetwork implements Disposable{
         return eUnits;
     }
 
-    public ENetwork merge(AbstractEUnit thisUnit, ENetwork net) {
+    public ENetwork merge(ENetwork net) {
         // TODO: Add all elements in 'net' to this object
         // TODO: Destroy the old 'net'
         for(AbstractEUnit u : net.geteUnits()) {

@@ -16,9 +16,14 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     public AbstractEUnit(String unit_name) {
         super(unit_name);
         ENetwork selfNet = new ENetwork();
-        for(int i = 0; i < networks.size; i++) {
-            networks.set(i, selfNet);
-        }
+        rNet = selfNet;
+        uNet = selfNet;
+        lNet = selfNet;
+        dNet = selfNet;
+        networks.add(rNet);
+        networks.add(uNet);
+        networks.add(lNet);
+        networks.add(dNet);
     }
 
     @Override

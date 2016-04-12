@@ -32,6 +32,20 @@ public class CellGrid extends Group {
         return true; // Unit was placed
     }
 
+    public Unit removeUnit(Unit u) {
+        Unit unit;
+        for(int i = 0; i < cols - 1; i++) {
+            for(int j = 0; j < rows -1; j++) {
+                if(units[i][j] == u) {
+                    unit = units[i][j];
+                    units[i][j] = null;
+                    return unit;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
