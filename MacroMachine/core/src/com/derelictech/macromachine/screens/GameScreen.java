@@ -36,7 +36,7 @@ public class GameScreen extends AbstractGameScreen {
         hui_cam = new OrthographicCamera();
         hui_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hui_cam);
 
-        hui_input = new CustomeInput
+        //hui_input = new //input processor based for the hui
 
         Gdx.input.setInputProcessor(stage);
 
