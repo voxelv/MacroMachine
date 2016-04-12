@@ -14,7 +14,7 @@ import com.derelictech.macromachine.util.GridDirection;
 public abstract class Unit extends Group implements Item {
     protected Sprite sprite;
     protected CellGrid cellGrid;
-    protected int gridX, gridY;
+    protected int gridX = 0, gridY = 0;
 
     public Unit(String unit_name) {
         sprite = new Sprite(Assets.inst.getRegion(unit_name));
@@ -22,6 +22,14 @@ public abstract class Unit extends Group implements Item {
 
     public CellGrid getCellGrid() {
         return cellGrid;
+    }
+
+    public void setGridX(int gridX) {
+        this.gridX = gridX;
+    }
+
+    public void setGridY(int gridY) {
+        this.gridY = gridY;
     }
 
     public int getGridX() {
@@ -43,36 +51,40 @@ public abstract class Unit extends Group implements Item {
         sprite.setSize(width, height);
     }
 
-    public Unit getNeighbor(GridDirection dir) {
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+        sprite.setPosition(x, y);
+    }
+
+    protected Unit getNeighbor(GridDirection dir) {
         Unit unit = null;
         switch(dir) {
             case RIGHT:
                 if(gridX == cellGrid.getRows() - 1) break;      // Stop at edge of grid
                 unit = cellGrid.getUnitAt(gridX + 1, gridY);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
 
             case UP:
-                if(gridY == getCellGrid().getCols() - 1) break; // Stop at edge of grid
+                if(gridY == cellGrid.getCols() - 1) break;      // Stop at edge of grid
                 unit = cellGrid.getUnitAt(gridX, gridY + 1);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
 
             case LEFT:
                 if(gridX == 0) break;                           // Stop at edge of grid
                 unit = cellGrid.getUnitAt(gridX - 1, gridY);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
 
             case DOWN:
                 if(gridY == 0) break;                           // Stop at edge of grid
                 unit = cellGrid.getUnitAt(gridX, gridY - 1);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
 
             default:
                 break;
         }
         return unit;
+    }
+
+    public void setGridPos(int x, int y) {
+        gridX = x;
+        gridY = y;
+        setPosition(x, y);
     }
 }

@@ -9,7 +9,7 @@ public enum GridDirection {
     LEFT,
     DOWN;
 
-    public GridDirection inv() {
+    public GridDirection invert() {
         switch(this) {
             case RIGHT:
                 return LEFT;

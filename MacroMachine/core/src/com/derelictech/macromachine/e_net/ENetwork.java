@@ -8,13 +8,13 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class ENetwork implements Disposable{
 
-    private Array<EUnit> eUnits;
+    private Array<AbstractEUnit> eUnits;
     private Array<EProducer> eProducers;
     private Array<EConsumer> eConsumers;
     private Array<EStorage> eStorage;
 
     public ENetwork() {
-        eUnits = new Array<EUnit>();
+        eUnits = new Array<AbstractEUnit>();
         eProducers = new Array<EProducer>();
         eConsumers = new Array<EConsumer>();
         eStorage = new Array<EStorage>();
@@ -29,9 +29,17 @@ public class ENetwork implements Disposable{
         }
     }
 
-    public ENetwork merge(ENetwork net) {
+    private Array<AbstractEUnit> geteUnits() {
+        return eUnits;
+    }
+
+    public ENetwork merge(AbstractEUnit thisUnit, ENetwork net) {
         // TODO: Add all elements in 'net' to this object
         // TODO: Destroy the old 'net'
+        for(AbstractEUnit u : net.geteUnits()) {
+            this.add(u);
+        }
+        net.dispose();
         return this;
     }
 

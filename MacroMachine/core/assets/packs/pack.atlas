@@ -1,5 +1,18 @@
 
 pack.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+grid_layout
+  rotate: false
+  xy: 2, 2
+  size: 163, 163
+  orig: 163, 163
+  offset: 0, 0
+  index: -1
+
+pack2.png
 size: 64,64
 format: RGBA8888
 filter: Nearest,Nearest
@@ -12,154 +25,147 @@ items/wire
   offset: 0, 0
   index: 0
 
-pack2.png
-size: 256,256
+pack3.png
+size: 128,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 units/drill
   rotate: false
-  xy: 2, 36
+  xy: 2, 206
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: -1
 units/drill_extend
   rotate: false
-  xy: 167, 201
+  xy: 2, 172
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: 0
 units/drill_extend
   rotate: false
-  xy: 2, 2
+  xy: 52, 206
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: 1
 units/drill_extend
   rotate: false
-  xy: 52, 36
+  xy: 2, 138
   size: 48, 32
   orig: 48, 32
   offset: 0, 0
   index: 2
-units/grid_layout
+units/wire
+  rotate: false
+  xy: 52, 172
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+units/wire
+  rotate: false
+  xy: 2, 104
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+units/wire
+  rotate: false
+  xy: 52, 138
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+units/wire
   rotate: false
   xy: 2, 70
-  size: 163, 163
-  orig: 163, 163
-  offset: 0, 0
-  index: -1
-units/wire
-  rotate: false
-  xy: 167, 167
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 0
-units/wire
-  rotate: false
-  xy: 217, 201
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 1
-units/wire
-  rotate: false
-  xy: 52, 2
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 2
-units/wire
-  rotate: false
-  xy: 102, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 units/wire
   rotate: false
-  xy: 167, 133
+  xy: 36, 104
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
 units/wire
   rotate: false
-  xy: 201, 167
+  xy: 2, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
 units/wire
   rotate: false
-  xy: 86, 2
+  xy: 36, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
 units/wire
   rotate: false
-  xy: 167, 99
+  xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 7
 units/wire
   rotate: false
-  xy: 201, 133
+  xy: 36, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 8
 units/wire
   rotate: false
-  xy: 201, 99
+  xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 9
 units/wire
   rotate: false
-  xy: 136, 36
+  xy: 86, 172
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 10
 units/wire
   rotate: false
-  xy: 120, 2
+  xy: 86, 138
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 11
 units/wire
   rotate: false
-  xy: 154, 2
+  xy: 70, 104
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 12
 units/wire
   rotate: false
-  xy: 170, 65
+  xy: 70, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 13
 units/wire
   rotate: false
-  xy: 204, 65
+  xy: 70, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 14
 units/wire
   rotate: false
-  xy: 188, 31
+  xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

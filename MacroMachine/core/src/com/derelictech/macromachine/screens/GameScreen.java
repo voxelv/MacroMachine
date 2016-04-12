@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.derelictech.macromachine.units.TheCell;
 import com.derelictech.macromachine.units.Wire;
+import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Const;
 
 /**
@@ -42,6 +44,9 @@ public class GameScreen extends AbstractGameScreen {
 
         Wire testWire = new Wire();
         stage.addActor(testWire);
+        TheCell cell = new TheCell();
+        cell.setPosition(10, 10);
+        stage.addActor(cell);
 
     }
 

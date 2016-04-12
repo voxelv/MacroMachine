@@ -1,5 +1,6 @@
 package com.derelictech.macromachine.e_net;
 
+import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.units.Unit;
 import com.derelictech.macromachine.units.Wire;
 import com.derelictech.macromachine.util.GridDirection;
@@ -10,9 +11,14 @@ import com.derelictech.macromachine.util.GridDirection;
 public abstract class AbstractEUnit extends Unit implements EUnit{
 
     protected ENetwork rNet, uNet, lNet, dNet;
+    protected Array<ENetwork> networks = new Array<ENetwork>(true, 4);
 
     public AbstractEUnit(String unit_name) {
         super(unit_name);
+        ENetwork selfNet = new ENetwork();
+        for(int i = 0; i < networks.size; i++) {
+            networks.set(i, selfNet);
+        }
     }
 
     @Override
@@ -33,12 +39,27 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     @Override
     public void setNetwork(ENetwork net, GridDirection fromSide) {
         Unit u;
-        if(getNetwork(fromSide.inv()) != net) { // If not already in net
-            switch(fromSide.inv()) { // Set the side network
-                case RIGHT: rNet = net;
-                case UP:    uNet = net;
-                case LEFT:  lNet = net;
-                case DOWN:  dNet = net;
+        GridDirection thisSide = fromSide.invert();      // This side interaction is opposite the fromSide
+        if(net != null && getNetwork(thisSide) != net) { // If not already in net
+            if(thisSide != null) {
+                switch (thisSide) { // Set the side network
+                    case RIGHT:
+                        rNet = net;
+                        networks.set(0, net);
+                        break;
+                    case UP:
+                        uNet = net;
+                        networks.set(1, net);
+                        break;
+                    case LEFT:
+                        lNet = net;
+                        networks.set(2, net);
+                        break;
+                    case DOWN:
+                        dNet = net;
+                        networks.set(3, net);
+                        break;
+                }
             }
             net.add(this); // Add this to the network
 

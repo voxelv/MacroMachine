@@ -17,7 +17,6 @@ public class Assets implements Disposable{
     public void init() {
         try {
             atlas = new TextureAtlas("packs/pack.atlas");
-            System.out.println("Found pack.atlas.");
         }
         catch(Exception e) {
             System.err.println("Could not load packs/pack.atlas");
@@ -27,7 +26,6 @@ public class Assets implements Disposable{
 
     public TextureRegion getRegion(String name) {
         if(atlas != null) {
-            System.out.println("atlas exists");
             for (TextureAtlas.AtlasRegion r : atlas.getRegions()) {
                 if (r.name.equals(name)) {
                     return r;
