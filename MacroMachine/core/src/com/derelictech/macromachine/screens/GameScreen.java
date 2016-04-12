@@ -2,6 +2,7 @@ package com.derelictech.macromachine.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,8 +18,13 @@ import com.derelictech.macromachine.util.Const;
 public class GameScreen extends AbstractGameScreen {
 
     private Camera camera;
-    private static Viewport viewport;
+    private Viewport viewport;
     private Stage stage;
+
+    private Camera hui_cam;
+    private Viewport hui_view;
+
+    private InputProcessor hui_input;
 
     public GameScreen(Game game) {
         super(game);
@@ -26,6 +32,11 @@ public class GameScreen extends AbstractGameScreen {
         viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         stage = new Stage(viewport);
         camera.update();
+
+        hui_cam = new OrthographicCamera();
+        hui_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hui_cam);
+
+        hui_input = new CustomeInput
 
         Gdx.input.setInputProcessor(stage);
 
