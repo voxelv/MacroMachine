@@ -11,13 +11,22 @@ public class ENetwork implements Disposable{
     private Array<EUnit> eUnits;
     private Array<EProducer> eProducers;
     private Array<EConsumer> eConsumers;
-    private Array<EStorage> eStorages;
+    private Array<EStorage> eStorage;
 
     public ENetwork() {
         eUnits = new Array<EUnit>();
         eProducers = new Array<EProducer>();
         eConsumers = new Array<EConsumer>();
-        eStorages = new Array<EStorage>();
+        eStorage = new Array<EStorage>();
+    }
+
+    public void add(AbstractEUnit u) {
+        if(u != null) {
+            eUnits.add(u);
+            if(u instanceof EProducer) eProducers.add((EProducer) u);
+            if(u instanceof EConsumer) eConsumers.add((EConsumer) u);
+            if(u instanceof EStorage) eStorage.add((EStorage) u);
+        }
     }
 
     public ENetwork merge(ENetwork net) {

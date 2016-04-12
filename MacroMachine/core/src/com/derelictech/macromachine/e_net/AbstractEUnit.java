@@ -1,6 +1,7 @@
 package com.derelictech.macromachine.e_net;
 
 import com.derelictech.macromachine.units.Unit;
+import com.derelictech.macromachine.units.Wire;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
@@ -8,53 +9,50 @@ import com.derelictech.macromachine.util.GridDirection;
  */
 public abstract class AbstractEUnit extends Unit implements EUnit{
 
-    protected ENetwork network;
+    protected ENetwork rNet, uNet, lNet, dNet;
 
     public AbstractEUnit(String unit_name) {
         super(unit_name);
     }
 
     @Override
-    public ENetwork getNetwork() {
-        return network;
-    }
-
-    @Override
-    public void setNetwork(ENetwork net) {
-        this.network = net;
-    }
-
-    @Override
-    public Unit getNeighbor(GridDirection dir) {
-        Unit unit = null;
-        switch(dir) {
+    public ENetwork getNetwork(GridDirection side) {
+        switch(side) {
             case RIGHT:
-                if(gridX == cellGrid.getRows() - 1) break;      // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX + 1, gridY);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
-
+                return rNet;
             case UP:
-                if(gridY == getCellGrid().getCols() - 1) break; // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY + 1);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
-
+                return uNet;
             case LEFT:
-                if(gridX == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX - 1, gridY);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
-
+                return lNet;
             case DOWN:
-                if(gridY == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY - 1);    // Get the unit
-                if(unit == null) break;                         // If nothing is there, break
-                break;
-
-            default:
-                break;
+                return dNet;
         }
-        return unit;
+        return null;
     }
+
+    @Override
+    public void setNetwork(ENetwork net, GridDirection fromSide) {
+        Unit u;
+        if(getNetwork(fromSide.inv()) != net) { // If not already in net
+            switch(fromSide.inv()) { // Set the side network
+                case RIGHT: rNet = net;
+                case UP:    uNet = net;
+                case LEFT:  lNet = net;
+                case DOWN:  dNet = net;
+            }
+            net.add(this); // Add this to the network
+
+            // If this is a Wire, traverse it
+            if (this instanceof Wire) {
+                for (GridDirection dir : GridDirection.values()) {          // Loop through all neighbors
+                    u = getNeighbor(dir);                                   // Get neighbor
+                    if (u == null) continue;                                // Nothing's there, continue
+                    if (u instanceof Wire) ((Wire) u).setNetwork(net, dir); // If a neighbor is a Wire, set its network too
+                    else if (u instanceof AbstractEUnit)
+                        ((AbstractEUnit) u).setNetwork(net, dir);           // If a neighbor is an AbstractEUnit, set its network
+                }
+            } // End if Wire
+        } // End if not already in net
+    }
+
 }

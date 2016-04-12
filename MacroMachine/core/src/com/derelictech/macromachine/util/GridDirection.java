@@ -7,5 +7,20 @@ public enum GridDirection {
     RIGHT,
     UP,
     LEFT,
-    DOWN
+    DOWN;
+
+    public GridDirection inv() {
+        switch(this) {
+            case RIGHT:
+                return LEFT;
+            case UP:
+                return DOWN;
+            case LEFT:
+                return RIGHT;
+            case DOWN:
+                return UP;
+            default:
+                return null;
+        }
+    }
 }
