@@ -19,7 +19,6 @@ public abstract class Unit extends Group implements Item {
 
     public Unit(String unit_name) {
         sprite = new Sprite(Assets.inst.getRegion(unit_name));
-        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     public Grid getGrid() {

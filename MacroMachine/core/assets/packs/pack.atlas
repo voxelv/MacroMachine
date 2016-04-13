@@ -2,7 +2,7 @@
 pack.png
 size: 256,256
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 grid_layout
   rotate: false
@@ -15,7 +15,7 @@ grid_layout
 pack2.png
 size: 64,64
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 items/wire
   rotate: false
@@ -28,7 +28,7 @@ items/wire
 pack3.png
 size: 128,256
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 units/control_unit
   rotate: false

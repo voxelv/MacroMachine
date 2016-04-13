@@ -16,7 +16,6 @@ public class PaddedGrid<T> extends Grid<T> {
     public PaddedGrid(int cols, int rows, float padding, float edgeWidth, String gridFileName) {
         super(cols, rows);
         sprite = new Sprite(Assets.inst.getRegion(gridFileName));
-        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         this.padding = padding;
         this.edgeWidth = edgeWidth;
         this.setSize((2 * edgeWidth) + (cols - 1)*padding + (cols),
