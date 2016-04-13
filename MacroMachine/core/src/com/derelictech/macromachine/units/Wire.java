@@ -27,15 +27,10 @@ public class Wire extends AbstractEUnit {
         Unit unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
-            System.out.println("Scanning: " + dir.toString());
 
             unit = getNeighbor(dir);
-            if(unit == null) {
-                System.out.println("unit: is null");
-            }
 
             if(unit instanceof EUnit) {
-                System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
                 addConnection(dir);
             }
 
@@ -49,15 +44,10 @@ public class Wire extends AbstractEUnit {
         Unit unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
-            System.out.println("Scanning: " + dir.toString());
 
             unit = getNeighbor(dir);
-            if(unit == null) {
-                System.out.println("unit: is null");
-            }
 
             if(unit instanceof EUnit) {
-                System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
                 addConnection(dir);
             }
 

@@ -27,8 +27,6 @@ public class Grid<T> extends Group {
         if(y > rows - 1 || y < 0) return false; // Unit not placed
 
         items[((cols*y) + x)] =  newItem;
-        System.out.println("Added item at x: " + x + " y: " + y);
-        System.out.println(this.toString());
         return true; // Item was placed
     }
 
@@ -39,7 +37,6 @@ public class Grid<T> extends Group {
     }
 
     public T getItemAt(int x, int y) {
-        System.out.println("Getting item at x: " + x + " y: " + y + " is: " + items[x*y + x]);
         return items[cols*y + x];
     }
 
