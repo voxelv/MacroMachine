@@ -13,16 +13,17 @@ import com.derelictech.macromachine.util.GridDirection;
  */
 public class Wire extends AbstractEUnit {
 
-    private Array<TextureRegion> textures;
+    private Array<TextureRegion> wireTextures;
     private int frame = 0;
 
     public Wire() {
         super("units/wire");
 
         setSize(1, 1); // A wire occupies a 1x1 space
-        textures = Assets.inst.getWireTextures();
+        wireTextures = Assets.inst.getWireTextures();
     }
 
+    @Override
     public void setConnections() {
         Unit unit;
         frame = 0;
@@ -40,6 +41,7 @@ public class Wire extends AbstractEUnit {
         }
     }
 
+    @Override
     public void unsetConnections() {
         Unit unit;
         frame = 0;
@@ -57,7 +59,7 @@ public class Wire extends AbstractEUnit {
         }
     }
 
-    private void addConnection(GridDirection dir) {
+    public void addConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame += 1;
@@ -74,10 +76,10 @@ public class Wire extends AbstractEUnit {
             default:
                 break;
         }
-        sprite.setRegion(textures.get(frame));
+        sprite.setRegion(wireTextures.get(frame));
     }
 
-    private void remConnection(GridDirection dir) {
+    public void remConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame -= 1;
@@ -94,27 +96,6 @@ public class Wire extends AbstractEUnit {
             default:
                 break;
         }
-        sprite.setRegion(textures.get(frame));
-    }
-
-    @Override
-    public void preAdditionToGrid(Grid grid, int x, int y) {
-        this.setGrid(grid);
-        this.setGridPos(x, y);
-    }
-
-    @Override
-    public void postAdditionToGrid(Grid grid, int x, int y) {
-        setConnections();
-    }
-
-    @Override
-    public void preRemovalFromGrid(Grid grid) {
-        unsetConnections();
-    }
-
-    @Override
-    public void postRemovalFromGrid(Grid grid) {
-
+        sprite.setRegion(wireTextures.get(frame));
     }
 }

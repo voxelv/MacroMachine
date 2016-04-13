@@ -3,6 +3,7 @@ package com.derelictech.macromachine.e_net;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.units.Unit;
 import com.derelictech.macromachine.units.Wire;
+import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
@@ -26,6 +27,30 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
         networks.add(dNet);
     }
 
+    public void setConnections() {
+        Unit unit;
+        for(GridDirection dir : GridDirection.values()) {
+
+            unit = getNeighbor(dir);
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).addConnection(dir.invert());
+            }
+        }
+    }
+
+    public void unsetConnections() {
+        Unit unit;
+        for(GridDirection dir : GridDirection.values()) {
+
+            unit = getNeighbor(dir);
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).remConnection(dir.invert());
+            }
+        }
+    }
+
     @Override
     public ENetwork getNetwork(GridDirection side) {
         switch(side) {
@@ -39,6 +64,16 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
                 return dNet;
         }
         return null;
+    }
+
+    @Override
+    public void postAdditionToGrid(Grid grid, int x, int y) {
+        setConnections();
+    }
+
+    @Override
+    public void preRemovalFromGrid(Grid grid) {
+        unsetConnections();
     }
 
     @Override

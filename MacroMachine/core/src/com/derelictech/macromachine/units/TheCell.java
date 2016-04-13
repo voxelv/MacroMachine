@@ -25,6 +25,8 @@ public class TheCell extends Group {
         cellGrid.removeUnitAt(1, 4);
         cellGrid.removeUnitAt(4, 3);
         cellGrid.removeUnitAt(3, 0);
+        cellGrid.removeUnitAt(2, 2);
+        cellGrid.addUnitAt(new ControlUnit(), 2, 2);
     }
 
     @Override

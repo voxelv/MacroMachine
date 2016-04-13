@@ -1,11 +1,11 @@
 package com.derelictech.macromachine.units;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.derelictech.macromachine.items.Item;
 import com.derelictech.macromachine.util.Assets;
-import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
@@ -19,6 +19,7 @@ public abstract class Unit extends Group implements Item {
 
     public Unit(String unit_name) {
         sprite = new Sprite(Assets.inst.getRegion(unit_name));
+        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     public Grid getGrid() {
@@ -71,10 +72,19 @@ public abstract class Unit extends Group implements Item {
         gridY = y;
     }
 
-    public abstract void preAdditionToGrid(Grid grid, int x, int y);
-    public abstract void postAdditionToGrid(Grid grid, int x, int y);
-    public abstract void preRemovalFromGrid(Grid grid);
-    public abstract void postRemovalFromGrid(Grid grid);
+    public void preAdditionToGrid(Grid grid, int x, int y) {
+        this.setGrid(grid);
+        this.setGridPos(x, y);
+    }
+    public void postAdditionToGrid(Grid grid, int x, int y) {
+
+    }
+    public void preRemovalFromGrid(Grid grid) {
+
+    }
+    public void postRemovalFromGrid(Grid grid) {
+
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
