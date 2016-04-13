@@ -7,8 +7,8 @@ repeat: none
 grid_layout
   rotate: false
   xy: 2, 2
-  size: 163, 163
-  orig: 163, 163
+  size: 168, 168
+  orig: 168, 168
   offset: 0, 0
   index: -1
 

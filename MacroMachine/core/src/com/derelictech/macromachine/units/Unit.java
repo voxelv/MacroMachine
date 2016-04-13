@@ -68,7 +68,6 @@ public abstract class Unit extends Group implements Item {
     public void setGridPos(int x, int y) {
         gridX = x;
         gridY = y;
-        setPosition(x, y);
     }
 
     @Override

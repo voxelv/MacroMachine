@@ -32,6 +32,12 @@ public class Grid<T> extends Group {
         return true; // Item was placed
     }
 
+    public T deleteItemAt(int x, int y) {
+        T t = getItemAt(x, y);
+        items[((cols * y) + x)] = null;
+        return t;
+    }
+
     public T getItemAt(int x, int y) {
         System.out.println("Getting item at x: " + x + " y: " + y + " is: " + items[x*y + x]);
         return items[cols*y + x];
