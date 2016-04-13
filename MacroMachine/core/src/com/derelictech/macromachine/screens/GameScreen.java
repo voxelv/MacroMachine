@@ -10,12 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.derelictech.macromachine.units.TheCell;
-import com.derelictech.macromachine.units.Wire;
-import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Const;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Main Game Screen
+ * @author Tim Slippy, voxelv
  */
 public class GameScreen extends AbstractGameScreen {
 
@@ -28,6 +27,10 @@ public class GameScreen extends AbstractGameScreen {
 
     private InputProcessor hui_input;
 
+    /**
+     * Constructor for {@link GameScreen}
+     * @param game The game to set. Used to switch screens.
+     */
     public GameScreen(Game game) {
         super(game);
         camera = new OrthographicCamera();
@@ -48,6 +51,10 @@ public class GameScreen extends AbstractGameScreen {
 
     }
 
+    /**
+     * Sets the background color and renders the stage
+     * @param delta Amount of time between calls
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -57,6 +64,11 @@ public class GameScreen extends AbstractGameScreen {
         stage.draw();
     }
 
+    /**
+     * Called when the window is resized. Updates the viewport with the new information. Updates the camera.
+     * @param width New width of the window
+     * @param height New height of the window
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);

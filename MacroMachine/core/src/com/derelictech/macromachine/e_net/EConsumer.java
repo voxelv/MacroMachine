@@ -1,7 +1,8 @@
 package com.derelictech.macromachine.e_net;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Interface for an Energy Consumer
+ * @author Tim Slippy, voxelv
  */
 public interface EConsumer extends EUnit {
 }

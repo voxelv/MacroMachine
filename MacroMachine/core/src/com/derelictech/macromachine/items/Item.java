@@ -1,7 +1,8 @@
 package com.derelictech.macromachine.items;
 
 /**
- * Created by Tim on 4/5/2016.
+ * An Item is store-able in inventories.
+ * @author Tim Slippy, voxelv
  */
 public interface Item {
 }

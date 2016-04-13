@@ -21,22 +21,42 @@ public abstract class Unit extends Group implements Item {
         sprite = new Sprite(Assets.inst.getRegion(unit_name));
     }
 
+    /**
+     * Returns the
+     * @return
+     */
     public Grid getGrid() {
         return grid;
     }
 
+    /**
+     * Sets the {@link Grid} this Unit is a part of
+     * @param grid The {@link Grid} to set this Unit's {@link Grid} to
+     */
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
 
+    /**
+     * @return Returns the x coordinate of this Unit in its {@link Grid}
+     */
     public int getGridX() {
         return gridX;
     }
 
+    /**
+     * @return Returns the y coordinate of this Unit in its {@link Grid}
+     */
     public int getGridY() {
         return gridY;
     }
 
+    /**
+     * Gets a neighbor of this Unit
+     * @param dir The direction to get the neighbor from
+     * @return Returns the Unit adjacent to this Unit at direction {@link Unit#getNeighbor(GridDirection)}.
+     * Returns null if no Unit at that position or out of the {@link Grid} bounds
+     */
     protected Unit getNeighbor(GridDirection dir) {
         Unit unit = null;
         switch (dir) {
@@ -71,34 +91,53 @@ public abstract class Unit extends Group implements Item {
         gridY = y;
     }
 
+    /**
+     * Executes before this is added to a {@link Grid}
+     * @param grid The {@link Grid} this is about to be added to
+     * @param x The x coordinate of the {@link Grid} this is about to be added to
+     * @param y The y coordinate of the {@link Grid} this is about to be added to
+     */
     public void preAdditionToGrid(Grid grid, int x, int y) {
         this.setGrid(grid);
         this.setGridPos(x, y);
     }
+
+    /**
+     * Executes after this is added to a {@link Grid}
+     * @param grid The {@link Grid} that this was added to.
+     * @param x The {@link Grid} x coordinate this was added to
+     * @param y The {@link Grid} y coordinate this was added to
+     */
     public void postAdditionToGrid(Grid grid, int x, int y) {
 
     }
+
+    /**
+     * Executes before this is removed from a {@link Grid}
+     * @param grid The {@link Grid} this is about to be removed from
+     */
     public void preRemovalFromGrid(Grid grid) {
 
     }
+
+    /**
+     * Executes after this is removed from a {@link Grid}
+     * @param grid The {@link Grid} this was removed from
+     */
     public void postRemovalFromGrid(Grid grid) {
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        applyTransform(batch, computeTransform());
         sprite.draw(batch, parentAlpha);
+        resetTransform(batch);
     }
 
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
         sprite.setSize(width, height);
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-        sprite.setPosition(x, y);
     }
 }

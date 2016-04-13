@@ -6,9 +6,15 @@ import com.derelictech.macromachine.e_net.EProducer;
 import com.derelictech.macromachine.e_net.EStorage;
 
 /**
- * Created by Tim on 4/12/2016.
+ * The Control Unit is the 'brains' of {@link TheCell}
+ * @author Tim Slippy, voxelv
  */
 public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, EStorage{
+    /**
+     * Constructor for Control Unit
+     * Sets the Texture of this.
+     * The way the size is handled is likely to change if/when Power Levels are implemented
+     */
     public ControlUnit() {
         super("units/control_unit");
         setSize(1, 1); // A Control Unit occupies a 1x1 space

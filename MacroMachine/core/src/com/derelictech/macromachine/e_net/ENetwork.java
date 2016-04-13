@@ -33,14 +33,14 @@ public class ENetwork implements Disposable{
         }
     }
 
-    private Array<AbstractEUnit> geteUnits() {
+    private Array<AbstractEUnit> getUnits() {
         return eUnits;
     }
 
     public ENetwork merge(ENetwork net) {
         // TODO: Add all elements in 'net' to this object
         // TODO: Destroy the old 'net'
-        for(AbstractEUnit u : net.geteUnits()) {
+        for(AbstractEUnit u : net.getUnits()) {
             this.add(u);
         }
         net.dispose();

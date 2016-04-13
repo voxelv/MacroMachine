@@ -6,11 +6,21 @@ import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Const;
 
 /**
- * Created by Tim on 4/12/2016.
+ * The main Gamepiece
+ * @author Tim Slippy, voxelv
  */
 public class TheCell extends Group {
     private CellGrid cellGrid;
 
+    /**
+     * Constructor for TheCell
+     * Creates a {@link CellGrid}
+     * Sets its size to the size of its {@link CellGrid}
+     * Adds the {@link CellGrid} to its children
+     *
+     * TODO: TESTING FUNCTIONALITY TO BE REMOVED
+     * Adds some Wires and the ControlUnit for testing purposes
+     */
     public TheCell() {
         cellGrid = new CellGrid(5, 5, (1/Const.TEXTURE_RESOLUTION), (2/Const.TEXTURE_RESOLUTION));
         this.setSize(cellGrid.getWidth(), cellGrid.getHeight());
@@ -29,14 +39,15 @@ public class TheCell extends Group {
         cellGrid.addUnitAt(new ControlUnit(), 2, 2);
     }
 
+    /**
+     * Draws this with its children
+     * @param batch The batch to draw to
+     * @param parentAlpha The alpha level of the parent
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        applyTransform(batch, computeTransform());
         cellGrid.draw(batch, parentAlpha);
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-        cellGrid.setPosition(x, y);
+        resetTransform(batch);
     }
 }

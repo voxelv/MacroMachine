@@ -5,17 +5,22 @@ import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.EUnit;
 import com.derelictech.macromachine.util.Assets;
-import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
- * Created by Tim on 4/5/2016.
+ * A Wire is part of a network ind is the method that EUnits can connect to each other.
+ * @author Tim Slippy, voxelv
  */
 public class Wire extends AbstractEUnit {
 
     private Array<TextureRegion> wireTextures;
     private int frame = 0;
 
+    /**
+     * Constructor for Wire
+     * Sets the size... see {@link Unit}
+     * Gets the Wire Textures from the TextureAtlas in {@link Assets}
+     */
     public Wire() {
         super("units/wire");
 
@@ -23,6 +28,9 @@ public class Wire extends AbstractEUnit {
         wireTextures = Assets.inst.getWireTextures();
     }
 
+    /**
+     * Overrides the super by copying functionality and adds setting neighboring wires connections
+     */
     @Override
     public void setConnections() {
         Unit unit;
@@ -41,6 +49,9 @@ public class Wire extends AbstractEUnit {
         }
     }
 
+    /**
+     * Overrides the super by copying functionality and adds unsetting neighboring wires connections
+     */
     @Override
     public void unsetConnections() {
         Unit unit;
@@ -59,6 +70,10 @@ public class Wire extends AbstractEUnit {
         }
     }
 
+    /**
+     * Uses some binary trickery to determine which frame to display
+     * @param dir which direction to compute for
+     */
     public void addConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
@@ -79,6 +94,10 @@ public class Wire extends AbstractEUnit {
         sprite.setRegion(wireTextures.get(frame));
     }
 
+    /**
+     * Uses some binary trickery to determine which frame to display
+     * @param dir which direction to compute for
+     */
     public void remConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
