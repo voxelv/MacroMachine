@@ -29,7 +29,7 @@ public class Wire extends AbstractEUnit {
     }
 
     /**
-     * Overrides the super by copying functionality and adds setting neighboring wires connections
+     * Overrides the super by copying functionality and adds setting this Wire's connections
      */
     @Override
     public void setConnections() {
@@ -50,7 +50,7 @@ public class Wire extends AbstractEUnit {
     }
 
     /**
-     * Overrides the super by copying functionality and adds unsetting neighboring wires connections
+     * Overrides the super by copying functionality and adds unsetting this Wire's connections
      */
     @Override
     public void unsetConnections() {

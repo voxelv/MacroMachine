@@ -5,4 +5,9 @@ package com.derelictech.macromachine.e_net;
  * @author Tim Slippy, voxelv
  */
 public interface EProducer extends EUnit {
+    /**
+     * Produce energy
+     * @return Returns the amount of energy produced
+     */
+    long produce();
 }

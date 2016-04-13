@@ -19,4 +19,34 @@ public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, 
         super("units/control_unit");
         setSize(1, 1); // A Control Unit occupies a 1x1 space
     }
+
+    @Override
+    public long consume(long amount) {
+        return 0;
+    }
+
+    @Override
+    public boolean isFull() {
+        return false;
+    }
+
+    @Override
+    public long produce() {
+        return 0;
+    }
+
+    @Override
+    public long store(long amount) {
+        return 0;
+    }
+
+    @Override
+    public long extract(long amount) {
+        return 0;
+    }
+
+    @Override
+    public long getCapacity() {
+        return 0;
+    }
 }
