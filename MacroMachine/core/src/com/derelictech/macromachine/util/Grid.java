@@ -22,7 +22,7 @@ public class Grid<T> extends Group {
         }
     }
 
-    public boolean add(T newItem, int x, int y) {
+    protected boolean add(T newItem, int x, int y) {
         if(x > cols - 1 || x < 0) return false; // Unit not placed
         if(y > rows - 1 || y < 0) return false; // Unit not placed
 
@@ -32,7 +32,7 @@ public class Grid<T> extends Group {
         return true; // Item was placed
     }
 
-    public T deleteItemAt(int x, int y) {
+    protected T deleteItemAt(int x, int y) {
         T t = getItemAt(x, y);
         items[((cols * y) + x)] = null;
         return t;
@@ -48,7 +48,7 @@ public class Grid<T> extends Group {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < (cols); i++) {
             for(int j = 0; j < rows; j++) {
-                sb.append(items[i*cols + j] + ", ");
+                sb.append(items[(i*cols) + j] + ", ");
                 if(j == rows - 1) sb.append("\n");
             }
         }

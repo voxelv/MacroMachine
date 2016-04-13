@@ -11,9 +11,9 @@ public class UnitFactory {
 
     public Unit createWireUnit(CellGrid grid, int x, int y) {
         Wire u = new Wire();
-        u.setCellGrid(grid);
-        grid.add(u, x, y);
-        u.updateConnections();
+        u.setGrid(grid);
+        grid.addUnitAt(u, x, y);
+        u.setConnections();
         return u;
     }
 }

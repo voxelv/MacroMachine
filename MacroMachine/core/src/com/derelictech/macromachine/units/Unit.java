@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.derelictech.macromachine.items.Item;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.CellGrid;
+import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
@@ -13,19 +14,19 @@ import com.derelictech.macromachine.util.GridDirection;
  */
 public abstract class Unit extends Group implements Item {
     protected Sprite sprite;
-    protected CellGrid cellGrid;
+    protected Grid grid;
     protected int gridX = 0, gridY = 0;
 
     public Unit(String unit_name) {
         sprite = new Sprite(Assets.inst.getRegion(unit_name));
     }
 
-    public CellGrid getCellGrid() {
-        return cellGrid;
+    public Grid getGrid() {
+        return grid;
     }
 
-    public void setCellGrid(CellGrid cellGrid) {
-        this.cellGrid = cellGrid;
+    public void setGrid(Grid grid) {
+        this.grid = grid;
     }
 
     public int getGridX() {
@@ -38,25 +39,25 @@ public abstract class Unit extends Group implements Item {
 
     protected Unit getNeighbor(GridDirection dir) {
         Unit unit = null;
-        switch(dir) {
+        switch (dir) {
             case RIGHT:
-                if(gridX == cellGrid.getRows() - 1) break;      // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX + 1, gridY);    // Get the unit
+                if (gridX == grid.getRows() - 1) break;      // Stop at edge of grid
+                unit = (Unit) grid.getItemAt(gridX + 1, gridY);    // Get the unit
                 break;
 
             case UP:
-                if(gridY == cellGrid.getCols() - 1) break;      // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY + 1);    // Get the unit
+                if (gridY == grid.getCols() - 1) break;      // Stop at edge of grid
+                unit = (Unit) grid.getItemAt(gridX, gridY + 1);    // Get the unit
                 break;
 
             case LEFT:
-                if(gridX == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX - 1, gridY);    // Get the unit
+                if (gridX == 0) break;                           // Stop at edge of grid
+                unit = (Unit) grid.getItemAt(gridX - 1, gridY);    // Get the unit
                 break;
 
             case DOWN:
-                if(gridY == 0) break;                           // Stop at edge of grid
-                unit = cellGrid.getUnitAt(gridX, gridY - 1);    // Get the unit
+                if (gridY == 0) break;                           // Stop at edge of grid
+                unit = (Unit) grid.getItemAt(gridX, gridY - 1);    // Get the unit
                 break;
 
             default:
@@ -69,6 +70,11 @@ public abstract class Unit extends Group implements Item {
         gridX = x;
         gridY = y;
     }
+
+    public abstract void preAdditionToGrid(Grid grid, int x, int y);
+    public abstract void postAdditionToGrid(Grid grid, int x, int y);
+    public abstract void preRemovalFromGrid(Grid grid);
+    public abstract void postRemovalFromGrid(Grid grid);
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

@@ -1,11 +1,11 @@
 package com.derelictech.macromachine.units;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.EUnit;
 import com.derelictech.macromachine.util.Assets;
+import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
@@ -23,7 +23,7 @@ public class Wire extends AbstractEUnit {
         textures = Assets.inst.getWireTextures();
     }
 
-    public void updateConnections() {
+    public void setConnections() {
         Unit unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
@@ -45,7 +45,29 @@ public class Wire extends AbstractEUnit {
         }
     }
 
-    public void addConnection(GridDirection dir) {
+    public void unsetConnections() {
+        Unit unit;
+        frame = 0;
+        for(GridDirection dir : GridDirection.values()) {
+            System.out.println("Scanning: " + dir.toString());
+
+            unit = getNeighbor(dir);
+            if(unit == null) {
+                System.out.println("unit: is null");
+            }
+
+            if(unit instanceof EUnit) {
+                System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
+                addConnection(dir);
+            }
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).remConnection(dir.invert());
+            }
+        }
+    }
+
+    private void addConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame += 1;
@@ -65,7 +87,7 @@ public class Wire extends AbstractEUnit {
         sprite.setRegion(textures.get(frame));
     }
 
-    public void remConnection(GridDirection dir) {
+    private void remConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame -= 1;
@@ -83,5 +105,26 @@ public class Wire extends AbstractEUnit {
                 break;
         }
         sprite.setRegion(textures.get(frame));
+    }
+
+    @Override
+    public void preAdditionToGrid(Grid grid, int x, int y) {
+        this.setGrid(grid);
+        this.setGridPos(x, y);
+    }
+
+    @Override
+    public void postAdditionToGrid(Grid grid, int x, int y) {
+        setConnections();
+    }
+
+    @Override
+    public void preRemovalFromGrid(Grid grid) {
+        unsetConnections();
+    }
+
+    @Override
+    public void postRemovalFromGrid(Grid grid) {
+
     }
 }
