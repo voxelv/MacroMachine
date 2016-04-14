@@ -39,7 +39,7 @@ public class CellGrid extends PaddedGrid<Unit> {
     public boolean addUnitAt(Unit u, int x, int y) {
         u.preAdditionToGrid(this, x, y);
 
-        u.setPosition(edgeWidth + x + x*padding, edgeWidth + y + y*padding);    // Set Position
+        u.setPosition(edgePad + x + x*padding, edgePad + y + y*padding);        // Set Position
         boolean b = super.add(u, x, y);                                         // Add to the grid
         this.addActor(u);                                                       // Add to children
 

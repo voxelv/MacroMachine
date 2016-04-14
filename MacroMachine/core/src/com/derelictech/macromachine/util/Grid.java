@@ -22,9 +22,6 @@ public class Grid<T> extends Group {
         this.rows = rows;
 
         items = (T[])new Object[cols * rows];
-        for(int i = 0; i < (cols * rows - 1); i++) {
-            items[i] = null;
-        }
     }
 
     /**
@@ -73,7 +70,8 @@ public class Grid<T> extends Group {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < (cols); i++) {
             for(int j = 0; j < rows; j++) {
-                sb.append(items[(i*cols) + j] + ", ");
+                sb.append(items[(i*cols) + j]);
+                sb.append(", ");
                 if(j == rows - 1) sb.append("\n");
             }
         }

@@ -9,23 +9,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class PaddedGrid<T> extends Grid<T> {
 
     private Sprite sprite;
-    protected float edgeWidth;
-    protected final float padding;
+    protected float edgePad;
+    protected float padding;
 
     /**
      * Constructor for PaddedGrid
      * @param cols The number of columns this PaddedGrid will have
      * @param rows The number of rows this PaddedGrid will have
      * @param padding The padding in world-length between elements in the PaddedGrid
-     * @param edgeWidth The edge width this PaddedGrid will have
+     * @param edgePad The edge width this PaddedGrid will have
      */
-    public PaddedGrid(int cols, int rows, float padding, float edgeWidth, String gridFileName) {
+    public PaddedGrid(int cols, int rows, float padding, float edgePad, String gridFileName) {
         super(cols, rows);
         sprite = new Sprite(Assets.inst.getRegion(gridFileName));
         this.padding = padding;
-        this.edgeWidth = edgeWidth;
-        this.setSize((2 * edgeWidth) + (cols - 1)*padding + (cols),
-                (2 * edgeWidth) + (rows - 1)*padding + (rows));
+        this.edgePad = edgePad;
+        this.setSize((2 * edgePad) + (cols - 1)*padding + (cols),
+                (2 * edgePad) + (rows - 1)*padding + (rows));
     }
 
     @Override

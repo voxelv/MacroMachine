@@ -5,7 +5,7 @@ import com.derelictech.macromachine.tiles.units.TheCell;
 
 /**
  * Contains all the information for a Power Level
- * TODO: NYI
+ * TODO: WIP
  */
 public class Level extends Group{
 
@@ -19,7 +19,7 @@ public class Level extends Group{
     }
 
     private void init() {
-        gameGrid = new TileGrid(25, 25);
+        gameGrid = new TileGrid(25, 25, true);
         addActor(gameGrid);
 
         cell = new TheCell();

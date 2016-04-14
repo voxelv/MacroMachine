@@ -7,8 +7,18 @@ import com.derelictech.macromachine.tiles.Tile;
  */
 public class TileGrid extends PaddedGrid<Tile> {
 
-    public TileGrid(int cols, int rows) {
+    public TileGrid(int cols, int rows, boolean initWithTiles) {
         super(cols, rows, 0, 0, "tile_placeholder");
+
+        if(initWithTiles) addAllTiles();
+    }
+
+    private void addAllTiles() {
+        for(int i = 0; i < cols; i++) {
+            for(int j = 0; j < rows; j++) {
+                add(new Tile(), i, j);
+            }
+        }
     }
 }
 
