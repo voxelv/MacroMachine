@@ -59,7 +59,7 @@ public class GameScreen extends AbstractGameScreen {
 
         TheCell spinner = new TheCell();
         spinner.setTouchable(Touchable.enabled);
-        spinner.setPosition(4, 4);
+        spinner.setPosition(1, 1);
         hud.addActor(spinner);
 
 

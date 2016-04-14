@@ -40,8 +40,6 @@ public class TheCell extends Group {
         cellGrid.removeUnitAt(4, 3);
         cellGrid.removeUnitAt(3, 0);
 
-        System.out.println(cellGrid.toString());
-
         addListener(new InputListener(){
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if(started)
@@ -64,7 +62,7 @@ public class TheCell extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
-        cellGrid.draw(batch, parentAlpha);
+        drawChildren(batch, parentAlpha);
         resetTransform(batch);
 
         if(started)
