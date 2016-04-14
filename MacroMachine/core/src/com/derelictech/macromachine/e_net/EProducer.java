@@ -1,7 +1,13 @@
 package com.derelictech.macromachine.e_net;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Interface for an Energy Producer
+ * @author Tim Slippy, voxelv
  */
 public interface EProducer extends EUnit {
+    /**
+     * Produce energy
+     * @return Returns the amount of energy produced
+     */
+    long produce();
 }

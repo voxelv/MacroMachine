@@ -3,7 +3,9 @@ package com.derelictech.macromachine.units;
 import com.derelictech.macromachine.util.CellGrid;
 
 /**
- * Created by Tim on 4/11/2016.
+ * Creates Units for the game
+ * TODO: Currently unused
+ * @author Tim Slippy, voxelv
  */
 public class UnitFactory {
 

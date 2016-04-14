@@ -6,7 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
- * Created by Tim on 3/22/2016.
+ * Contains and/or gets the Assets needed for the game
+ * @author Tim Slippy, voxelv
  */
 
 public class Assets implements Disposable{
@@ -16,6 +17,9 @@ public class Assets implements Disposable{
     private TextureAtlas atlas;
     private Array<TextureRegion> wireTextures = new Array<TextureRegion>();
 
+    /**
+     * Able to be called to get the textures again
+     */
     public void init() {
         try {
             atlas = new TextureAtlas("packs/pack.atlas");
@@ -26,6 +30,11 @@ public class Assets implements Disposable{
         }
     }
 
+    /**
+     * Gets the region needed from the TextureAtlas
+     * @param name The name of the texture to get
+     * @return Returns the Texture region from the atlas specified by name
+     */
     public TextureRegion getRegion(String name) {
         if(atlas != null) {
             for (TextureAtlas.AtlasRegion r : atlas.getRegions()) {
@@ -37,6 +46,10 @@ public class Assets implements Disposable{
         return null;
     }
 
+    /**
+     * Sends the TextureRegion array of wire connection configurations
+     * @return Returns the {@link Array<TextureRegion>} of the wire configurations
+     */
     public Array<TextureRegion> getWireTextures() {
         Array<TextureAtlas.AtlasRegion> regions = atlas.findRegions("units/wire");
         for(TextureAtlas.AtlasRegion ar : regions) {
@@ -45,6 +58,11 @@ public class Assets implements Disposable{
         return wireTextures;
     }
 
+    /**
+     * Disposes of the atlas and clears {@link Assets#wireTextures}.
+     * If this is called during runtime, {@link Assets#init()} must be called again to get the textures from
+     * the pack again.
+     */
     @Override
     public void dispose() {
         if(atlas != null) atlas.dispose();

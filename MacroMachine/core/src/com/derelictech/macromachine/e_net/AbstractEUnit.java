@@ -3,16 +3,23 @@ package com.derelictech.macromachine.e_net;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.units.Unit;
 import com.derelictech.macromachine.units.Wire;
+import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Contains network information for an EUnit, Sets connections for wires next to this EUnit.
+ *
+ * @author Tim Slippy, voxelv
  */
 public abstract class AbstractEUnit extends Unit implements EUnit{
 
     protected ENetwork rNet, uNet, lNet, dNet;
     protected Array<ENetwork> networks = new Array<ENetwork>(true, 4);
 
+    /**
+     * Constructor for AbstractEUnit
+     * @param unit_name Name of texture file to apply to the unit
+     */
     public AbstractEUnit(String unit_name) {
         super(unit_name);
         ENetwork selfNet = new ENetwork();
@@ -24,6 +31,36 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
         networks.add(uNet);
         networks.add(lNet);
         networks.add(dNet);
+    }
+
+    /**
+     * Sets the connections of wires adjacent to this EUnit
+     */
+    public void setConnections() {
+        Unit unit;
+        for(GridDirection dir : GridDirection.values()) {
+
+            unit = getNeighbor(dir);
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).addConnection(dir.invert());
+            }
+        }
+    }
+
+    /**
+     * Removes the connections of wires adjacent to this EUnit
+     */
+    public void unsetConnections() {
+        Unit unit;
+        for(GridDirection dir : GridDirection.values()) {
+
+            unit = getNeighbor(dir);
+
+            if(unit instanceof Wire) {
+                ((Wire) unit).remConnection(dir.invert());
+            }
+        }
     }
 
     @Override
@@ -39,6 +76,16 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
                 return dNet;
         }
         return null;
+    }
+
+    @Override
+    public void postAdditionToGrid(Grid grid, int x, int y) {
+        setConnections();
+    }
+
+    @Override
+    public void preRemovalFromGrid(Grid grid) {
+        unsetConnections();
     }
 
     @Override

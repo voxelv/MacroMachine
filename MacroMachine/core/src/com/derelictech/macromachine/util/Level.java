@@ -1,7 +1,8 @@
 package com.derelictech.macromachine.util;
 
 /**
- * Created by Tim on 4/12/2016.
+ * Contains all the information for a Power Level
+ * TODO: NYI
  */
 public class Level {
     public Level(int power) {

@@ -1,7 +1,8 @@
 package com.derelictech.macromachine.util;
 
 /**
- * Created by Tim on 4/11/2016.
+ * A simple enumeration for 90 degree directions
+ * @author Tim Slippy, voxelv
  */
 public enum GridDirection {
     RIGHT,
@@ -9,6 +10,11 @@ public enum GridDirection {
     LEFT,
     DOWN;
 
+    /**
+     * Gets the spacial opposite of this direction's direction
+     * (like left to right and vice versa, up to down and vice versa)
+     * @return Returns the spacial opposite.
+     */
     public GridDirection invert() {
         switch(this) {
             case RIGHT:

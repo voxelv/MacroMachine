@@ -5,37 +5,41 @@ import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.EUnit;
 import com.derelictech.macromachine.util.Assets;
-import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
- * Created by Tim on 4/5/2016.
+ * A Wire is part of a network ind is the method that EUnits can connect to each other.
+ * @author Tim Slippy, voxelv
  */
 public class Wire extends AbstractEUnit {
 
-    private Array<TextureRegion> textures;
+    private Array<TextureRegion> wireTextures;
     private int frame = 0;
 
+    /**
+     * Constructor for Wire
+     * Sets the size... see {@link Unit}
+     * Gets the Wire Textures from the TextureAtlas in {@link Assets}
+     */
     public Wire() {
         super("units/wire");
 
         setSize(1, 1); // A wire occupies a 1x1 space
-        textures = Assets.inst.getWireTextures();
+        wireTextures = Assets.inst.getWireTextures();
     }
 
+    /**
+     * Overrides the super by copying functionality and adds setting this Wire's connections
+     */
+    @Override
     public void setConnections() {
         Unit unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
-            System.out.println("Scanning: " + dir.toString());
 
             unit = getNeighbor(dir);
-            if(unit == null) {
-                System.out.println("unit: is null");
-            }
 
             if(unit instanceof EUnit) {
-                System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
                 addConnection(dir);
             }
 
@@ -45,19 +49,18 @@ public class Wire extends AbstractEUnit {
         }
     }
 
+    /**
+     * Overrides the super by copying functionality and adds unsetting this Wire's connections
+     */
+    @Override
     public void unsetConnections() {
         Unit unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
-            System.out.println("Scanning: " + dir.toString());
 
             unit = getNeighbor(dir);
-            if(unit == null) {
-                System.out.println("unit: is null");
-            }
 
             if(unit instanceof EUnit) {
-                System.out.println("Found EUnit: " + unit.getGridX() + ", " + unit.getGridY());
                 addConnection(dir);
             }
 
@@ -67,7 +70,11 @@ public class Wire extends AbstractEUnit {
         }
     }
 
-    private void addConnection(GridDirection dir) {
+    /**
+     * Uses some binary trickery to determine which frame to display
+     * @param dir which direction to compute for
+     */
+    public void addConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame += 1;
@@ -84,10 +91,14 @@ public class Wire extends AbstractEUnit {
             default:
                 break;
         }
-        sprite.setRegion(textures.get(frame));
+        sprite.setRegion(wireTextures.get(frame));
     }
 
-    private void remConnection(GridDirection dir) {
+    /**
+     * Uses some binary trickery to determine which frame to display
+     * @param dir which direction to compute for
+     */
+    public void remConnection(GridDirection dir) {
         switch(dir) {
             case RIGHT:
                 frame -= 1;
@@ -104,27 +115,6 @@ public class Wire extends AbstractEUnit {
             default:
                 break;
         }
-        sprite.setRegion(textures.get(frame));
-    }
-
-    @Override
-    public void preAdditionToGrid(Grid grid, int x, int y) {
-        this.setGrid(grid);
-        this.setGridPos(x, y);
-    }
-
-    @Override
-    public void postAdditionToGrid(Grid grid, int x, int y) {
-        setConnections();
-    }
-
-    @Override
-    public void preRemovalFromGrid(Grid grid) {
-        unsetConnections();
-    }
-
-    @Override
-    public void postRemovalFromGrid(Grid grid) {
-
+        sprite.setRegion(wireTextures.get(frame));
     }
 }
