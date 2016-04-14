@@ -3,7 +3,6 @@ package com.derelictech.macromachine.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,12 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.derelictech.macromachine.units.TheCell;
+import com.derelictech.macromachine.tiles.units.TheCell;
 import com.derelictech.macromachine.util.Const;
 
 /**
  * Main Game Screen
  * @author Tim Slippy, voxelv
+ * @author Nate Groggett, Ghost4dot2
  */
 public class GameScreen extends AbstractGameScreen {
 
@@ -75,9 +75,9 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
-        stage.draw();
-
         hud.act(delta);
+
+        stage.draw();
         hud.draw();
     }
 
@@ -100,6 +100,5 @@ public class GameScreen extends AbstractGameScreen {
     public void dispose() {
         stage.dispose();
         hud.dispose();
-
     }
 }

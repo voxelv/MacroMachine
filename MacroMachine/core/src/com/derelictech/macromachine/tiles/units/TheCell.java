@@ -1,6 +1,5 @@
-package com.derelictech.macromachine.units;
+package com.derelictech.macromachine.tiles.units;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -30,6 +29,7 @@ public class TheCell extends Group {
         this.setSize(cellGrid.getWidth(), cellGrid.getHeight());
         this.addActor(cellGrid);
 
+
         for(int i = 0; i < cellGrid.getCols(); i++) {
             for(int j = 0; j < cellGrid.getRows(); j++) {
                 cellGrid.addUnitAt(new Wire(), i, j);
@@ -52,24 +52,6 @@ public class TheCell extends Group {
 
         cellGrid.removeUnitAt(2, 2);
         cellGrid.addUnitAt(new ControlUnit(), 2, 2);
-    }
-
-    /**
-     * Draws this with its children
-     * @param batch The batch to draw to
-     * @param parentAlpha The alpha level of the parent
-     */
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        applyTransform(batch, computeTransform());
-        drawChildren(batch, parentAlpha);
-        resetTransform(batch);
-
-        if(started)
-        {
-            cellGrid.setRotation(degrees);
-            degrees +=5;
-        }
     }
 
     @Override

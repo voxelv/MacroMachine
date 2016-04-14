@@ -1,24 +1,29 @@
-package com.derelictech.macromachine.units;
+package com.derelictech.macromachine.tiles;
 
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.derelictech.macromachine.items.Item;
-import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
 /**
- * Created by Tim on 4/5/2016.
+ * Created by Tim on 4/14/2016.
  */
-public abstract class Unit extends Group implements Item {
+public class Tile extends Group {
     protected Sprite sprite;
     protected Grid grid;
     protected int gridX = 0, gridY = 0;
 
-    public Unit(String unit_name) {
-        sprite = new Sprite(Assets.inst.getRegion(unit_name));
+    public Tile() {
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        applyTransform(batch, computeTransform());
+        sprite.draw(batch, parentAlpha);
+        resetTransform(batch);
+        super.draw(batch, parentAlpha);
     }
 
     /**
@@ -54,30 +59,30 @@ public abstract class Unit extends Group implements Item {
     /**
      * Gets a neighbor of this Unit
      * @param dir The direction to get the neighbor from
-     * @return Returns the Unit adjacent to this Unit at direction {@link Unit#getNeighbor(GridDirection)}.
+     * @return Returns the Unit adjacent to this Unit at direction {@link Tile#getNeighbor(GridDirection)}.
      * Returns null if no Unit at that position or out of the {@link Grid} bounds
      */
-    protected Unit getNeighbor(GridDirection dir) {
-        Unit unit = null;
+    protected Tile getNeighbor(GridDirection dir) {
+        Tile unit = null;
         switch (dir) {
             case RIGHT:
                 if (gridX == grid.getRows() - 1) break;      // Stop at edge of grid
-                unit = (Unit) grid.getItemAt(gridX + 1, gridY);    // Get the unit
+                unit = (Tile) grid.getItemAt(gridX + 1, gridY);    // Get the unit
                 break;
 
             case UP:
                 if (gridY == grid.getCols() - 1) break;      // Stop at edge of grid
-                unit = (Unit) grid.getItemAt(gridX, gridY + 1);    // Get the unit
+                unit = (Tile) grid.getItemAt(gridX, gridY + 1);    // Get the unit
                 break;
 
             case LEFT:
                 if (gridX == 0) break;                           // Stop at edge of grid
-                unit = (Unit) grid.getItemAt(gridX - 1, gridY);    // Get the unit
+                unit = (Tile) grid.getItemAt(gridX - 1, gridY);    // Get the unit
                 break;
 
             case DOWN:
                 if (gridY == 0) break;                           // Stop at edge of grid
-                unit = (Unit) grid.getItemAt(gridX, gridY - 1);    // Get the unit
+                unit = (Tile) grid.getItemAt(gridX, gridY - 1);    // Get the unit
                 break;
 
             default:
@@ -126,13 +131,6 @@ public abstract class Unit extends Group implements Item {
      */
     public void postRemovalFromGrid(Grid grid) {
 
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        applyTransform(batch, computeTransform());
-        sprite.draw(batch, parentAlpha);
-        resetTransform(batch);
     }
 
     @Override

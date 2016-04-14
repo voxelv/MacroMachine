@@ -1,8 +1,9 @@
 package com.derelictech.macromachine.e_net;
 
 import com.badlogic.gdx.utils.Array;
-import com.derelictech.macromachine.units.Unit;
-import com.derelictech.macromachine.units.Wire;
+import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.units.Unit;
+import com.derelictech.macromachine.tiles.units.Wire;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
@@ -37,7 +38,7 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      * Sets the connections of wires adjacent to this EUnit
      */
     public void setConnections() {
-        Unit unit;
+        Tile unit;
         for(GridDirection dir : GridDirection.values()) {
 
             unit = getNeighbor(dir);
@@ -52,7 +53,7 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      * Removes the connections of wires adjacent to this EUnit
      */
     public void unsetConnections() {
-        Unit unit;
+        Tile unit;
         for(GridDirection dir : GridDirection.values()) {
 
             unit = getNeighbor(dir);
@@ -90,7 +91,7 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
 
     @Override
     public void setNetwork(ENetwork net, GridDirection fromSide) {
-        Unit u;
+        Tile unit;
         GridDirection thisSide = fromSide.invert();      // This side interaction is opposite the fromSide
         if(net != null && getNetwork(thisSide) != net) { // If not already in net
             if(thisSide != null) {
@@ -118,11 +119,11 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
             // If this is a Wire, traverse it
             if (this instanceof Wire) {
                 for (GridDirection dir : GridDirection.values()) {          // Loop through all neighbors
-                    u = getNeighbor(dir);                                   // Get neighbor
-                    if (u == null) continue;                                // Nothing's there, continue
-                    if (u instanceof Wire) ((Wire) u).setNetwork(net, dir); // If a neighbor is a Wire, set its network too
-                    else if (u instanceof AbstractEUnit)
-                        ((AbstractEUnit) u).setNetwork(net, dir);           // If a neighbor is an AbstractEUnit, set its network
+                    unit = getNeighbor(dir);                                   // Get neighbor
+                    if (unit == null) continue;                                // Nothing's there, continue
+                    if (unit instanceof Wire) ((Wire) unit).setNetwork(net, dir); // If a neighbor is a Wire, set its network too
+                    else if (unit instanceof AbstractEUnit)
+                        ((AbstractEUnit) unit).setNetwork(net, dir);           // If a neighbor is an AbstractEUnit, set its network
                 }
             } // End if Wire
         } // End if not already in net

@@ -1,8 +1,9 @@
 package com.derelictech.macromachine.util;
-import com.derelictech.macromachine.units.Unit;
+import com.derelictech.macromachine.tiles.units.TheCell;
+import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
- * A {@link PaddedGrid} specifically designed for {@link com.derelictech.macromachine.units.TheCell}
+ * A {@link PaddedGrid} specifically designed for {@link TheCell}
  * @author Tim Slippy, voxelv
  */
 public class CellGrid extends PaddedGrid<Unit> {

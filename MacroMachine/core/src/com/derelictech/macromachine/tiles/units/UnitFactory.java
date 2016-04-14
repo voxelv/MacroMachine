@@ -1,4 +1,4 @@
-package com.derelictech.macromachine.units;
+package com.derelictech.macromachine.tiles.units;
 
 import com.derelictech.macromachine.util.CellGrid;
 

@@ -18,6 +18,13 @@ grid_layout
   orig: 168, 168
   offset: 0, 0
   index: -1
+tile_placeholder
+  rotate: false
+  xy: 846, 982
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 
 pack2.png
 size: 64,64

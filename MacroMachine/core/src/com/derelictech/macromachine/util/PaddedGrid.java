@@ -1,6 +1,5 @@
 package com.derelictech.macromachine.util;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -38,8 +37,8 @@ public class PaddedGrid<T> extends Grid<T> {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
-        this.sprite.draw(batch, parentAlpha);
-        drawChildren(batch, parentAlpha);
+        sprite.draw(batch, parentAlpha);
         resetTransform(batch);
+        super.draw(batch, parentAlpha);
     }
 }

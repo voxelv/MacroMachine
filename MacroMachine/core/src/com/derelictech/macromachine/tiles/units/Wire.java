@@ -1,9 +1,10 @@
-package com.derelictech.macromachine.units;
+package com.derelictech.macromachine.tiles.units;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.EUnit;
+import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.GridDirection;
 
@@ -33,7 +34,7 @@ public class Wire extends AbstractEUnit {
      */
     @Override
     public void setConnections() {
-        Unit unit;
+        Tile unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
 
@@ -54,7 +55,7 @@ public class Wire extends AbstractEUnit {
      */
     @Override
     public void unsetConnections() {
-        Unit unit;
+        Tile unit;
         frame = 0;
         for(GridDirection dir : GridDirection.values()) {
 
