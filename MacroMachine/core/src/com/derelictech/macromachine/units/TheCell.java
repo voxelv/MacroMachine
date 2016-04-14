@@ -2,6 +2,8 @@ package com.derelictech.macromachine.units;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Const;
 
@@ -10,6 +12,8 @@ import com.derelictech.macromachine.util.Const;
  */
 public class TheCell extends Group {
     private CellGrid cellGrid;
+    public boolean started  = false;
+    public int degrees = 0;
 
     public TheCell() {
         cellGrid = new CellGrid(5, 5, (1/Const.TEXTURE_RESOLUTION), (2/Const.TEXTURE_RESOLUTION));
@@ -27,11 +31,28 @@ public class TheCell extends Group {
         cellGrid.removeUnitAt(3, 0);
 
         System.out.println(cellGrid.toString());
+
+        addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(started)
+                    started = false;
+                else
+                    started = true;
+                return true;
+            }
+        });
+
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         cellGrid.draw(batch, parentAlpha);
+
+        if(started)
+        {
+            cellGrid.setRotation(degrees);
+            degrees +=5;
+        }
     }
 
     @Override

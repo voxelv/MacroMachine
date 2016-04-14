@@ -2,11 +2,13 @@ package com.derelictech.macromachine.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.derelictech.macromachine.units.TheCell;
@@ -23,10 +25,12 @@ public class GameScreen extends AbstractGameScreen {
     private Viewport viewport;
     private Stage stage;
 
-    private Camera hui_cam;
-    private Viewport hui_view;
+    private Camera hud_cam;
+    private Viewport hud_view;
+    private Stage hud;
 
-    private InputProcessor hui_input;
+    private InputMultiplexer multiplexer;
+
 
     public GameScreen(Game game) {
         super(game);
@@ -35,16 +39,26 @@ public class GameScreen extends AbstractGameScreen {
         stage = new Stage(viewport);
         camera.update();
 
-        hui_cam = new OrthographicCamera();
-        hui_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hui_cam);
+        hud_cam = new OrthographicCamera();
+        hud_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
+        hud = new Stage(hud_view);
 
-        //hui_input = new //input processor based for the hui
-
-        Gdx.input.setInputProcessor(stage);
+        multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(hud);
+        Gdx.input.setInputProcessor(multiplexer);
         
         TheCell cell = new TheCell();
+        cell.setTouchable(Touchable.enabled);
         cell.setPosition(10, 10);
         stage.addActor(cell);
+
+
+        TheCell spinner = new TheCell();
+        spinner.setTouchable(Touchable.enabled);
+        spinner.setPosition(4, 4);
+        hud.addActor(spinner);
+
 
     }
 
@@ -55,11 +69,25 @@ public class GameScreen extends AbstractGameScreen {
 
         stage.act(delta);
         stage.draw();
+
+        hud.act(delta);
+        hud.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         camera.update();
+
+        hud_view.update(width, height, true);
+        hud_cam.update();
+
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        hud.dispose();
+
     }
 }
