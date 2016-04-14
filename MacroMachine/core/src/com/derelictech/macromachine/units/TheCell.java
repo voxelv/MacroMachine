@@ -65,6 +65,7 @@ public class TheCell extends Group {
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
         cellGrid.draw(batch, parentAlpha);
+        resetTransform(batch);
 
         if(started)
         {
@@ -77,6 +78,5 @@ public class TheCell extends Group {
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
         cellGrid.setPosition(x, y);
-        //resetTransform(batch); // Where does the batch come from for this function?
     }
 }

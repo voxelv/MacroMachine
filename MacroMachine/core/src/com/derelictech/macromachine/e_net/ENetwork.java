@@ -116,8 +116,43 @@ public class ENetwork implements Disposable{
 
         /**
          * STORAGE PHASE
-         * TODO: NYI
+         * Stores extra energy into storage on the network using the same algorithm
          */
+        boolean allStorageFull = true;
+        long numStorageNotFull = 0;
+
+        for(EStorage es : eStorage) {
+            if(!es.isFull()) {
+                allStorageFull = false;   // If one consumer is not full, then not all consumers are full
+                numStorageNotFull++;      // Increment number of consumers not full
+            }
+        }
+
+        while(!allStorageFull && availableEnergy > 0) {
+            long portion = availableEnergy / numStorageNotFull;
+            long remainder = availableEnergy % numStorageNotFull;
+
+            availableEnergy = 0;
+            allStorageFull = true;
+            numStorageNotFull = 0;
+
+            for(EStorage es : eStorage) {
+                if(!es.isFull()) {
+                    if(remainder > 0) {
+                        availableEnergy += es.store(portion + 1);
+                        remainder--;
+                    }
+                    else {
+                        availableEnergy += es.store(portion);
+                    }
+
+                    if(!es.isFull()) {
+                        allStorageFull = false;
+                        numStorageNotFull++;
+                    }
+                } // END if es not full
+            } // END for es in eStorage
+        } // END while not all storage full or available energy > 0
     }
 
     @Override

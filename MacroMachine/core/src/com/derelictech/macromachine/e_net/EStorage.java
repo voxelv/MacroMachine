@@ -24,4 +24,10 @@ public interface EStorage extends EUnit {
      * @return Returns the max capacity of this EStorage
      */
     long getCapacity();
+
+    /**
+     * Tells whether this Storage is full
+     * @return Returns whether this Storage is full
+     */
+    boolean isFull();
 }
