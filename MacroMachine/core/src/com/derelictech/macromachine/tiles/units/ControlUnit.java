@@ -6,7 +6,7 @@ import com.derelictech.macromachine.e_net.EProducer;
 import com.derelictech.macromachine.e_net.EStorage;
 
 /**
- * The Control Unit is the 'brains' of {@link TheCell}
+ * The Control Unit is the 'brains' of {@link Cell}
  * @author Tim Slippy, voxelv
  */
 public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, EStorage{

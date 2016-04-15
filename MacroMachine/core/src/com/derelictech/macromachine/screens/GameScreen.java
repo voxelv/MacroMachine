@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.derelictech.macromachine.tiles.units.TheCell;
 import com.derelictech.macromachine.util.Const;
+import com.derelictech.macromachine.util.Level;
 
 /**
  * Main Game Screen
@@ -51,18 +50,25 @@ public class GameScreen extends AbstractGameScreen {
         multiplexer.addProcessor(hud);
         Gdx.input.setInputProcessor(multiplexer);
         
-        TheCell cell = new TheCell();
-        cell.setTouchable(Touchable.enabled);
-        cell.setPosition(10, 10);
-        stage.addActor(cell);
+//        Cell cell = new Cell();
+//        cell.setTouchable(Touchable.enabled);
+//        cell.setPosition(15, 15);
+//        stage.addActor(cell);
 
 
-        TheCell spinner = new TheCell();
-        spinner.setTouchable(Touchable.enabled);
-        spinner.setPosition(1, 1);
-        hud.addActor(spinner);
+//        Cell spinner = new Cell();
+//        spinner.setTouchable(Touchable.enabled);
+//        spinner.setPosition(0, 0);
+//        hud.addActor(spinner);
+
+        Level level = new Level(this, 0);
+        stage.addActor(level);
 
 
+    }
+
+    public void setViewportWorldSize(float width, float height) {
+        viewport.setWorldSize(width, height);
     }
 
     /**

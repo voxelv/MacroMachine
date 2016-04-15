@@ -8,36 +8,37 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  */
 public class PaddedGrid<T> extends Grid<T> {
 
-    private Sprite sprite;
+    private Sprite gridBackground;
     protected float edgePad;
-    protected float padding;
+    protected float inPad;
 
     /**
      * Constructor for PaddedGrid
-     * @param cols The number of columns this PaddedGrid will have
-     * @param rows The number of rows this PaddedGrid will have
-     * @param padding The padding in world-length between elements in the PaddedGrid
-     * @param edgePad The edge width this PaddedGrid will have
+     * @param cols The number of columns this will have
+     * @param rows The number of rows this will have
+     * @param inPad The inPad in world-length between elements in this
+     * @param edgePad The edge width this will have
+     * @param gridBackgroundFileName The filename of the background for this
      */
-    public PaddedGrid(int cols, int rows, float padding, float edgePad, String gridFileName) {
+    public PaddedGrid(int cols, int rows, float edgePad, float inPad, String gridBackgroundFileName) {
         super(cols, rows);
-        sprite = new Sprite(Assets.inst.getRegion(gridFileName));
-        this.padding = padding;
+        gridBackground = new Sprite(Assets.inst.getRegion(gridBackgroundFileName));
         this.edgePad = edgePad;
-        this.setSize((2 * edgePad) + (cols - 1)*padding + (cols),
-                (2 * edgePad) + (rows - 1)*padding + (rows));
+        this.inPad = inPad;
+        this.setSize((2 * edgePad) + (cols - 1)* this.inPad + (cols),
+                (2 * edgePad) + (rows - 1)* this.inPad + (rows));
     }
 
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        sprite.setSize(width, height);
+        gridBackground.setSize(width, height);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
-        sprite.draw(batch, parentAlpha);
+        gridBackground.draw(batch, parentAlpha);
         resetTransform(batch);
         super.draw(batch, parentAlpha);
     }

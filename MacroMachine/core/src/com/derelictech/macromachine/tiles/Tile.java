@@ -4,6 +4,7 @@ package com.derelictech.macromachine.tiles;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 
@@ -16,6 +17,8 @@ public class Tile extends Group {
     protected int gridX = 0, gridY = 0;
 
     public Tile() {
+        sprite = new Sprite(Assets.inst.getRegion("tile_placeholder"));
+        setSize(1, 1);
     }
 
     @Override
@@ -96,6 +99,12 @@ public class Tile extends Group {
         gridY = y;
     }
 
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        sprite.setSize(width, height);
+    }
+
     /**
      * Executes before this is added to a {@link Grid}
      * @param grid The {@link Grid} this is about to be added to
@@ -131,11 +140,5 @@ public class Tile extends Group {
      */
     public void postRemovalFromGrid(Grid grid) {
 
-    }
-
-    @Override
-    public void setSize(float width, float height) {
-        super.setSize(width, height);
-        sprite.setSize(width, height);
     }
 }

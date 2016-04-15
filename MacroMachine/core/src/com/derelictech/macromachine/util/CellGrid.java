@@ -1,9 +1,9 @@
 package com.derelictech.macromachine.util;
-import com.derelictech.macromachine.tiles.units.TheCell;
+import com.derelictech.macromachine.tiles.units.Cell;
 import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
- * A {@link PaddedGrid} specifically designed for {@link TheCell}
+ * A {@link PaddedGrid} specifically designed for {@link Cell}
  * @author Tim Slippy, voxelv
  */
 public class CellGrid extends PaddedGrid<Unit> {
@@ -30,17 +30,17 @@ public class CellGrid extends PaddedGrid<Unit> {
 
     /**
      * Adds a Unit at the coordinates and calls the Unit's pre- and post- AdditionToGrid methods.
-     * @param u The Unit to add
-     * @param x The x coordinate to add the Unit at
-     * @param y The y coordinate to add the Unit at
+     * @param u The Unit to addItemAt
+     * @param x The x coordinate to addItemAt the Unit at
+     * @param y The y coordinate to addItemAt the Unit at
      * @return Returns true if the Unit was able to be placed.
      * TODO: Check if the space is occupied. Perhaps implement in superclass
      */
     public boolean addUnitAt(Unit u, int x, int y) {
         u.preAdditionToGrid(this, x, y);
 
-        u.setPosition(edgePad + x + x*padding, edgePad + y + y*padding);        // Set Position
-        boolean b = super.add(u, x, y);                                         // Add to the grid
+        u.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);        // Set Position
+        boolean b = super.addItemAt(u, x, y);                                         // Add to the grid
         this.addActor(u);                                                       // Add to children
 
         u.postAdditionToGrid(this, x, y);

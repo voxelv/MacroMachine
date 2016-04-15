@@ -26,12 +26,12 @@ public class Grid<T> extends Group {
 
     /**
      * Adds an item to this Grid
-     * @param newItem The item to add
-     * @param x The x coordinate to add the item at
-     * @param y The y coordinate to add the item at
+     * @param newItem The item to addItemAt
+     * @param x The x coordinate to addItemAt the item at
+     * @param y The y coordinate to addItemAt the item at
      * @return Returns true if the item was added. Otherwise returns false.
      */
-    protected boolean add(T newItem, int x, int y) {
+    protected boolean addItemAt(T newItem, int x, int y) {
         if(x > cols - 1 || x < 0) return false; // Unit not placed
         if(y > rows - 1 || y < 0) return false; // Unit not placed
 
@@ -75,6 +75,7 @@ public class Grid<T> extends Group {
                 if(j == rows - 1) sb.append("\n");
             }
         }
+        sb.append("================================================================================================\n");
         return sb.toString();
     }
 

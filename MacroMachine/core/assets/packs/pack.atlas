@@ -4,29 +4,35 @@ size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-game_grid_wall5_pad3
+game_grid_edge5_pad3
   rotate: false
-  xy: 2, 172
-  size: 842, 842
-  orig: 842, 842
-  offset: 0, 0
-  index: -1
-grid_layout
-  rotate: false
-  xy: 2, 2
-  size: 168, 168
-  orig: 168, 168
+  xy: 2, 36
+  size: 882, 882
+  orig: 882, 882
   offset: 0, 0
   index: -1
 tile_placeholder
   rotate: false
-  xy: 846, 982
+  xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 
 pack2.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cell_edge2_pad1
+  rotate: false
+  xy: 2, 2
+  size: 168, 168
+  orig: 168, 168
+  offset: 0, 0
+  index: -1
+
+pack3.png
 size: 64,64
 format: RGBA8888
 filter: Linear,Linear
@@ -39,7 +45,7 @@ items/wire
   offset: 0, 0
   index: 0
 
-pack3.png
+pack4.png
 size: 128,256
 format: RGBA8888
 filter: Linear,Linear

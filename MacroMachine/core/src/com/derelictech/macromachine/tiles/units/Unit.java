@@ -12,6 +12,6 @@ public abstract class Unit extends Tile implements Item {
 
     public Unit(String unit_name) {
         super();
-        sprite = new Sprite(Assets.inst.getRegion(unit_name));
+        sprite.setRegion(Assets.inst.getRegion(unit_name));
     }
 }
