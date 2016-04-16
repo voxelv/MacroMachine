@@ -78,9 +78,7 @@ public class GameScreen extends AbstractGameScreen {
 
                 mouseRaw.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 Vector3 newWorldMouse = new Vector3(camera.unproject(mouseRaw));
-
-                System.out.println("New: " + newWorldMouse.toString());
-                System.out.println("Transvec: " + prevWorldMouse.sub(newWorldMouse));
+                prevWorldMouse.sub(newWorldMouse);
 
                 camera.translate(prevWorldMouse);
 
