@@ -63,8 +63,7 @@ public class GameScreen extends AbstractGameScreen {
 
         Level level = new Level(this, 0);
         stage.addActor(level);
-
-
+        System.out.println("Stagesetup");
     }
 
     public void setViewportWorldSize(float width, float height) {

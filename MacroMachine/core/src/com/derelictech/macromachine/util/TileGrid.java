@@ -3,6 +3,7 @@ package com.derelictech.macromachine.util;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.units.MultiTile;
@@ -14,15 +15,11 @@ public class TileGrid extends SlotGrid {
 
     private Sprite gridBackground;
     private Array<MultiTile> multitiles;
-    private float edgePad;
-    private float inPad;
 
 
     public TileGrid(int cols, int rows, float edgePad, float inPad, boolean initWithTiles, String bgFileName) {
-        super(cols, rows);
-
-        this.edgePad = edgePad;
-        this.inPad = inPad;
+        super(cols, rows, edgePad, inPad);
+        setTouchable(Touchable.enabled);
 
         gridBackground = new Sprite(Assets.inst.getRegion(bgFileName));
         multitiles = new Array<MultiTile>();
@@ -46,7 +43,6 @@ public class TileGrid extends SlotGrid {
     public boolean addTileAt(Tile t, int x, int y) {
         t.preAdditionToGrid(this, x, y);
 
-        t.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);  // Set Position
         boolean b = super.addTileAt(t, x, y);                           // Add to the grid
         this.addActor(t);                                               // Add to children
 
@@ -77,7 +73,7 @@ public class TileGrid extends SlotGrid {
     // TODO: Removes tiles unsafely, what if those tiles have important stuff??
     public boolean addMultiTile(MultiTile multiTile, int x, int y) {
         multitiles.add(multiTile);
-        multiTile.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);
+        multiTile.setPosition(xSnap(x), ySnap(y));
 
         for(int i = 0; i < multiTile.getGridWidth(); i++) {
             for(int j = 0; j < multiTile.getGridHeight(); j++) {

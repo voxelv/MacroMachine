@@ -4,6 +4,7 @@ package com.derelictech.macromachine.tiles;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
@@ -13,13 +14,14 @@ import com.derelictech.macromachine.util.TileGrid;
  * Created by Tim on 4/14/2016.
  */
 public class Tile extends Group {
-    protected Sprite sprite;
+    public Sprite sprite;
     protected TileGrid grid;
     protected int gridX = 0, gridY = 0;
 
     public Tile() {
         sprite = new Sprite(Assets.inst.getRegion("tile_placeholder"));
         setSize(1, 1);
+        setTouchable(Touchable.disabled);
     }
 
     @Override

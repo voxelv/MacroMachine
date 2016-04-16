@@ -1,12 +1,13 @@
 package com.derelictech.macromachine.util;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.StringBuilder;
 
 /**
  * Created by Tim on 4/12/2016.
  */
-public class Grid<T> extends Group {
+public class Grid<T extends Actor> extends Group {
 
     private T[] items;
 
@@ -21,7 +22,7 @@ public class Grid<T> extends Group {
         this.cols = cols;
         this.rows = rows;
 
-        items = (T[])new Object[cols * rows];
+        items = (T[])new Actor[cols * rows];
     }
 
     /**
@@ -37,6 +38,7 @@ public class Grid<T> extends Group {
         if(items[((cols * y) + x)] != null) return false; // Tile Occupied
 
         items[((cols*y) + x)] =  newItem;
+        addActor(newItem);
         return true; // Item was placed
     }
 
@@ -49,6 +51,7 @@ public class Grid<T> extends Group {
     protected T deleteItemAt(int x, int y) {
         T t = getItemAt(x, y);
         items[((cols * y) + x)] = null;
+        removeActor(t);
         return t;
     }
 
