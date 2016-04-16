@@ -6,6 +6,7 @@ import com.derelictech.macromachine.tiles.units.Unit;
 import com.derelictech.macromachine.tiles.units.Wire;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
+import com.derelictech.macromachine.util.TileGrid;
 
 /**
  * Contains network information for an EUnit, Sets connections for wires next to this EUnit.
@@ -80,12 +81,12 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     }
 
     @Override
-    public void postAdditionToGrid(Grid grid, int x, int y) {
+    public void postAdditionToGrid(TileGrid grid, int x, int y) {
         setConnections();
     }
 
     @Override
-    public void preRemovalFromGrid(Grid grid) {
+    public void preRemovalFromGrid(TileGrid grid) {
         unsetConnections();
     }
 

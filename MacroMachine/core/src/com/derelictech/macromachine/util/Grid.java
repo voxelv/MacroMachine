@@ -14,8 +14,8 @@ public class Grid<T> extends Group {
 
     /**
      * Constructor for Grid
-     * @param cols The number of columns this Grid will have
-     * @param rows The number of rows this Grid will have
+     * @param cols The number of columns this will have
+     * @param rows The number of rows this will have
      */
     public Grid(int cols, int rows) {
         this.cols = cols;

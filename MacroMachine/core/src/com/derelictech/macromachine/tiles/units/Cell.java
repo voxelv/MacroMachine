@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
-import com.derelictech.macromachine.util.CellGrid;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.TileGrid;
 
@@ -21,9 +21,6 @@ public class Cell extends MultiTile {
 
     /**
      * Constructor for Cell
-     * Creates a {@link CellGrid}
-     * Sets its size to the size of its {@link CellGrid}
-     * Adds the {@link CellGrid} to its children
      *
      * TODO: TESTING FUNCTIONALITY TO BE REMOVED
      * Adds some Wires and the ControlUnit for testing purposes

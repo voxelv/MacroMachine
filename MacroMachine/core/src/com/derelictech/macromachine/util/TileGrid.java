@@ -2,6 +2,7 @@ package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.units.MultiTile;
@@ -9,7 +10,7 @@ import com.derelictech.macromachine.tiles.units.MultiTile;
 /**
  * Created by Tim on 4/14/2016.
  */
-public class TileGrid extends Grid<Tile> {
+public class TileGrid extends SlotGrid {
 
     private Sprite gridBackground;
     private Array<MultiTile> multitiles;
@@ -41,30 +42,35 @@ public class TileGrid extends Grid<Tile> {
         }
     }
 
-    public Tile getTileAt(int x, int y) {
-        return getItemAt(x, y);
-    }
-
+    @Override
     public boolean addTileAt(Tile t, int x, int y) {
         t.preAdditionToGrid(this, x, y);
 
-        t.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);        // Set Position
-        boolean b = super.addItemAt(t, x, y);                                         // Add to the grid
-        this.addActor(t);                                                       // Add to children
+        t.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);  // Set Position
+        boolean b = super.addTileAt(t, x, y);                           // Add to the grid
+        this.addActor(t);                                               // Add to children
 
         t.postAdditionToGrid(this, x, y);
         return b;
     }
 
+    @Override
     public Tile removeTileAt(int x, int y) {
         Tile tile = getTileAt(x, y);
+        if(tile != null) {
+            tile.preRemovalFromGrid(this);
 
-        tile.preRemovalFromGrid(this);
+            for(Actor a : getChildren()) {
+                if(a instanceof Tile) {
+                    if(((Tile) a).getGridX() == x && ((Tile) a).getGridY() == y) {
+                        removeActor(a);
+                    }
+                }
+            }
+            super.removeTileAt(x, y);
 
-        deleteItemAt(x, y);
-        removeActor(tile);
-
-        tile.postRemovalFromGrid(this);
+            tile.postRemovalFromGrid(this);
+        }
         return tile;
     }
 
@@ -72,6 +78,7 @@ public class TileGrid extends Grid<Tile> {
     public boolean addMultiTile(MultiTile multiTile, int x, int y) {
         multitiles.add(multiTile);
         multiTile.setPosition(edgePad + x + x* inPad, edgePad + y + y* inPad);
+
         for(int i = 0; i < multiTile.getGridWidth(); i++) {
             for(int j = 0; j < multiTile.getGridHeight(); j++) {
                 removeTileAt(multiTile.getGridX() + i, multiTile.getGridY() + j);

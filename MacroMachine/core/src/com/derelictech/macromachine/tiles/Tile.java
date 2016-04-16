@@ -7,13 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
+import com.derelictech.macromachine.util.TileGrid;
 
 /**
  * Created by Tim on 4/14/2016.
  */
 public class Tile extends Group {
     protected Sprite sprite;
-    protected Grid grid;
+    protected TileGrid grid;
     protected int gridX = 0, gridY = 0;
 
     public Tile() {
@@ -41,7 +42,7 @@ public class Tile extends Group {
      * Sets the {@link Grid} this Unit is a part of
      * @param grid The {@link Grid} to set this Unit's {@link Grid} to
      */
-    public void setGrid(Grid grid) {
+    public void setGrid(TileGrid grid) {
         this.grid = grid;
     }
 
@@ -70,22 +71,22 @@ public class Tile extends Group {
         switch (dir) {
             case RIGHT:
                 if (gridX == grid.getRows() - 1) break;      // Stop at edge of grid
-                unit = (Tile) grid.getItemAt(gridX + 1, gridY);    // Get the unit
+                unit = grid.getTileAt(gridX + 1, gridY);    // Get the unit
                 break;
 
             case UP:
                 if (gridY == grid.getCols() - 1) break;      // Stop at edge of grid
-                unit = (Tile) grid.getItemAt(gridX, gridY + 1);    // Get the unit
+                unit = grid.getTileAt(gridX, gridY + 1);    // Get the unit
                 break;
 
             case LEFT:
                 if (gridX == 0) break;                           // Stop at edge of grid
-                unit = (Tile) grid.getItemAt(gridX - 1, gridY);    // Get the unit
+                unit = grid.getTileAt(gridX - 1, gridY);    // Get the unit
                 break;
 
             case DOWN:
                 if (gridY == 0) break;                           // Stop at edge of grid
-                unit = (Tile) grid.getItemAt(gridX, gridY - 1);    // Get the unit
+                unit = grid.getTileAt(gridX, gridY - 1);    // Get the unit
                 break;
 
             default:
@@ -106,39 +107,39 @@ public class Tile extends Group {
     }
 
     /**
-     * Executes before this is added to a {@link Grid}
-     * @param grid The {@link Grid} this is about to be added to
-     * @param x The x coordinate of the {@link Grid} this is about to be added to
-     * @param y The y coordinate of the {@link Grid} this is about to be added to
+     * Executes before this is added to a {@link TileGrid}
+     * @param grid The {@link TileGrid} this is about to be added to
+     * @param x The x coordinate of the {@link TileGrid} this is about to be added to
+     * @param y The y coordinate of the {@link TileGrid} this is about to be added to
      */
-    public void preAdditionToGrid(Grid grid, int x, int y) {
+    public void preAdditionToGrid(TileGrid grid, int x, int y) {
         this.setGrid(grid);
         this.setGridPos(x, y);
     }
 
     /**
-     * Executes after this is added to a {@link Grid}
+     * Executes after this is added to a {@link TileGrid}
      * @param grid The {@link Grid} that this was added to.
-     * @param x The {@link Grid} x coordinate this was added to
-     * @param y The {@link Grid} y coordinate this was added to
+     * @param x The {@link TileGrid} x coordinate this was added to
+     * @param y The {@link TileGrid} y coordinate this was added to
      */
-    public void postAdditionToGrid(Grid grid, int x, int y) {
+    public void postAdditionToGrid(TileGrid grid, int x, int y) {
 
     }
 
     /**
-     * Executes before this is removed from a {@link Grid}
-     * @param grid The {@link Grid} this is about to be removed from
+     * Executes before this is removed from a {@link TileGrid}
+     * @param grid The {@link TileGrid} this is about to be removed from
      */
-    public void preRemovalFromGrid(Grid grid) {
+    public void preRemovalFromGrid(TileGrid grid) {
 
     }
 
     /**
-     * Executes after this is removed from a {@link Grid}
-     * @param grid The {@link Grid} this was removed from
+     * Executes after this is removed from a {@link TileGrid}
+     * @param grid The {@link TileGrid} this was removed from
      */
-    public void postRemovalFromGrid(Grid grid) {
+    public void postRemovalFromGrid(TileGrid grid) {
 
     }
 }

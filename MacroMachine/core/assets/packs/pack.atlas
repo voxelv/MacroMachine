@@ -27,8 +27,8 @@ repeat: none
 cell_edge2_pad1
   rotate: false
   xy: 2, 2
-  size: 168, 168
-  orig: 168, 168
+  size: 176, 176
+  orig: 176, 176
   offset: 0, 0
   index: -1
 
