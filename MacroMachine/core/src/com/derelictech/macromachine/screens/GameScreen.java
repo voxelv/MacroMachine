@@ -23,7 +23,7 @@ import com.derelictech.macromachine.util.Level;
  */
 public class GameScreen extends AbstractGameScreen {
 
-    private Camera camera;
+    private OrthographicCamera camera;
     private Viewport viewport;
     private Stage stage;
 
@@ -48,7 +48,19 @@ public class GameScreen extends AbstractGameScreen {
 
         stage.addListener(new InputListener(){
             @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
+                System.out.println("TouchLoc: " + prevWorldMouse.toString());
+                return false;
+            }
+
+            @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
+                Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
+                System.out.println("Prev: " + prevWorldMouse.toString());
+
                 if(amount > 0) { // Scrolling Out
                     viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount));
                     Vector2 v = level.getGameGridDimensions();
@@ -58,14 +70,35 @@ public class GameScreen extends AbstractGameScreen {
                 }
                 else if(amount < 0) { // Scrolling In
                     viewport.setWorldSize(viewport.getWorldWidth() - Math.abs(amount), viewport.getWorldHeight() - Math.abs(amount));
-                    Vector2 v = level.getGameGridDimensions();
                     if(viewport.getWorldWidth() < 1 || viewport.getWorldHeight() < 1) {
                         viewport.setWorldSize(1, 1);
                     }
                 }
-                viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-                camera.update();
-                return super.scrolled(event, x, y, amount);
+                viewport.apply(false);
+
+                mouseRaw.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                Vector3 newWorldMouse = new Vector3(camera.unproject(mouseRaw));
+
+                System.out.println("New: " + newWorldMouse.toString());
+                System.out.println("Transvec: " + prevWorldMouse.sub(newWorldMouse));
+
+                camera.translate(prevWorldMouse);
+
+                if(camera.position.x - camera.viewportWidth/2 < 0) {
+                    camera.position.x = camera.viewportWidth/2;
+                }
+                if(camera.position.y - camera.viewportHeight/2 < 0) {
+                    camera.position.y = camera.viewportHeight/2;
+                }
+                if(camera.position.x + camera.viewportWidth/2 > level.getGameGridDimensions().x) {
+                    camera.position.x = level.getGameGridDimensions().x - camera.viewportWidth/2;
+                }
+                if(camera.position.y + camera.viewportHeight/2 > level.getGameGridDimensions().y) {
+                    camera.position.y = level.getGameGridDimensions().y - camera.viewportHeight/2;
+                }
+
+
+                return true;
             }
         });
 
