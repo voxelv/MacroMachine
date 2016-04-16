@@ -5,6 +5,8 @@ import com.derelictech.macromachine.tiles.units.Unit;
 /**
  * A {@link PaddedGrid} specifically designed for {@link Cell}
  * @author Tim Slippy, voxelv
+ *
+ * @deprecated
  */
 public class CellGrid extends PaddedGrid<Unit> {
 
@@ -14,7 +16,7 @@ public class CellGrid extends PaddedGrid<Unit> {
      * See {@link PaddedGrid}
      */
     public CellGrid(int cols, int rows, float padding, float edgeWidth) {
-        super(cols, rows, padding, edgeWidth, "grid_layout");
+        super(cols, rows, padding, edgeWidth);
     }
 
     /**

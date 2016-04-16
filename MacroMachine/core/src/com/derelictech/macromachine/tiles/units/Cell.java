@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.CellGrid;
+import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.TileGrid;
 
 /**
@@ -13,6 +15,7 @@ import com.derelictech.macromachine.util.TileGrid;
  * @author Tim Slippy, voxelv
  */
 public class Cell extends MultiTile {
+    private Sprite cellBackground;
     public boolean started  = false;
     public int degrees = 0;
 
@@ -25,11 +28,13 @@ public class Cell extends MultiTile {
      * TODO: TESTING FUNCTIONALITY TO BE REMOVED
      * Adds some Wires and the ControlUnit for testing purposes
      */
-    public Cell(TileGrid tileGrid, int gridWidth, int gridHeight) {
-        super(tileGrid, gridWidth, gridHeight);
+    public Cell(TileGrid tileGrid, int gridX, int gridY, int gridWidth, int gridHeight) {
+        super(tileGrid, gridX, gridY, gridWidth, gridHeight);
 
-        sprite = new Sprite(Assets.inst.getRegion("cell_edge2_pad1"));
-        sprite.setSize(this.gridWidth, this.gridHeight);
+        cellBackground = new Sprite(Assets.inst.getRegion("cell_edge2_pad1"));
+        cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
+        cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
+                2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
 
         for(int i = 0; i < tileGrid.getCols(); i++) {
             for(int j = 0; j < tileGrid.getRows(); j++) {
@@ -45,11 +50,9 @@ public class Cell extends MultiTile {
         addUnitAt(new ControlUnit(), 2, 2);
 
         addListener(new InputListener(){
+            int count = 0;
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(started)
-                    started = false;
-                else
-                    started = true;
+                System.out.println("Clicked Cell! " + count++);
                 return true;
             }
         });
@@ -60,14 +63,18 @@ public class Cell extends MultiTile {
     }
 
     public Unit removeUnitAt(int gridX, int gridY) {
-        return (Unit) removeTileAt(gridX, gridY);
+        Tile t = removeTileAt(gridX, gridY);
+        if(t instanceof Unit) return (Unit) t;
+        else return null;
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        applyTransform(batch, computeTransform());
-        sprite.draw(batch);
-        resetTransform(batch);
-        super.draw(batch, parentAlpha);
+    public void mtDraw(Batch batch, float parentAlpha) {
+        cellBackground.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
     }
 }

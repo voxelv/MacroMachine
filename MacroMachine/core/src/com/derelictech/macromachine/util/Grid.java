@@ -34,6 +34,7 @@ public class Grid<T> extends Group {
     protected boolean addItemAt(T newItem, int x, int y) {
         if(x > cols - 1 || x < 0) return false; // Unit not placed
         if(y > rows - 1 || y < 0) return false; // Unit not placed
+        if(items[((cols * y) + x)] != null) return false; // Tile Occupied
 
         items[((cols*y) + x)] =  newItem;
         return true; // Item was placed
