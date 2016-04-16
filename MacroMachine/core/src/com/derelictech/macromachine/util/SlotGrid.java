@@ -24,7 +24,7 @@ public class SlotGrid extends Grid<Slot> {
 
         for(int x = 0; x < cols; x++) {
             for(int y = 0; y < rows; y++){
-                Slot s = new Slot(x, y, 1, 1);
+                Slot s = new Slot(this, x, y, 1, 1);
                 s.setPosition(xSnap(x), ySnap(y));
                 addItemAt(s, x, y);
                 addActor(s);

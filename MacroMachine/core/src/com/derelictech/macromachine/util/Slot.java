@@ -1,12 +1,15 @@
 package com.derelictech.macromachine.util;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.units.Wire;
 
 /**
  * A Slot contains a {@link Tile}
@@ -14,10 +17,12 @@ import com.derelictech.macromachine.tiles.Tile;
 public class Slot extends Actor{
     private int gridX, gridY;
     private float width, height;
+    private SlotGrid grid;
 
     private Tile tile;
 
-    public Slot(final int gridX, final int gridY, float width, float height) {
+    public Slot(SlotGrid grid, final int gridX, final int gridY, float width, float height) {
+        this.grid = grid;
         this.gridX = gridX;
         this.gridY = gridY;
         this.width = width;
@@ -32,6 +37,15 @@ public class Slot extends Actor{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("["+ counter++ +"] Touched Slot: x"+gridX+" y"+gridY+" Tile"+ ((tile == null) ? " NULL" : " bounds: " + tile.getX() + " " + tile.getY() + " " + tile.getWidth() + " " + tile.getHeight()
                         + " Contains: " + tile.toString() +" | hash: "+ tile.hashCode()));
+                switch(button) {
+                    case Input.Buttons.LEFT:
+                        System.out.println(getParent());
+                        break;
+                    case Input.Buttons.RIGHT:
+                        break;
+                    default:
+                        break;
+                }
                 return true;
             }
 
