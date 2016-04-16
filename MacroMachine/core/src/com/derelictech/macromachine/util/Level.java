@@ -1,5 +1,6 @@
 package com.derelictech.macromachine.util;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.derelictech.macromachine.screens.GameScreen;
 import com.derelictech.macromachine.tiles.units.Cell;
@@ -28,5 +29,9 @@ public class Level extends Group{
 
         cell = new Cell(gameGrid, 10, 10, 5, 5);
         addActor(cell);
+    }
+
+    public Vector2 getGameGridDimensions() {
+        return new Vector2(gameGrid.getWidth(), gameGrid.getHeight());
     }
 }

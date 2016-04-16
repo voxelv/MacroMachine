@@ -6,6 +6,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,6 +33,7 @@ public class GameScreen extends AbstractGameScreen {
 
     private InputMultiplexer multiplexer;
 
+    private Level level;
 
     /**
      * Constructor for {@link GameScreen}
@@ -40,6 +45,29 @@ public class GameScreen extends AbstractGameScreen {
         viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         stage = new Stage(viewport);
         camera.update();
+
+        stage.addListener(new InputListener(){
+            @Override
+            public boolean scrolled(InputEvent event, float x, float y, int amount) {
+                if(amount > 0) { // Scrolling Out
+                    viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount));
+                    Vector2 v = level.getGameGridDimensions();
+                    if(viewport.getWorldWidth() > v.x || viewport.getWorldHeight() > v.y) {
+                        viewport.setWorldSize(v.x, v.y);
+                    }
+                }
+                else if(amount < 0) { // Scrolling In
+                    viewport.setWorldSize(viewport.getWorldWidth() - Math.abs(amount), viewport.getWorldHeight() - Math.abs(amount));
+                    Vector2 v = level.getGameGridDimensions();
+                    if(viewport.getWorldWidth() < 1 || viewport.getWorldHeight() < 1) {
+                        viewport.setWorldSize(1, 1);
+                    }
+                }
+                viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+                camera.update();
+                return super.scrolled(event, x, y, amount);
+            }
+        });
 
         hud_cam = new OrthographicCamera();
         hud_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
@@ -61,7 +89,7 @@ public class GameScreen extends AbstractGameScreen {
 //        spinner.setPosition(0, 0);
 //        hud.addActor(spinner);
 
-        Level level = new Level(this, 0);
+        level = new Level(this, 0);
         stage.addActor(level);
         System.out.println("Stagesetup");
     }
