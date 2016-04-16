@@ -1,6 +1,7 @@
 package com.derelictech.macromachine.tiles;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -26,9 +27,12 @@ public class Tile extends Group {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        Color c = batch.getColor();
+        batch.setColor(sprite.getColor());
         applyTransform(batch, computeTransform());
         sprite.draw(batch, parentAlpha);
         resetTransform(batch);
+        batch.setColor(c);
         super.draw(batch, parentAlpha);
     }
 
@@ -106,6 +110,16 @@ public class Tile extends Group {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         sprite.setSize(width, height);
+    }
+
+    @Override
+    public void setColor(Color color) {
+        sprite.setColor(color);
+    }
+
+    @Override
+    public Color getColor() {
+        return sprite.getColor();
     }
 
     /**

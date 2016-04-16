@@ -1,6 +1,7 @@
 package com.derelictech.macromachine.util;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -32,6 +33,23 @@ public class Slot extends Actor{
                 System.out.println("["+ counter++ +"] Touched Slot: x"+gridX+" y"+gridY+" Tile"+ ((tile == null) ? " NULL" : " bounds: " + tile.getX() + " " + tile.getY() + " " + tile.getWidth() + " " + tile.getHeight()
                         + " Contains: " + tile.toString() +" | hash: "+ tile.hashCode()));
                 return true;
+            }
+
+            Color temp;
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if(tile != null) {
+                    temp = tile.getColor();
+                    tile.setColor(Color.CYAN);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if(tile != null) {
+                    System.out.println("Exited");
+                    tile.setColor(Color.WHITE);
+                }
             }
         });
     }
