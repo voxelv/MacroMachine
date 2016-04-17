@@ -39,7 +39,8 @@ public class Slot extends Actor{
                         + " Contains: " + tile.toString() +" | hash: "+ tile.hashCode()));
                 switch(button) {
                     case Input.Buttons.LEFT:
-                        System.out.println(getParent());
+//                        System.out.println(getParent());
+                        event.setRelatedActor(Slot.this);
                         break;
                     case Input.Buttons.RIGHT:
                         break;

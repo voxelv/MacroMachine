@@ -51,36 +51,38 @@ public class GameScreen extends AbstractGameScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
                 Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
-                System.out.println("TouchLoc: " + prevWorldMouse.toString());
+                System.out.print("TouchLoc: " + prevWorldMouse.toString());
+                if(event.getRelatedActor() != null) System.out.println(" Touched: " + event.getRelatedActor().toString());
+                else System.out.println();
                 return false;
             }
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
                 Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
-                System.out.println("Prev: " + prevWorldMouse.toString());
+                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw)); // Get mouse location before zoom
 
                 if(amount > 0) { // Scrolling Out
-                    viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount));
+                    viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount)); // Change viewport
                     Vector2 v = level.getGameGridDimensions();
                     if(viewport.getWorldWidth() > v.x || viewport.getWorldHeight() > v.y) {
-                        viewport.setWorldSize(v.x, v.y);
+                        viewport.setWorldSize(v.x, v.y); // CLAMP
                     }
                 }
                 else if(amount < 0) { // Scrolling In
-                    viewport.setWorldSize(viewport.getWorldWidth() - Math.abs(amount), viewport.getWorldHeight() - Math.abs(amount));
+                    viewport.setWorldSize(viewport.getWorldWidth() - Math.abs(amount), viewport.getWorldHeight() - Math.abs(amount)); // Change viewport
                     if(viewport.getWorldWidth() < 1 || viewport.getWorldHeight() < 1) {
-                        viewport.setWorldSize(1, 1);
+                        viewport.setWorldSize(1, 1); // CLAMP
                     }
                 }
-                viewport.apply(false);
+                viewport.apply(false); // Update viewport, don't center camera.
 
                 mouseRaw.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                Vector3 newWorldMouse = new Vector3(camera.unproject(mouseRaw));
-                prevWorldMouse.sub(newWorldMouse);
+                Vector3 newWorldMouse = new Vector3(camera.unproject(mouseRaw)); // Get new mouse location
+                prevWorldMouse.sub(newWorldMouse); // Math
 
-                camera.translate(prevWorldMouse);
+                camera.translate(prevWorldMouse); // Move camera to correct location so that mouse is over the exact spot
+                // it was over before zooming (unless clamping disallows as per below)
 
                 if(camera.position.x - camera.viewportWidth/2 < 0) {
                     camera.position.x = camera.viewportWidth/2;
@@ -94,7 +96,6 @@ public class GameScreen extends AbstractGameScreen {
                 if(camera.position.y + camera.viewportHeight/2 > level.getGameGridDimensions().y) {
                     camera.position.y = level.getGameGridDimensions().y - camera.viewportHeight/2;
                 }
-
 
                 return true;
             }

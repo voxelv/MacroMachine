@@ -2,6 +2,8 @@ package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.derelictech.macromachine.screens.GameScreen;
 import com.derelictech.macromachine.tiles.units.Cell;
 
@@ -29,6 +31,16 @@ public class Level extends Group{
 
         cell = new Cell(gameGrid, 10, 10, 5, 5);
         addActor(cell);
+
+        this.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.print("LEVEL GOT CLICK TOO. ");
+                if(event.getRelatedActor() != null) System.out.println(" ITEM: " + event.getRelatedActor());
+                else System.out.println();
+                return true;
+            }
+        });
     }
 
     public Vector2 getGameGridDimensions() {
