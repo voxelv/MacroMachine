@@ -58,7 +58,7 @@ public class Grid<T extends Actor> extends Group {
     /**
      * Gets the item at the coordinates
      * @param x The x coordinate to get the item from
-     * @param y The y coordinate to get the item from
+     * @param y The   y coordinate to get the item from
      * @return Returns the item. Returns null no item was there.
      */
     public T getItemAt(int x, int y) {

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.Level;
@@ -24,7 +25,7 @@ import com.derelictech.macromachine.util.Level;
 public class GameScreen extends AbstractGameScreen {
 
     private OrthographicCamera camera;
-    private Viewport viewport;
+    private ScreenViewport viewport;
     private Stage stage;
 
     private Camera hud_cam;
@@ -42,9 +43,14 @@ public class GameScreen extends AbstractGameScreen {
     public GameScreen(Game game) {
         super(game);
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+        //viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+        viewport = new ScreenViewport(camera); //allows for positional control but causes interesting issues
+        viewport.setUnitsPerPixel(.01f);
+
         stage = new Stage(viewport);
         camera.update();
+
+
 
         stage.addListener(new InputListener(){
             @Override
@@ -153,7 +159,7 @@ public class GameScreen extends AbstractGameScreen {
      */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        viewport.update(width, height, false);
         camera.update();
 
         hud_view.update(width, height, true);
