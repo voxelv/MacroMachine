@@ -46,8 +46,9 @@ public class GameScreen extends AbstractGameScreen {
         //viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         viewport = new ScreenViewport(camera); //allows for positional control but causes interesting issues
         viewport.setUnitsPerPixel(.01f);
-
+        viewport.setScreenPosition(0,0);
         stage = new Stage(viewport);
+        //camera.lookAt(1,1,0);
         camera.update();
 
 
@@ -60,6 +61,8 @@ public class GameScreen extends AbstractGameScreen {
                 System.out.print("TouchLoc: " + prevWorldMouse.toString());
                 if(event.getRelatedActor() != null) System.out.println(" Touched: " + event.getRelatedActor().toString());
                 else System.out.println();
+                prevWorldMouse.z = 0;
+
                 return false;
             }
 
@@ -71,8 +74,11 @@ public class GameScreen extends AbstractGameScreen {
                 if(amount > 0) { // Scrolling Out
                     viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount)); // Change viewport
                     Vector2 v = level.getGameGridDimensions();
+//                    if(viewport.getWorldWidth() < camera.viewportWidth|| viewport.getWorldHeight() < camera.viewportHeight) {
+//                        viewport.setWorldSize(camera.viewportWidth, camera.viewportHeight); // CLAMP
+//                    } // trying to control the worlds zoom  and not overflow the viewport*/
                     if(viewport.getWorldWidth() > v.x || viewport.getWorldHeight() > v.y) {
-                        viewport.setWorldSize(v.x, v.y); // CLAMP
+                        viewport.setWorldSize( v.x, v.y); // CLAMP
                     }
                 }
                 else if(amount < 0) { // Scrolling In
@@ -144,6 +150,9 @@ public class GameScreen extends AbstractGameScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        viewport.setScreenPosition(0,0);
+        camera.update();
+
 
         stage.act(delta);
         hud.act(delta);
@@ -159,7 +168,8 @@ public class GameScreen extends AbstractGameScreen {
      */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, false);
+        viewport.update(4*height/5, 4*height/5, false); //updates so the viewport is always  square
+        viewport.setScreenPosition(0,0);
         camera.update();
 
         hud_view.update(width, height, true);

@@ -43,6 +43,7 @@ public class Slot extends Actor{
                         event.setRelatedActor(Slot.this);
                         break;
                     case Input.Buttons.RIGHT:
+
                         break;
                     default:
                         break;
