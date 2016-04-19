@@ -2,10 +2,15 @@ package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
+import com.derelictech.macromachine.tiles.Material;
 import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.materials.BasicMaterial;
+import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
+import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.tiles.units.MultiTile;
 
 /**
@@ -32,11 +37,21 @@ public class TileGrid extends SlotGrid {
     private void addAllTiles() {
         for(int i = 0; i < cols; i++) {
             for(int j = 0; j < rows; j++) {
-                Tile t = new Tile();
-                addTileAt(t, i, j);
-                addActor(t);
+
+                Material gen = genMaterial();
+                addTileAt(gen, i, j);
+                addActor(gen);
             }
         }
+    }
+
+    private Material genMaterial() {
+        float r =  MathUtils.random(0, 99);
+        Material m;
+        if(r == 0) m = new RadicalMaterial();
+        else if(r >= 1 && r < 26) m = new MetalicMaterial();
+        else m = new BasicMaterial();
+        return m;
     }
 
     @Override

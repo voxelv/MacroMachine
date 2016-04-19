@@ -46,6 +46,33 @@ items/wire
   index: 0
 
 pack4.png
+size: 128,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+materials/basic
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+materials/metalic
+  rotate: false
+  xy: 36, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+materials/radical
+  rotate: false
+  xy: 70, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+
+pack5.png
 size: 512,128
 format: RGBA8888
 filter: Linear,Linear
