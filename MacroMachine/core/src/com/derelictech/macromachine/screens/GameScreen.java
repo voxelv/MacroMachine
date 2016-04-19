@@ -11,8 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.Level;
 
@@ -42,7 +41,8 @@ public class GameScreen extends AbstractGameScreen {
     public GameScreen(Game game) {
         super(game);
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+        viewport = new ExtendViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+//        viewport = new FillViewport(camera);
         stage = new Stage(viewport);
         camera.update();
 
@@ -54,19 +54,21 @@ public class GameScreen extends AbstractGameScreen {
                 System.out.print("TouchLoc: " + prevWorldMouse.toString());
                 if(event.getRelatedActor() != null) System.out.println(" Touched: " + event.getRelatedActor().toString());
                 else System.out.println();
-                return false;
+                return true;
             }
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
                 Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw)); // Get mouse location before zoom
+                System.out.println("Mouse At: " + mouseRaw.toString());
+                System.out.println("Params: x: " + x + " y: " + y);
+                Vector3 prevWorldMouse = new Vector3(viewport.unproject(mouseRaw)); // Get mouse location before zoom
 
                 if(amount > 0) { // Scrolling Out
                     viewport.setWorldSize(viewport.getWorldWidth() + Math.abs(amount), viewport.getWorldHeight() + Math.abs(amount)); // Change viewport
-                    Vector2 v = level.getGameGridDimensions();
-                    if(viewport.getWorldWidth() > v.x || viewport.getWorldHeight() > v.y) {
-                        viewport.setWorldSize(v.x, v.y); // CLAMP
+
+                    if(viewport.getWorldWidth() > Const.VIEWPORT_W || viewport.getWorldHeight() > Const.VIEWPORT_H) {
+                        viewport.setWorldSize(Const.VIEWPORT_W, Const.VIEWPORT_H); // CLAMP
                     }
                 }
                 else if(amount < 0) { // Scrolling In
@@ -75,10 +77,10 @@ public class GameScreen extends AbstractGameScreen {
                         viewport.setWorldSize(1, 1); // CLAMP
                     }
                 }
-                viewport.apply(false); // Update viewport, don't center camera.
+                viewport.apply(true); // Update viewport, don't center camera.
 
                 mouseRaw.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                Vector3 newWorldMouse = new Vector3(camera.unproject(mouseRaw)); // Get new mouse location
+                Vector3 newWorldMouse = new Vector3(viewport.unproject(mouseRaw)); // Get new mouse location
                 prevWorldMouse.sub(newWorldMouse); // Math
 
                 camera.translate(prevWorldMouse); // Move camera to correct location so that mouse is over the exact spot
@@ -90,11 +92,11 @@ public class GameScreen extends AbstractGameScreen {
                 if(camera.position.y - camera.viewportHeight/2 < 0) {
                     camera.position.y = camera.viewportHeight/2;
                 }
-                if(camera.position.x + camera.viewportWidth/2 > level.getGameGridDimensions().x) {
-                    camera.position.x = level.getGameGridDimensions().x - camera.viewportWidth/2;
+                if(camera.position.x + camera.viewportWidth/2 > Const.VIEWPORT_W) {
+                    camera.position.x = Const.VIEWPORT_W - camera.viewportWidth/2;
                 }
-                if(camera.position.y + camera.viewportHeight/2 > level.getGameGridDimensions().y) {
-                    camera.position.y = level.getGameGridDimensions().y - camera.viewportHeight/2;
+                if(camera.position.y + camera.viewportHeight/2 > Const.VIEWPORT_H) {
+                    camera.position.y = Const.VIEWPORT_H - camera.viewportHeight/2;
                 }
 
                 return true;
@@ -126,10 +128,6 @@ public class GameScreen extends AbstractGameScreen {
         System.out.println("Stagesetup");
     }
 
-    public void setViewportWorldSize(float width, float height) {
-        viewport.setWorldSize(width, height);
-    }
-
     /**
      * Sets the background color and renders the stage
      * @param delta Amount of time between calls
@@ -154,7 +152,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        camera.update();
+        camera.update(false);
 
         hud_view.update(width, height, true);
         hud_cam.update();

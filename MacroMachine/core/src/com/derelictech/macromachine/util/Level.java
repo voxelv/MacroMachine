@@ -26,7 +26,6 @@ public class Level extends Group{
 
     private void init() {
         gameGrid = new TileGrid(25, 25, 5/Const.TEXTURE_RESOLUTION, 3/Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
-        gameScreen.setViewportWorldSize(gameGrid.getWidth(), gameGrid.getHeight());
         addActor(gameGrid);
 
         cell = new Cell(gameGrid, 10, 10, 5, 5);
