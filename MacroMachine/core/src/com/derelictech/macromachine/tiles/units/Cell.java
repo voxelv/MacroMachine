@@ -38,16 +38,16 @@ public class Cell extends MultiTile {
 
         for(int i = 0; i < tileGrid.getCols(); i++) {
             for(int j = 0; j < tileGrid.getRows(); j++) {
-                addUnitAt(new Wire(), i, j);
+                addUnitAt(new Wire(), gridX + i, gridY + j);
             }
         }
 
-        removeUnitAt(0, 1);
-        removeUnitAt(1, 4);
-        removeUnitAt(4, 3);
-        removeUnitAt(3, 0);
-        removeUnitAt(2, 2);
-        addUnitAt(new ControlUnit(), 2, 2);
+        removeUnitAt(gridX + 0, gridY + 1);
+        removeUnitAt(gridX + 1, gridY + 4);
+        removeUnitAt(gridX + 4, gridY + 3);
+        removeUnitAt(gridX + 3, gridY + 0);
+        removeUnitAt(gridX + 2, gridY + 2);
+        addUnitAt(new ControlUnit(), gridX + 2, gridY + 2);
 
         addListener(new InputListener(){
             int count = 0;
