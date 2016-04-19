@@ -43,11 +43,11 @@ public class TileGrid extends SlotGrid {
     public boolean addTileAt(Tile t, int x, int y) {
         t.preAdditionToGrid(this, x, y);
 
-        boolean b = super.addTileAt(t, x, y);                           // Add to the grid
-        this.addActor(t);                                               // Add to children
+        if(!super.addTileAt(t, x, y)) return false; // Add to the grid
+        this.addActor(t);                           // Add to children
 
         t.postAdditionToGrid(this, x, y);
-        return b;
+        return true;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
@@ -32,6 +33,8 @@ public class Cell extends MultiTile {
         cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
+        this.setBounds(0, 0, cellBackground.getWidth(), cellBackground.getHeight());
+        setTouchable(Touchable.enabled);
 
         for(int i = 0; i < tileGrid.getCols(); i++) {
             for(int j = 0; j < tileGrid.getRows(); j++) {
@@ -63,6 +66,11 @@ public class Cell extends MultiTile {
         Tile t = removeTileAt(gridX, gridY);
         if(t instanceof Unit) return (Unit) t;
         else return null;
+    }
+
+    public boolean containsUnitAt(int gridX, int gridY) {
+        return (gridX >= this.gridX && gridX < this.gridWidth &&
+                gridY >= this.gridY && gridY < this.gridHeight);
     }
 
     @Override

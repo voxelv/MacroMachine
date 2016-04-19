@@ -27,17 +27,17 @@ public abstract class MultiTile extends Group {
     }
 
     protected boolean addTileAt(Tile tile, int gridX, int gridY) {
-        if(gridX > this.gridWidth - 1 || gridX < 0) return false;
-        if(gridY > this.gridHeight - 1 || gridY < 0) return false;
+        if(gridX > this.gridX + this.gridWidth - 1 || gridX < this.gridX) return false;
+        if(gridY > this.gridY + this.gridHeight - 1 || gridY < this.gridY) return false;
 
-        return tileGrid.addTileAt(tile, this.gridX + gridX, this.gridY + gridY);
+        return tileGrid.addTileAt(tile, gridX, gridY);
     }
 
     protected Tile removeTileAt(int gridX, int gridY) {
-        if(gridX > this.gridWidth - 1 || gridX < 0) return null;
-        if(gridY > this.gridHeight - 1 || gridY < 0) return null;
+        if(gridX > this.gridX + this.gridWidth - 1 || gridX < this.gridX) return null;
+        if(gridY > this.gridY + this.gridHeight - 1 || gridY < this.gridY) return null;
 
-        return tileGrid.removeTileAt(this.gridX + gridX, this.gridY + gridY);
+        return tileGrid.removeTileAt(gridX, gridY);
     }
 
     public abstract void mtDraw(Batch batch, float parentAlpha);

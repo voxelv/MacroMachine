@@ -42,6 +42,15 @@ public class SlotGrid extends Grid<Slot> {
         else return false;
     }
 
+    public boolean canAddTileAt(int x, int y) {
+        Slot s = getItemAt(x, y);
+        return (s.getTile() == null);
+    }
+
+    public boolean canRemoveTileAt(int x, int y) {
+        return !canAddTileAt(x, y);
+    }
+
     public Tile getTileAt(int x, int y) {
         return getItemAt(x, y).getTile();
     }

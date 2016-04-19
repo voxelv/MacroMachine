@@ -37,17 +37,7 @@ public class Slot extends Actor{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("["+ counter++ +"] Touched Slot: x"+gridX+" y"+gridY+" Tile"+ ((tile == null) ? " NULL" : " bounds: " + tile.getX() + " " + tile.getY() + " " + tile.getWidth() + " " + tile.getHeight()
                         + " Contains: " + tile.toString() +" | hash: "+ tile.hashCode()));
-                switch(button) {
-                    case Input.Buttons.LEFT:
-//                        System.out.println(getParent());
-                        event.setRelatedActor(Slot.this);
-                        break;
-                    case Input.Buttons.RIGHT:
-
-                        break;
-                    default:
-                        break;
-                }
+                event.setRelatedActor(Slot.this);
                 return true;
             }
 
@@ -81,6 +71,14 @@ public class Slot extends Actor{
         Tile t = this.tile;
         this.tile = null;
         return t;
+    }
+
+    public int getGridX() {
+        return gridX;
+    }
+
+    public int getGridY() {
+        return gridY;
     }
 
     @Override
