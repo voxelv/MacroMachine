@@ -6,8 +6,8 @@ package com.derelictech.macromachine.util;
  */
 public class Const {
 
-    public static final float VIEWPORT_W = 25;
-    public static final float VIEWPORT_H = 25;
+    public static final float VIEWPORT_W = 35;
+    public static final float VIEWPORT_H = 35;
 
     public static final float HUI_VIEWPORT_W = 25;
     public static final float HUI_VIEWPORT_H = 25;
