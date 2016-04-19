@@ -73,6 +73,12 @@ public class Slot extends Actor{
         return t;
     }
 
+    public void setGridPos(int x, int y) {
+        this.gridX = x;
+        this.gridY = y;
+        tile.setGridPos(x, y);
+    }
+
     public int getGridX() {
         return gridX;
     }

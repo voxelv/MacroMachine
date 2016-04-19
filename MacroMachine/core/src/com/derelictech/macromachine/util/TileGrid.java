@@ -98,6 +98,93 @@ public class TileGrid extends SlotGrid {
         return true;
     }
 
+    public boolean moveMultitile(MultiTile multitile, GridDirection dir) {
+        if(!canMoveMultitile(multitile, dir)) return false;
+
+        switch(dir) {
+            case RIGHT:
+                for(int x = multitile.getGridX() + multitile.getGridWidth() - 1; x >= multitile.getGridX(); x--) {
+                    for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
+                        if(getTileAt(x, y) != null) {
+                            Tile tile = removeTileAt(x, y);
+                            addTileAt(tile, x + 1, y);
+                        }
+                    }
+                }
+                multitile.setGridPos(multitile.getGridX() + 1, multitile.getGridY());
+                break;
+            case UP:
+                for(int y = multitile.getGridY() + multitile.getGridHeight() - 1; y >= multitile.getGridY(); y--) {
+                    for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
+                        if(getTileAt(x, y) != null) {
+                            Tile tile = removeTileAt(x, y);
+                            addTileAt(tile, x, y + 1);
+                        }
+                    }
+                }
+                multitile.setGridPos(multitile.getGridX(), multitile.getGridY() + 1);
+                break;
+            case LEFT:
+                for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
+                    for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
+                        if(getTileAt(x, y) != null) {
+                            Tile tile = removeTileAt(x, y);
+                            addTileAt(tile, x - 1, y);
+                        }
+                    }
+                }
+                multitile.setGridPos(multitile.getGridX() - 1, multitile.getGridY());
+                break;
+            case DOWN:
+                for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
+                    for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
+                        if(getTileAt(x, y) != null) {
+                            Tile tile = removeTileAt(x, y);
+                            addTileAt(tile, x, y - 1);
+                        }
+                    }
+                }
+                multitile.setGridPos(multitile.getGridX(), multitile.getGridY() - 1);
+                break;
+            default:
+                break;
+        }
+        multitile.setPosition(xSnap(multitile.getGridX()), ySnap(multitile.getGridY()));
+        return true;
+    }
+
+    public boolean canMoveMultitile(MultiTile multitile, GridDirection dir) {
+        switch(dir) {
+            case RIGHT:
+                if(multitile.getGridX() + multitile.getGridWidth() == this.cols) return false; // Edge of grid
+                for(int i = 0; i < multitile.getGridHeight(); i++) {
+                    if(getTileAt(multitile.getGridX() + multitile.getGridWidth(), multitile.getGridY() + i) != null) return false;
+                }
+                break;
+            case UP:
+                if(multitile.getGridY() + multitile.getGridHeight() == this.rows) return false; // Edge of grid
+                for(int i = 0; i < multitile.getGridHeight(); i++) {
+                    if(getTileAt(multitile.getGridX() + i, multitile.getGridY() + multitile.getGridHeight()) != null) return false;
+                }
+                break;
+            case LEFT:
+                if(multitile.getGridX() == 0) return false; // Edge of grid
+                for(int i = 0; i < multitile.getGridHeight(); i++) {
+                    if(getTileAt(multitile.getGridX() - 1, multitile.getGridY() + i) != null) return false;
+                }
+                break;
+            case DOWN:
+                if(multitile.getGridY() == 0) return false; // Edge of grid
+                for(int i = 0; i < multitile.getGridHeight(); i++) {
+                    if(getTileAt(multitile.getGridX() + i, multitile.getGridY() - 1) != null) return false;
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);

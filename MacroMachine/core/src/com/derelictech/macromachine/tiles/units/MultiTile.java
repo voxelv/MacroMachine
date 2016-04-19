@@ -57,4 +57,9 @@ public abstract class MultiTile extends Group {
     public int getGridHeight() {
         return gridHeight;
     }
+
+    public void setGridPos(int x, int y) {
+        this.gridX = x;
+        this.gridY = y;
+    }
 }

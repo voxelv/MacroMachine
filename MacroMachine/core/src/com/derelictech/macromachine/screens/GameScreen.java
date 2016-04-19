@@ -2,6 +2,7 @@ package com.derelictech.macromachine.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.Const;
+import com.derelictech.macromachine.util.GridDirection;
 import com.derelictech.macromachine.util.Level;
 
 /**
@@ -97,6 +99,28 @@ public class GameScreen extends AbstractGameScreen {
                     camera.position.y = Const.VIEWPORT_H - camera.viewportHeight/2;
                 }
 
+                return true;
+            }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                System.out.println(keycode);
+                switch(keycode) {
+                    case Input.Keys.RIGHT:
+                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.RIGHT));
+                        break;
+                    case Input.Keys.UP:
+                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.UP));
+                        break;
+                    case Input.Keys.LEFT:
+                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.LEFT));
+                        break;
+                    case Input.Keys.DOWN:
+                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.DOWN));
+                        break;
+                    default:
+                        break;
+                }
                 return true;
             }
         });

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.derelictech.macromachine.screens.GameScreen;
@@ -81,6 +82,10 @@ public class Level extends Group{
                 return true;
             }
         });
+    }
+
+    public boolean moveCell(GridDirection dir) {
+        return cell.move(dir);
     }
 
     public Vector2 getGameGridDimensions() {

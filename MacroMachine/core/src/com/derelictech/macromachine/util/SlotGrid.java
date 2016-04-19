@@ -37,6 +37,7 @@ public class SlotGrid extends Grid<Slot> {
         if(s.getTile() == null) {
             s.setTile(tile);
             s.setPosition(xSnap(x), ySnap(y));  // Set Position
+            s.setGridPos(x, y);                 // Set Grid Index
             return true;
         }
         else return false;

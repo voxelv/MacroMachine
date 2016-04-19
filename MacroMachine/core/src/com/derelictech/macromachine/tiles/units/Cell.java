@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.Const;
+import com.derelictech.macromachine.util.GridDirection;
 import com.derelictech.macromachine.util.TileGrid;
 
 /**
@@ -33,8 +34,6 @@ public class Cell extends MultiTile {
         cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
-        this.setBounds(0, 0, cellBackground.getWidth(), cellBackground.getHeight());
-        setTouchable(Touchable.enabled);
 
         for(int i = 0; i < tileGrid.getCols(); i++) {
             for(int j = 0; j < tileGrid.getRows(); j++) {
@@ -56,6 +55,15 @@ public class Cell extends MultiTile {
                 return true;
             }
         });
+    }
+
+    public boolean move(GridDirection dir) {
+        if(tileGrid.moveMultitile(this, dir)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void addUnitAt(Unit unit, int gridX, int gridY) {
@@ -81,5 +89,8 @@ public class Cell extends MultiTile {
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
+        System.out.println("CELL GRID POS: x: " + gridX + " y: " + gridY);
+        if(cellBackground != null)
+            cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
     }
 }
