@@ -52,8 +52,15 @@ public class GameScreen extends AbstractGameScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                float gutterX = viewport.getWorldWidth();
+                float gutterY = viewport.getWorldHeight();
+                int width = viewport.getScreenWidth();
+                int height = viewport.getScreenHeight();
                 Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
                 System.out.print("TouchLoc: " + prevWorldMouse.toString());
+                System.out.print("\nmouseRaw: " + mouseRaw.toString());
+                System.out.print("\nGutter: " + Float.toString(gutterX) + " " + Float.toString(gutterY));
+                System.out.print("\nScreen Width/height: " + Integer.toString(width) + " " + Integer.toString(height));
                 if(event.getRelatedActor() != null) System.out.println(" Touched: " + event.getRelatedActor().toString());
                 else System.out.println();
                 return true;
@@ -99,6 +106,7 @@ public class GameScreen extends AbstractGameScreen {
                     camera.position.y = Const.VIEWPORT_H - camera.viewportHeight/2;
                 }
 
+
                 return true;
             }
 
@@ -125,9 +133,23 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
+
         hud_cam = new OrthographicCamera();
         hud_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
         hud = new Stage(hud_view);
+
+        hud.addListener(new InputListener() {
+            @Override
+            public boolean scrolled(InputEvent event, float x, float y, int amount) {
+                Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
+
+
+                return true;
+            }
+
+
+        });
 
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -177,6 +199,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        viewport.setScreenPosition(0,0);
         camera.update(false);
 
         hud_view.update(width, height, true);
