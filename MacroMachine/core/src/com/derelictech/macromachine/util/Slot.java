@@ -41,11 +41,9 @@ public class Slot extends Actor{
                 return true;
             }
 
-            Color temp;
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if(tile != null) {
-                    temp = tile.getColor();
                     tile.setColor(Color.RED);
                 }
             }

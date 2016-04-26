@@ -40,18 +40,13 @@ public class Cell extends MultiTile {
             int count = 0;
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("Clicked Cell! " + count++);
-                return true;
+                return false;
             }
         });
     }
 
     public boolean move(GridDirection dir) {
-        if(tileGrid.moveMultitile(this, dir)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return tileGrid.moveMultitile(this, dir);
     }
 
     public void addUnitAt(Unit unit, int gridX, int gridY) {
