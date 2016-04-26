@@ -180,8 +180,6 @@ public class GameScreen extends AbstractGameScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        viewport.setScreenPosition(0,0);
-        camera.update();
 
 
         stage.act(delta);
@@ -199,8 +197,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        viewport.setScreenPosition(0,0);
-        camera.update(false);
+        camera.update();
 
         hud_view.update(width, height, true);
         hud_cam.update();
