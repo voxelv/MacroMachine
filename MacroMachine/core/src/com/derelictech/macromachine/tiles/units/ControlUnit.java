@@ -15,8 +15,8 @@ public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, 
      * Sets the Texture of this.
      * The way the size is handled is likely to change if/when Power Levels are implemented
      */
-    public ControlUnit() {
-        super("units/control_unit");
+    public ControlUnit(Cell cell) {
+        super("units/control_unit", cell);
         setSize(1, 1); // A Control Unit occupies a 1x1 space
     }
 

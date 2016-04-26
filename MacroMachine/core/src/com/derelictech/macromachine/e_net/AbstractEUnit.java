@@ -2,6 +2,7 @@ package com.derelictech.macromachine.e_net;
 
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.units.Cell;
 import com.derelictech.macromachine.tiles.units.Unit;
 import com.derelictech.macromachine.tiles.units.Wire;
 import com.derelictech.macromachine.util.Grid;
@@ -22,8 +23,8 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      * Constructor for AbstractEUnit
      * @param unit_name Name of texture file to apply to the unit
      */
-    public AbstractEUnit(String unit_name) {
-        super(unit_name);
+    public AbstractEUnit(String unit_name, Cell cell) {
+        super(unit_name, cell);
         ENetwork selfNet = new ENetwork();
         rNet = selfNet;
         uNet = selfNet;
@@ -44,7 +45,7 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
 
             unit = getNeighbor(dir);
 
-            if(unit instanceof Wire) {
+            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).addConnection(dir.invert());
             }
         }
@@ -59,7 +60,7 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
 
             unit = getNeighbor(dir);
 
-            if(unit instanceof Wire) {
+            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).remConnection(dir.invert());
             }
         }

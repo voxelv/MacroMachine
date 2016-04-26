@@ -22,8 +22,8 @@ public class Wire extends AbstractEUnit {
      * Sets the size... see {@link Unit}
      * Gets the Wire Textures from the TextureAtlas in {@link Assets}
      */
-    public Wire() {
-        super("units/wire");
+    public Wire(Cell cell) {
+        super("units/wire", cell);
 
         setSize(1, 1); // A wire occupies a 1x1 space
         wireTextures = Assets.inst.getWireTextures();
@@ -40,11 +40,11 @@ public class Wire extends AbstractEUnit {
 
             unit = getNeighbor(dir);
 
-            if(unit instanceof EUnit) {
+            if(unit instanceof EUnit && ((Unit) unit).isInSameCell(this.getCell())) {
                 addConnection(dir);
             }
 
-            if(unit instanceof Wire) {
+            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).addConnection(dir.invert());
             }
         }
@@ -61,11 +61,11 @@ public class Wire extends AbstractEUnit {
 
             unit = getNeighbor(dir);
 
-            if(unit instanceof EUnit) {
+            if(unit instanceof EUnit && ((Unit) unit).isInSameCell(this.getCell())) {
                 addConnection(dir);
             }
 
-            if(unit instanceof Wire) {
+            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).remConnection(dir.invert());
             }
         }

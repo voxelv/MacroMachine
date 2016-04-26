@@ -16,7 +16,7 @@ import com.derelictech.macromachine.tiles.units.Wire;
  * Contains all the information for a Power Level
  * TODO: WIP
  */
-public class Level extends Group{
+public class Level extends Group {
 
     private GameScreen gameScreen;
     private int powerLevel;
@@ -30,30 +30,30 @@ public class Level extends Group{
     }
 
     private void init() {
-        gameGrid = new TileGrid(25, 25, 5/Const.TEXTURE_RESOLUTION, 3/Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
+        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
         addActor(gameGrid);
 
         cell = new Cell(gameGrid, 10, 10, 5, 5);
         addActor(cell);
 
-        this.addListener(new ClickListener(){
+        this.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.print("LEVEL GOT CLICK TOO. ");
-                if(event.getRelatedActor() != null) System.out.println(" ITEM: " + event.getRelatedActor());
+                if (event.getRelatedActor() != null) System.out.println(" ITEM: " + event.getRelatedActor());
                 else System.out.println();
 
                 Slot s;
-                if(event.getRelatedActor() instanceof Slot) {
+                if (event.getRelatedActor() instanceof Slot) {
                     s = ((Slot) event.getRelatedActor());
 
-                    if(cell.containsUnitAt(s.getGridX(), s.getGridY())) {
-                        switch(button) {
+                    if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
+                        switch (button) {
                             case Input.Buttons.LEFT:
-                                cell.addUnitAt(new ControlUnit(), s.getGridX(), s.getGridY());
+                                cell.addUnitAt(new ControlUnit(cell), s.getGridX(), s.getGridY());
                                 break;
                             case Input.Buttons.MIDDLE:
-                                cell.addUnitAt(new Wire(), s.getGridX(), s.getGridY());
+                                cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
                                 break;
                             case Input.Buttons.RIGHT:
                                 cell.removeUnitAt(s.getGridX(), s.getGridY());
@@ -65,10 +65,10 @@ public class Level extends Group{
                     else {
                         switch(button) {
                             case Input.Buttons.LEFT:
-                                gameGrid.addTileAt(new ControlUnit(), s.getGridX(), s.getGridY());
+                                gameGrid.addTileAt(new ControlUnit(null), s.getGridX(), s.getGridY());
                                 break;
                             case Input.Buttons.MIDDLE:
-                                gameGrid.addTileAt(new Wire(), s.getGridX(), s.getGridY());
+                                gameGrid.addTileAt(new Wire(null), s.getGridX(), s.getGridY());
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());
@@ -86,9 +86,5 @@ public class Level extends Group{
 
     public boolean moveCell(GridDirection dir) {
         return cell.move(dir);
-    }
-
-    public Vector2 getGameGridDimensions() {
-        return new Vector2(gameGrid.getWidth(), gameGrid.getHeight());
     }
 }

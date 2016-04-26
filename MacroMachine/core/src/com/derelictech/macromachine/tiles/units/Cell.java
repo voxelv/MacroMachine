@@ -18,8 +18,6 @@ import com.derelictech.macromachine.util.TileGrid;
  */
 public class Cell extends MultiTile {
     private Sprite cellBackground;
-    public boolean started  = false;
-    public int degrees = 0;
 
     /**
      * Constructor for Cell
@@ -35,18 +33,8 @@ public class Cell extends MultiTile {
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
 
-        for(int i = 0; i < tileGrid.getCols(); i++) {
-            for(int j = 0; j < tileGrid.getRows(); j++) {
-                addUnitAt(new Wire(), gridX + i, gridY + j);
-            }
-        }
-
-        removeUnitAt(gridX + 0, gridY + 1);
-        removeUnitAt(gridX + 1, gridY + 4);
-        removeUnitAt(gridX + 4, gridY + 3);
-        removeUnitAt(gridX + 3, gridY + 0);
-        removeUnitAt(gridX + 2, gridY + 2);
-        addUnitAt(new ControlUnit(), gridX + 2, gridY + 2);
+        // The ControlUnit
+        addUnitAt(new ControlUnit(this), gridX + 2, gridY + 2);
 
         addListener(new InputListener(){
             int count = 0;
@@ -77,8 +65,8 @@ public class Cell extends MultiTile {
     }
 
     public boolean containsUnitAt(int gridX, int gridY) {
-        return (gridX >= this.gridX && gridX < this.gridWidth &&
-                gridY >= this.gridY && gridY < this.gridHeight);
+        return (gridX >= this.gridX && gridX < this.gridX + this.gridWidth &&
+                gridY >= this.gridY && gridY < this.gridY + this.gridHeight);
     }
 
     @Override

@@ -9,9 +9,19 @@ import com.derelictech.macromachine.util.Assets;
  * Created by Tim on 4/5/2016.
  */
 public abstract class Unit extends Tile implements Item {
+    private Cell cell;
 
-    public Unit(String unit_name) {
+    public Unit(String unit_name, Cell cell) {
         super();
+        this.cell = cell;
         sprite.setRegion(Assets.inst.getRegion(unit_name));
+    }
+
+    public boolean isInSameCell(Cell cell) {
+        return this.cell == cell;
+    }
+
+    public Cell getCell() {
+        return cell;
     }
 }

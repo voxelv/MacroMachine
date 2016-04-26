@@ -40,6 +40,11 @@ public abstract class MultiTile extends Group {
         return tileGrid.removeTileAt(gridX, gridY);
     }
 
+    /**
+     * To draw the multitile background
+     * @param batch the batch to draw to.
+     * @param parentAlpha the alpha to draw with
+     */
     public abstract void mtDraw(Batch batch, float parentAlpha);
 
     public int getGridX() {
