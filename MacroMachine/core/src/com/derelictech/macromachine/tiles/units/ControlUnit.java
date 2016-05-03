@@ -1,15 +1,12 @@
 package com.derelictech.macromachine.tiles.units;
 
-import com.derelictech.macromachine.e_net.AbstractEUnit;
-import com.derelictech.macromachine.e_net.EConsumer;
-import com.derelictech.macromachine.e_net.EProducer;
-import com.derelictech.macromachine.e_net.EStorage;
+import com.derelictech.macromachine.e_net.*;
 
 /**
  * The Control Unit is the 'brains' of {@link Cell}
  * @author Tim Slippy, voxelv
  */
-public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, EStorage{
+public class ControlUnit extends AbstractEConsumerProducerStorage {
     /**
      * Constructor for Control Unit
      * Sets the Texture of this.
@@ -18,35 +15,5 @@ public class ControlUnit extends AbstractEUnit implements EConsumer, EProducer, 
     public ControlUnit(Cell cell) {
         super("units/control_unit", cell);
         setSize(1, 1); // A Control Unit occupies a 1x1 space
-    }
-
-    @Override
-    public long consume(long amount) {
-        return 0;
-    }
-
-    @Override
-    public boolean isFull() {
-        return false;
-    }
-
-    @Override
-    public long produce() {
-        return 0;
-    }
-
-    @Override
-    public long store(long amount) {
-        return 0;
-    }
-
-    @Override
-    public long extract(long amount) {
-        return 0;
-    }
-
-    @Override
-    public long getCapacity() {
-        return 0;
     }
 }

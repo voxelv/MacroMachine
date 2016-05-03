@@ -18,6 +18,7 @@ import com.derelictech.macromachine.util.*;
  */
 public class Cell extends MultiTile {
     private Sprite cellBackground;
+    private ControlUnit controlUnit;
 
     /**
      * Constructor for Cell
@@ -34,7 +35,8 @@ public class Cell extends MultiTile {
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
 
         // The ControlUnit
-        addUnitAt(new ControlUnit(this), gridX + 2, gridY + 2);
+        controlUnit = new ControlUnit(this);
+        addUnitAt(controlUnit, gridX + 2, gridY + 2);
 
         addListener(new InputListener(){
             int count = 0;
