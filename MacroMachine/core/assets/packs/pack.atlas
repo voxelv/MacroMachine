@@ -155,6 +155,29 @@ materials/radical
   offset: 0, 0
   index: -1
 
+<<<<<<< c71c1314831b0d885704c004275f4cf73ad19af4
+=======
+pack5.png
+size: 128,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ui_objects/button
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ui_objects/pressed_button
+  rotate: false
+  xy: 36, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+
+>>>>>>> attempted to add ui buttons and things
 pack6.png
 size: 512,128
 format: RGBA8888

@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.GridDirection;
@@ -30,7 +34,8 @@ public class GameScreen extends AbstractGameScreen {
     private Camera hud_cam;
     private Viewport hud_view;
     private Stage hud;
-    private Actor world_back;
+    private Skin skin;
+
 
     private InputMultiplexer multiplexer;
 
@@ -47,6 +52,24 @@ public class GameScreen extends AbstractGameScreen {
         viewport = new ExtendViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         stage = new Stage(viewport);
         camera.update();
+
+//        hud_cam = new OrthographicCamera();
+//        hud_view = new ExtendViewport(Const.HUI_VIEWPORT_W,Const.HUI_VIEWPORT_H, Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
+        hud = new Stage();
+        skin = new Skin();
+        skin.add("buttonPressed", new Texture("ui_object/pressed_button.png"));
+        skin.add("button", new Texture("button.png"));
+//        hud_cam.update();
+        Table table = new Table();
+        table.setFillParent(true);
+        hud.addActor(table);
+        Button button = new Button(skin);
+        table.add(button);
+        table.setDebug(true);
+
+
+
+
 
 
 
@@ -150,18 +173,6 @@ public class GameScreen extends AbstractGameScreen {
         hud = new Stage(hud_view);
 //        hud.addActor(world_back);
 
-        hud.addListener(new InputListener() {
-            @Override
-            public boolean scrolled(InputEvent event, float x, float y, int amount) {
-                Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-                Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
-
-
-                return true;
-            }
-
-
-        });
 
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -199,8 +210,10 @@ public class GameScreen extends AbstractGameScreen {
         viewport.update(width, height, true);
         camera.update();
 
-        hud_view.update(width, height, true);
-        hud_cam.update();
+
+        hud.getViewport().update(width, height, true);
+//        hud_view.update(width, height, true);
+//        hud_cam.update();
 
     }
 
