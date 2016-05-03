@@ -16,4 +16,9 @@ public class ControlUnit extends AbstractEConsumerProducerStorage {
         super("units/control_unit", cell);
         setSize(1, 1); // A Control Unit occupies a 1x1 space
     }
+
+    @Override
+    public String TAG() {
+        return "CPU";
+    }
 }

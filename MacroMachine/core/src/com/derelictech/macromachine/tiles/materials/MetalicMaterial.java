@@ -9,4 +9,9 @@ public class MetalicMaterial extends Material {
     public MetalicMaterial() {
         super("materials/metalic");
     }
+
+    @Override
+    public String TAG() {
+        return "MMT";
+    }
 }

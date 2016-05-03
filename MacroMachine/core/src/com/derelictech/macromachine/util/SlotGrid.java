@@ -70,4 +70,12 @@ public class SlotGrid extends Grid<Slot> {
     public float ySnap(int y) {
         return edgePad + y + y*inPad;
     }
+
+    public float getInPad() {
+        return inPad;
+    }
+
+    public float getEdgePad() {
+        return edgePad;
+    }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.derelictech.macromachine.screens.GameScreen;
+import com.derelictech.macromachine.tiles.Material;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
 import com.derelictech.macromachine.tiles.units.Cell;
@@ -37,7 +38,7 @@ public class Level extends Group {
     }
 
     public void init() {
-        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
+        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, false, "game_grid_edge5_pad3");
         addActor(gameGrid);
 
         cell = new Cell(gameGrid, 10, 10, 5, 5);
@@ -70,12 +71,17 @@ public class Level extends Group {
                         }
                     }
                     else {
+                        Material m;
                         switch(button) {
                             case Input.Buttons.LEFT:
-                                gameGrid.addTileAt(new BasicMaterial(), s.getGridX(), s.getGridY());
+                                m = new BasicMaterial();
+                                gameGrid.addTileAt(m, s.getGridX(), s.getGridY());
+                                gameGrid.addActor(m);
                                 break;
                             case Input.Buttons.MIDDLE:
-                                gameGrid.addTileAt(new MetalicMaterial(), s.getGridX(), s.getGridY());
+                                m = new MetalicMaterial();
+                                gameGrid.addTileAt(m, s.getGridX(), s.getGridY());
+                                gameGrid.addActor(m);
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());
@@ -92,8 +98,11 @@ public class Level extends Group {
     }
 
     public void upLevel() {
+        if(!gameGrid.isEmpty()) return;
+        if(!cellAtCenter()) return;
+
         removeActor(gameGrid);
-        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
+        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, false, "game_grid_edge5_pad3");
         addActor(gameGrid);
 
 
@@ -108,6 +117,10 @@ public class Level extends Group {
         powerLevel++;
 
         System.out.println(lowerCells.toString());
+    }
+
+    private boolean cellAtCenter() {
+        return (cell.getGridX() == 10 && cell.getGridY() == 10);
     }
 
     public boolean moveCell(GridDirection dir) {

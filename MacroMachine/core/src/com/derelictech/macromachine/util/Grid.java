@@ -3,6 +3,8 @@ package com.derelictech.macromachine.util;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.StringBuilder;
+import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
  * Created by Tim on 4/12/2016.
@@ -66,7 +68,7 @@ public class Grid<T extends Actor> extends Group {
     }
 
     /**
-     * Prints the Grid, upside-down because it's easier...
+     * Prints this
      * @return Returns the string to print
      */
     @Override
@@ -75,12 +77,20 @@ public class Grid<T extends Actor> extends Group {
         sb.append("\n");
         for(int y = rows - 1; y >= 0; y--) {
             for(int x = 0; x < cols; x++) {
-                sb.append(items[(y*cols) + x]);
-                sb.append(", ");
+                T t = items[(y*cols) + x];
+                if(t != null) {
+                    if(t instanceof Tile) {
+                        sb.append(((Tile) t).TAG());
+                    }
+                    else {
+                        sb.append(t);
+                    }
+                }
+                else sb.append("___");
+                sb.append(" ");
             }
             sb.append("\n");
         }
-        sb.append("\n");
         return sb.toString();
     }
 

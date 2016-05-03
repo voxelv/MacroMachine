@@ -29,6 +29,11 @@ public class Wire extends AbstractEUnit {
         wireTextures = Assets.inst.getWireTextures();
     }
 
+    @Override
+    public String TAG() {
+        return "WIR";
+    }
+
     /**
      * Overrides the super by copying functionality and adds setting this Wire's connections
      */

@@ -1,7 +1,10 @@
 package com.derelictech.macromachine.tiles.units;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -20,6 +23,18 @@ public class Cell extends MultiTile {
     private Sprite cellBackground;
     private ControlUnit controlUnit;
 
+    private Array<TextureRegion> cellCloseTextures;
+    private Animation closeAnimation;
+    private float closeAnimSpeed = 0.25f;
+    private Sprite closeAnimCurrentFrame;
+
+    private class CloseAction extends Action {
+        @Override
+        public boolean act(float delta) {
+            return false;
+        }
+    }
+
     /**
      * Constructor for Cell
      *
@@ -33,6 +48,12 @@ public class Cell extends MultiTile {
         cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
+
+        cellCloseTextures = Assets.inst.getCellCloseAnimation();
+        closeAnimation = new Animation(closeAnimSpeed, cellCloseTextures);
+        closeAnimCurrentFrame = new Sprite(closeAnimation.getKeyFrame(0.25f)); //TODO: This is for testing, the CloseAction will change which frame to show
+        closeAnimCurrentFrame.setPosition(-2.0f/ Const.TEXTURE_RESOLUTION, -2.0f/Const.TEXTURE_RESOLUTION);
+        closeAnimCurrentFrame.setSize(cellBackground.getWidth(), cellBackground.getHeight());
 
         // The ControlUnit
         controlUnit = new ControlUnit(this);
@@ -86,6 +107,15 @@ public class Cell extends MultiTile {
     @Override
     public void mtDraw(Batch batch, float parentAlpha) {
         cellBackground.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        applyTransform(batch, computeTransform());
+        closeAnimCurrentFrame.draw(batch, parentAlpha);
+        resetTransform(batch);
     }
 
     @Override

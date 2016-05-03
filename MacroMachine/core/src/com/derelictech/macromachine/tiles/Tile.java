@@ -14,7 +14,7 @@ import com.derelictech.macromachine.util.TileGrid;
 /**
  * Created by Tim on 4/14/2016.
  */
-public class Tile extends Group {
+public abstract class Tile extends Group {
     public Sprite sprite;
     protected TileGrid grid;
     protected int gridX = 0, gridY = 0;
@@ -24,6 +24,12 @@ public class Tile extends Group {
         setSize(1, 1);
         setTouchable(Touchable.disabled);
     }
+
+    /**
+     * The Three Letter Tag of this
+     * @return A Three Letter String representing this
+     */
+    public abstract String TAG();
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

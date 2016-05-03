@@ -33,6 +33,82 @@ cell_edge2_pad1
   index: -1
 
 pack3.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 2, 180
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 0
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 2, 2
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 1
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 180, 180
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 2
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 180, 2
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 3
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 358, 180
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 4
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 358, 2
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 5
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 536, 180
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 6
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 536, 2
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 7
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 714, 180
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 8
+cell_anim/cell_edge2_pad1
+  rotate: false
+  xy: 714, 2
+  size: 176, 176
+  orig: 176, 176
+  offset: 0, 0
+  index: 9
+
+pack4.png
 size: 64,64
 format: RGBA8888
 filter: Linear,Linear
@@ -45,7 +121,7 @@ items/wire
   offset: 0, 0
   index: 0
 
-pack4.png
+pack5.png
 size: 128,64
 format: RGBA8888
 filter: Linear,Linear
@@ -72,7 +148,7 @@ materials/radical
   offset: 0, 0
   index: -1
 
-pack5.png
+pack6.png
 size: 512,128
 format: RGBA8888
 filter: Linear,Linear

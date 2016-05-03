@@ -16,6 +16,7 @@ public class Assets implements Disposable{
 
     private TextureAtlas atlas;
     private Array<TextureRegion> wireTextures = new Array<TextureRegion>();
+    private Array<TextureRegion> cellAnimation = new Array<TextureRegion>();
 
     /**
      * Able to be called to get the textures again
@@ -56,6 +57,20 @@ public class Assets implements Disposable{
             wireTextures.add(ar);
         }
         return wireTextures;
+    }
+
+    /**
+     * Sends the TextureRegion array of cell closing animation
+     * @return Returns the {@link Array<TextureRegion>}
+     */
+    public Array<TextureRegion> getCellCloseAnimation() {
+        if(cellAnimation.size < 2) {
+            Array<TextureAtlas.AtlasRegion> regions = atlas.findRegions("cell_anim/cell_edge2_pad1");
+            for(TextureAtlas.AtlasRegion ar : regions) {
+                cellAnimation.add(ar);
+            }
+        }
+        return cellAnimation;
     }
 
     /**

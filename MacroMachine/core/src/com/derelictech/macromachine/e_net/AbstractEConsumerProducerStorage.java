@@ -1,9 +1,10 @@
 package com.derelictech.macromachine.e_net;
 
 import com.derelictech.macromachine.tiles.units.Cell;
+import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
- * Created by Tim on 5/2/2016.
+ * Abstract class for extention by a {@link Unit}
  */
 public class AbstractEConsumerProducerStorage extends AbstractEUnit implements EConsumer, EProducer, EStorage {
     private long consumeAmount = 0;
@@ -19,6 +20,11 @@ public class AbstractEConsumerProducerStorage extends AbstractEUnit implements E
      */
     public AbstractEConsumerProducerStorage(String unit_name, Cell cell) {
         super(unit_name, cell);
+    }
+
+    @Override
+    public String TAG() {
+        return "CPS";
     }
 
     public void setStats(long consumeAmount, long produceAmount, long energyStored, long energyStorageCapacity) {

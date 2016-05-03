@@ -1,6 +1,7 @@
 package com.derelictech.macromachine.tiles.units;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.TileGrid;
@@ -26,16 +27,28 @@ public abstract class MultiTile extends Group {
         tileGrid.addMultiTile(this, gridX, gridY);
     }
 
-    protected boolean addTileAt(Tile tile, int gridX, int gridY) {
+    public boolean addTileAt(Tile tile, int gridX, int gridY) {
         if(gridX > this.gridX + this.gridWidth - 1 || gridX < this.gridX) return false;
         if(gridY > this.gridY + this.gridHeight - 1 || gridY < this.gridY) return false;
-
-        return tileGrid.addTileAt(tile, gridX, gridY);
+        if(tileGrid.addTileAt(tile, gridX, gridY)) {
+            addActor(tile);
+            tile.setPosition((gridX - this.gridX) + (gridX - this.gridX) * tileGrid.getInPad(), (gridY - this.gridY) + (gridY - this.gridY) * tileGrid.getInPad());
+            return true;
+        }
+        return false;
     }
 
-    protected Tile removeTileAt(int gridX, int gridY) {
+    public Tile removeTileAt(int gridX, int gridY) {
         if(gridX > this.gridX + this.gridWidth - 1 || gridX < this.gridX) return null;
         if(gridY > this.gridY + this.gridHeight - 1 || gridY < this.gridY) return null;
+
+        for(Actor a : this.getChildren()) {
+            if(a instanceof Tile) {
+                if(((Tile) a).getGridX() == gridX && ((Tile) a).getGridY() == gridY) {
+                    removeActor(a);
+                }
+            }
+        }
 
         return tileGrid.removeTileAt(gridX, gridY);
     }
@@ -66,5 +79,12 @@ public abstract class MultiTile extends Group {
     public void setGridPos(int x, int y) {
         this.gridX = x;
         this.gridY = y;
+
+        for(Actor a : getChildren()) {
+            a.setPosition(
+                    (((Tile) a).getGridX() - this.gridX) + (((Tile) a).getGridX() - this.gridX) * tileGrid.getInPad(),
+                    (((Tile) a).getGridY() - this.gridY) + (((Tile) a).getGridY() - this.gridY) * tileGrid.getInPad()
+            );
+        }
     }
 }

@@ -9,4 +9,9 @@ public class RadicalMaterial extends Material {
     public RadicalMaterial() {
         super("materials/radical");
     }
+
+    @Override
+    public String TAG() {
+        return "RMT";
+    }
 }

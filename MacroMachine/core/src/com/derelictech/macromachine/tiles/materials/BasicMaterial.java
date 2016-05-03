@@ -9,4 +9,10 @@ public class BasicMaterial extends Material {
     public BasicMaterial() {
         super("materials/basic");
     }
+
+    @Override
+    public String TAG() {
+        return "BMT";
+    }
+
 }

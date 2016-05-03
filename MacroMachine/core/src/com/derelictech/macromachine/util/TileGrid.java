@@ -12,6 +12,7 @@ import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
 import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.tiles.units.MultiTile;
+import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
  * Created by Tim on 4/14/2016.
@@ -59,7 +60,6 @@ public class TileGrid extends SlotGrid {
         t.preAdditionToGrid(this, x, y);
 
         if(!super.addTileAt(t, x, y)) return false; // Add to the grid
-        this.addActor(t);                           // Add to children
 
         t.postAdditionToGrid(this, x, y);
         return true;
@@ -183,6 +183,19 @@ public class TileGrid extends SlotGrid {
                 break;
         }
         return true;
+    }
+
+    public boolean isEmpty() {
+        boolean empty = true;
+        for(int x = 0; x < cols; x++) {
+            for(int y = 0; y < rows; y++) {
+                Tile t = getTileAt(x, y);
+                if(t != null && !(t instanceof Unit)) {
+                    empty = false;
+                }
+            }
+        }
+        return empty;
     }
 
     @Override
