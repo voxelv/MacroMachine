@@ -20,15 +20,22 @@ tile_placeholder
   index: -1
 
 pack2.png
-size: 256,256
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 cell_edge2_pad1
   rotate: false
-  xy: 2, 2
+  xy: 264, 20
   size: 176, 176
   orig: 176, 176
+  offset: 0, 0
+  index: -1
+movetest
+  rotate: false
+  xy: 2, 2
+  size: 260, 194
+  orig: 260, 194
   offset: 0, 0
   index: -1
 

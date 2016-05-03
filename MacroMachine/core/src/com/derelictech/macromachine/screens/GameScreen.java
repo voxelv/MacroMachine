@@ -4,10 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,6 +30,7 @@ public class GameScreen extends AbstractGameScreen {
     private Camera hud_cam;
     private Viewport hud_view;
     private Stage hud;
+    private Actor world_back;
 
     private InputMultiplexer multiplexer;
 
@@ -42,6 +43,7 @@ public class GameScreen extends AbstractGameScreen {
     public GameScreen(Game game) {
         super(game);
         camera = new OrthographicCamera();
+        camera.setToOrtho(false);
         viewport = new ExtendViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
         stage = new Stage(viewport);
         camera.update();
@@ -146,6 +148,7 @@ public class GameScreen extends AbstractGameScreen {
         hud_cam = new OrthographicCamera();
         hud_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
         hud = new Stage(hud_view);
+//        hud.addActor(world_back);
 
         hud.addListener(new InputListener() {
             @Override
