@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
-import com.derelictech.macromachine.util.Assets;
-import com.derelictech.macromachine.util.Const;
-import com.derelictech.macromachine.util.GridDirection;
-import com.derelictech.macromachine.util.TileGrid;
+import com.derelictech.macromachine.util.*;
 
 /**
  * A Cell
@@ -62,6 +62,23 @@ public class Cell extends MultiTile {
     public boolean containsUnitAt(int gridX, int gridY) {
         return (gridX >= this.gridX && gridX < this.gridX + this.gridWidth &&
                 gridY >= this.gridY && gridY < this.gridY + this.gridHeight);
+    }
+
+    public Grid<Unit> getUnits() {
+        System.out.println("GETTING UNITS FROM CELL *****");
+        Grid<Unit> unitGrid = new Grid<Unit>(this.gridWidth, this.gridHeight);
+        for(int x = this.gridX; x < this.gridX + this.gridWidth; x++){
+        for(int y = this.gridY; y < this.gridY + this.gridHeight; y++) {
+            Tile t = tileGrid.getTileAt(x, y);
+            if(t instanceof Unit) {
+                System.out.println("Found unit: " + t + " at x: "+x+" y: "+y);
+                unitGrid.addItemAt(((Unit) t), x - this.gridX, y - this.gridY);
+            }
+        }
+        }
+
+        System.out.println(unitGrid.toString());
+        return unitGrid;
     }
 
     @Override

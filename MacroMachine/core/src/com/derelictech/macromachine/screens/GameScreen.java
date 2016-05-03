@@ -112,7 +112,6 @@ public class GameScreen extends AbstractGameScreen {
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                System.out.println(keycode);
                 switch(keycode) {
                     case Input.Keys.RIGHT:
                         System.out.println("Move cell returns: " + level.moveCell(GridDirection.RIGHT));
@@ -126,6 +125,16 @@ public class GameScreen extends AbstractGameScreen {
                     case Input.Keys.DOWN:
                         System.out.println("Move cell returns: " + level.moveCell(GridDirection.DOWN));
                         break;
+                    case Input.Keys.U:
+                        System.out.println("GO UP ONE LEVEL");
+                        break;
+                    case Input.Keys.D:
+                        System.out.println("GO DN ONE LEVEL");
+                        break;
+                    case Input.Keys.R:
+                        level.upLevel();
+                        break;
+
                     default:
                         break;
                 }
@@ -155,21 +164,9 @@ public class GameScreen extends AbstractGameScreen {
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(hud);
         Gdx.input.setInputProcessor(multiplexer);
-        
-//        Cell cell = new Cell();
-//        cell.setTouchable(Touchable.enabled);
-//        cell.setPosition(15, 15);
-//        stage.addActor(cell);
-
-
-//        Cell spinner = new Cell();
-//        spinner.setTouchable(Touchable.enabled);
-//        spinner.setPosition(0, 0);
-//        hud.addActor(spinner);
 
         level = new Level(this, 0);
         stage.addActor(level);
-        System.out.println("Stagesetup");
     }
 
     /**
@@ -178,7 +175,7 @@ public class GameScreen extends AbstractGameScreen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 

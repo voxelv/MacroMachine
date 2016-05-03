@@ -32,7 +32,7 @@ public class Grid<T extends Actor> extends Group {
      * @param y The y coordinate to addItemAt the item at
      * @return Returns true if the item was added. Otherwise returns false.
      */
-    protected boolean addItemAt(T newItem, int x, int y) {
+    public boolean addItemAt(T newItem, int x, int y) {
         if(x > cols - 1 || x < 0) return false; // Unit not placed
         if(y > rows - 1 || y < 0) return false; // Unit not placed
         if(items[((cols * y) + x)] != null) return false; // Tile Occupied
@@ -48,7 +48,7 @@ public class Grid<T extends Actor> extends Group {
      * @param y The y coordinate to remove the item from
      * @return Returns the item removed. Returns null if it was already empty.
      */
-    protected T deleteItemAt(int x, int y) {
+    public T deleteItemAt(int x, int y) {
         T t = getItemAt(x, y);
         items[((cols * y) + x)] = null;
         removeActor(t);
@@ -72,14 +72,15 @@ public class Grid<T extends Actor> extends Group {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < (cols); i++) {
-            for(int j = 0; j < rows; j++) {
-                sb.append(items[(i*cols) + j]);
+        sb.append("\n");
+        for(int y = rows - 1; y >= 0; y--) {
+            for(int x = 0; x < cols; x++) {
+                sb.append(items[(y*cols) + x]);
                 sb.append(", ");
-                if(j == rows - 1) sb.append("\n");
             }
+            sb.append("\n");
         }
-        sb.append("================================================================================================\n");
+        sb.append("\n");
         return sb.toString();
     }
 
