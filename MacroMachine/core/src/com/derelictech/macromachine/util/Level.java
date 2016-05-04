@@ -75,13 +75,15 @@ public class Level extends Group {
                         switch(button) {
                             case Input.Buttons.LEFT:
                                 m = new BasicMaterial();
-                                gameGrid.addTileAt(m, s.getGridX(), s.getGridY());
-                                gameGrid.addActor(m);
+                                if(gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
+                                    gameGrid.addActor(m);
+                                }
                                 break;
                             case Input.Buttons.MIDDLE:
                                 m = new MetalicMaterial();
-                                gameGrid.addTileAt(m, s.getGridX(), s.getGridY());
-                                gameGrid.addActor(m);
+                                if(gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
+                                    gameGrid.addActor(m);
+                                }
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());
