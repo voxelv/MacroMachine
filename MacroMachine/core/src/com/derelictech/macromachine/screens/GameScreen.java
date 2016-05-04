@@ -56,16 +56,16 @@ public class GameScreen extends AbstractGameScreen {
 //        hud_cam = new OrthographicCamera();
 //        hud_view = new ExtendViewport(Const.HUI_VIEWPORT_W,Const.HUI_VIEWPORT_H, Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
         hud = new Stage();
-        skin = new Skin();
-        skin.add("buttonPressed", new Texture("ui_object/pressed_button.png"));
-        skin.add("button", new Texture("button.png"));
-//        hud_cam.update();
-        Table table = new Table();
-        table.setFillParent(true);
-        hud.addActor(table);
-        Button button = new Button(skin);
-        table.add(button);
-        table.setDebug(true);
+//        skin = new Skin();
+//        skin.add("buttonPressed", new Texture("ui_object/pressed_button.png"));
+//        skin.add("button", new Texture("button.png"));
+////        hud_cam.update();
+//        Table table = new Table();
+//        table.setFillParent(true);
+//        hud.addActor(table);
+//        Button button = new Button(skin);
+//        table.add(button);
+//        table.setDebug(true);
 
 
 

@@ -155,9 +155,7 @@ materials/radical
   offset: 0, 0
   index: -1
 
-<<<<<<< c71c1314831b0d885704c004275f4cf73ad19af4
-=======
-pack5.png
+pack6.png
 size: 128,64
 format: RGBA8888
 filter: Linear,Linear
@@ -177,8 +175,7 @@ ui_objects/pressed_button
   offset: 0, 0
   index: -1
 
->>>>>>> attempted to add ui buttons and things
-pack6.png
+pack7.png
 size: 512,128
 format: RGBA8888
 filter: Linear,Linear
