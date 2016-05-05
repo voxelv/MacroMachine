@@ -1,5 +1,6 @@
 package com.derelictech.macromachine.tiles.units;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -29,11 +30,21 @@ public class Cell extends MultiTile {
     private Sprite closeAnimCurrentFrame;
 
     private class CloseAction extends Action {
+        private float timer = 0;
         @Override
         public boolean act(float delta) {
-            return false;
+            closeAnimCurrentFrame.setRegion(closeAnimation.getKeyFrame(timer));
+            Gdx.app.log("CELL", "Action closing cell with timer: " + timer);
+            timer += delta;
+            if(closeAnimation.isAnimationFinished(timer)) {
+                timer = 0;
+                Cell.this.removeAction(this);
+                return true;
+            }
+            else return false;
         }
     }
+    private CloseAction closeAction = new CloseAction();
 
     /**
      * Constructor for Cell
@@ -51,7 +62,7 @@ public class Cell extends MultiTile {
 
         cellCloseTextures = Assets.inst.getCellCloseAnimation();
         closeAnimation = new Animation(closeAnimSpeed, cellCloseTextures);
-        closeAnimCurrentFrame = new Sprite(closeAnimation.getKeyFrame(0.25f)); //TODO: This is for testing, the CloseAction will change which frame to show
+        closeAnimCurrentFrame = new Sprite(closeAnimation.getKeyFrames()[0]);
         closeAnimCurrentFrame.setPosition(-2.0f/ Const.TEXTURE_RESOLUTION, -2.0f/Const.TEXTURE_RESOLUTION);
         closeAnimCurrentFrame.setSize(cellBackground.getWidth(), cellBackground.getHeight());
 
@@ -102,6 +113,16 @@ public class Cell extends MultiTile {
 
         System.out.println(unitGrid.toString());
         return unitGrid;
+    }
+
+    public void closeCell() {
+        Gdx.app.log("CELL", "Closing Cell Now");
+        this.addAction(closeAction);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
     }
 
     @Override

@@ -103,16 +103,18 @@ public class Level extends Group {
         if(!gameGrid.isEmpty()) return;
         if(!cellAtCenter()) return;
 
-        removeActor(gameGrid);
-        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
-        addActor(gameGrid);
-
-
+        cell.closeCell();
         lowerCells.put(powerLevel, cell.getUnits()); // Save the old cell contents into an IntMap
 
-        removeActor(cell);
-        cell = new Cell(gameGrid, 10, 10, 5, 5);
-        addActor(cell);
+//        removeActor(gameGrid);
+//        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
+//        addActor(gameGrid);
+//
+//        cell.addToGrid();
+
+//        removeActor(cell);
+//        cell = new Cell(gameGrid, 10, 10, 5, 5);
+//        addActor(cell);
 
         System.gc(); // Collect that garbage
 

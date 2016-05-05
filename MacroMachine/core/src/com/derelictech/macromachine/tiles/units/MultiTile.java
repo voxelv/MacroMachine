@@ -24,6 +24,10 @@ public abstract class MultiTile extends Group {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
 
+        addToGrid();
+    }
+
+    public void addToGrid() {
         tileGrid.addMultiTile(this, gridX, gridY);
     }
 
