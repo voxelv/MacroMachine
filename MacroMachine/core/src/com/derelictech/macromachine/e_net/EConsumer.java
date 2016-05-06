@@ -23,4 +23,7 @@ public interface EConsumer extends EUnit {
      * @return Returns whether this Consumer is full
      */
     boolean isFull();
+
+    long getConsumeAmount();
+    long getConsumeBuffer();
 }

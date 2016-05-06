@@ -61,4 +61,14 @@ public class EConsumerUnit extends AbstractEUnit implements EConsumer {
     public boolean isFull() {
         return false;
     }
+
+    @Override
+    public long getConsumeAmount() {
+        return consumeAmount;
+    }
+
+    @Override
+    public long getConsumeBuffer() {
+        return consumeBuffer;
+    }
 }

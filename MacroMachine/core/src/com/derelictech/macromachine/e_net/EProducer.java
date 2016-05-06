@@ -10,4 +10,6 @@ public interface EProducer extends EUnit {
      * @return Returns the amount of energy produced
      */
     long produce();
+
+    long getProduceAmount();
 }

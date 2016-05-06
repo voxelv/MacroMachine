@@ -162,7 +162,7 @@ public class Cell extends MultiTile {
     }
 
     public float timeTillClosed() {
-        return closeAnimation.getAnimationDuration() + 1;
+        return closeAnimation.getAnimationDuration() + 0.3f;
     }
 
     public boolean isClosed() {
