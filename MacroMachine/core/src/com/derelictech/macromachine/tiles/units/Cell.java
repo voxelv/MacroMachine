@@ -166,6 +166,13 @@ public class Cell extends MultiTile {
         networksDirty = false;
     }
 
+    public void disableNetTick() {
+        netTickTask.cancel();
+    }
+    public void enableNetTick() {
+        Timer.schedule(netTickTask, netTickRate, netTickRate);
+    }
+
     public void setNetTickRate(float perSecond) {
         float timeToNextTick = netTickTask.getExecuteTimeMillis();
         netTickRate = 1.0f/perSecond;
