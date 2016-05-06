@@ -93,8 +93,8 @@ public class Cell extends MultiTile {
                     ENetwork.tickNetwork(net);
                     Gdx.app.log("CELL NET", "Ticked " + net.toString());
                 }
-                Gdx.app.log("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
                 Gdx.app.log("CELL", "Control Unit Storage: " + controlUnit.amountStored());
+                Gdx.app.log("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
             }
         };
         Timer.schedule(netTickTask, netTickRate, netTickRate);
@@ -110,6 +110,12 @@ public class Cell extends MultiTile {
     }
 
     public Unit removeUnitAt(int gridX, int gridY) {
+        Tile temp = tileGrid.getTileAt(gridX, gridY);
+        if(temp instanceof ControlUnit && (temp == controlUnit))
+        {
+            Gdx.app.log("CELL", "Cannot remove the Cell's ControlUnit.");
+            return null;
+        }
         networksDirty = true;
 
         Tile t = removeTileAt(gridX, gridY);

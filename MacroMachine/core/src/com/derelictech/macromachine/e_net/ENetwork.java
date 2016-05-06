@@ -57,6 +57,7 @@ public class ENetwork implements Disposable{
     public ENetwork merge(ENetwork net) {
         for(AbstractEUnit u : net.getUnits()) {
             this.add(u);
+            u.setNetwork(this);
         }
         net.dispose();
         return this;
@@ -193,6 +194,8 @@ public class ENetwork implements Disposable{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
+        sb.append("\nEUnits: \n");
+        sb.append(eUnits.toString());
         sb.append("\nEProducers: \n");
         sb.append(eProducers.toString());
         sb.append("\nEConsumers: \n");
