@@ -161,6 +161,10 @@ public class Cell extends MultiTile {
         this.addAction(closeAction);
     }
 
+    public float timeTillClosed() {
+        return closeAnimation.getAnimationDuration() + 1;
+    }
+
     public boolean isClosed() {
         return closed;
     }

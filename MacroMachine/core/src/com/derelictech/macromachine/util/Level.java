@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.derelictech.macromachine.screens.GameScreen;
 import com.derelictech.macromachine.tiles.Material;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
@@ -108,15 +110,20 @@ public class Level extends Group {
         cell.closeCell();
         lowerCells.put(powerLevel, cell.getUnits()); // Save the old cell contents into an IntMap
 
-//        removeActor(gameGrid);
-//        gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
-//        addActor(gameGrid);
-//
-//        cell.addToGrid();
+        Task finishUpLevelTask = new Task() {
+            @Override
+            public void run() {
+                removeActor(gameGrid);
+                gameGrid = new TileGrid(25, 25, 5 / Const.TEXTURE_RESOLUTION, 3 / Const.TEXTURE_RESOLUTION, true, "game_grid_edge5_pad3");
+                addActor(gameGrid);
 
-//        removeActor(cell);
-//        cell = new Cell(gameGrid, 10, 10, 5, 5);
-//        addActor(cell);
+                removeActor(cell);
+                cell = new Cell(gameGrid, 10, 10, 5, 5);
+                addActor(cell);
+            }
+        };
+
+        Timer.schedule(finishUpLevelTask, cell.timeTillClosed());
 
         System.gc(); // Collect that garbage
 
