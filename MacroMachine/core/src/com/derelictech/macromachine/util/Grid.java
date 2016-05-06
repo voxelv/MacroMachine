@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
-import com.derelictech.macromachine.tiles.units.Unit;
 
 /**
  * Created by Tim on 4/12/2016.
@@ -40,7 +39,7 @@ public class Grid<T extends Actor> extends Group {
         if(items[((cols * y) + x)] != null) return false; // Tile Occupied
 
         items[((cols*y) + x)] =  newItem;
-        addActor(newItem);
+
         return true; // Item was placed
     }
 
