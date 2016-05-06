@@ -33,12 +33,16 @@ public class Cell extends MultiTile {
     private boolean networksDirty = false;
     private float netTickRate = 1;
     private Timer.Task netTickTask;
+    private boolean closed = false;
 
     private class CloseAction extends Action {
         private float timer = 0;
         @Override
         public boolean act(float delta) {
-            if(timer == 0) Cell.this.disableNetTick(); // Disable Net Ticking
+            if(timer == 0) {
+                Cell.this.disableNetTick(); // Disable Net Ticking
+                closed = true;              // Set Closed
+            }
             closeAnimCurrentFrame.setRegion(closeAnimation.getKeyFrame(timer));
             timer += delta;
             if(closeAnimation.isAnimationFinished(timer)) {
@@ -73,8 +77,10 @@ public class Cell extends MultiTile {
         closeAnimCurrentFrame.setSize(cellBackground.getWidth(), cellBackground.getHeight());
 
         // The ControlUnit
-        controlUnit = new ControlUnit(this, 0, 0, 1, 0, 100);
+        controlUnit = new ControlUnit(this, 0, 0, 5, 0, 500);
         addUnitAt(controlUnit, gridX + 2, gridY + 2);
+        addUnitAt(new Wire(this), gridX + 3, gridY + 2);
+        addUnitAt(new ControlUnit(this), gridX + 4, gridY + 2);
 
         addListener(new InputListener(){
             int count = 0;
@@ -146,9 +152,17 @@ public class Cell extends MultiTile {
         return unitGrid;
     }
 
+    public ControlUnit getControlUnit() {
+        return controlUnit;
+    }
+
     public void closeCell() {
         Gdx.app.log("CELL", "Closing Cell Now");
         this.addAction(closeAction);
+    }
+
+    public boolean isClosed() {
+        return closed;
     }
 
     private void recalculateNetworks() {

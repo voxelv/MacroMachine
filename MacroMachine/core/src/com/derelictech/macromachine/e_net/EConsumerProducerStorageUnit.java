@@ -7,12 +7,12 @@ import com.derelictech.macromachine.tiles.units.Unit;
  * Abstract class for extention by a {@link Unit}
  */
 public class EConsumerProducerStorageUnit extends AbstractEUnit implements EConsumer, EProducer, EStorage {
-    private long consumeAmount = 0;
+    private long consumeAmount = 3;
     private long consumeBuffer = 0;
-    private long produceAmount = 0;
+    private long produceAmount = 2;
 
-    private long energyStored = 0;
-    private long energyStorageCapacity = 0;
+    private long energyStored = 5;
+    private long energyStorageCapacity = 50;
     private boolean willConsume;
 
     /**
@@ -48,7 +48,7 @@ public class EConsumerProducerStorageUnit extends AbstractEUnit implements ECons
         if(consumeAmount == 0) {
             willConsume = false;
         }
-        else if(isFull()) {
+        else if(consumeBuffer >= consumeAmount) {
             willConsume = false;
         }
         else {

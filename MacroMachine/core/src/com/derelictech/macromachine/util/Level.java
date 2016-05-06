@@ -52,18 +52,20 @@ public class Level extends Group {
                     s = ((Slot) event.getRelatedActor());
 
                     if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
-                        switch (button) {
-                            case Input.Buttons.LEFT:
-                                cell.addUnitAt(new ControlUnit(cell), s.getGridX(), s.getGridY());
-                                break;
-                            case Input.Buttons.MIDDLE:
-                                cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
-                                break;
-                            case Input.Buttons.RIGHT:
-                                cell.removeUnitAt(s.getGridX(), s.getGridY());
-                                break;
-                            default:
-                                break;
+                        if (!cell.isClosed()) {
+                            switch (button) {
+                                case Input.Buttons.LEFT:
+                                    cell.addUnitAt(new ControlUnit(cell), s.getGridX(), s.getGridY());
+                                    break;
+                                case Input.Buttons.MIDDLE:
+                                    cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
+                                    break;
+                                case Input.Buttons.RIGHT:
+                                    cell.removeUnitAt(s.getGridX(), s.getGridY());
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     else {
@@ -93,6 +95,10 @@ public class Level extends Group {
                 return true;
             }
         });
+    }
+
+    public int getPowerLevel() {
+        return powerLevel;
     }
 
     public void upLevel() {

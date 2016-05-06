@@ -92,6 +92,7 @@ public class ENetwork implements Disposable{
          * - Gets all producers production amounts
          * - Gets all storage extraction amounts
          */
+        Gdx.app.log("NET", "BEGIN PRODUCTION PHASE");
         long availableEnergy;
         availableEnergy = 0;
         for(EProducer ep : eProducers) {
@@ -108,6 +109,7 @@ public class ENetwork implements Disposable{
          * Splits the available energy into equal parts for all consumers, then iterates until all consumers are full,
          * or available energy is 0 (zero)
          */
+        Gdx.app.log("NET", "BEGIN CONSUMPTION PHASE");
         boolean allConsumersFull = true;
         long numConsumersNotFull = 0;
 
@@ -118,7 +120,10 @@ public class ENetwork implements Disposable{
             }
         }
 
+        Gdx.app.log("NET", "Calculated Consumers not full");
+
         while(!allConsumersFull && availableEnergy > 0) {
+
             long portion = availableEnergy / numConsumersNotFull;
             long remainder = availableEnergy % numConsumersNotFull;
 
@@ -127,7 +132,7 @@ public class ENetwork implements Disposable{
             numConsumersNotFull = 0;
 
             for(EConsumer ec : eConsumers) {
-                if(!ec.isFull()) {
+                if(ec.willConsume()) {
                     if(remainder > 0) {
                         availableEnergy += ec.consume(portion + 1);
                         remainder--;
@@ -136,7 +141,7 @@ public class ENetwork implements Disposable{
                         availableEnergy += ec.consume(portion);
                     }
 
-                    if(!ec.isFull()) {
+                    if(ec.willConsume()) {
                         allConsumersFull = false;
                         numConsumersNotFull++;
                     }
@@ -148,6 +153,7 @@ public class ENetwork implements Disposable{
          * STORAGE PHASE
          * Stores extra energy into storage on the network using the same algorithm
          */
+        Gdx.app.log("NET", "BEGIN STORAGE PHASE");
         boolean allStorageFull = true;
         long numStorageNotFull = 0;
 
