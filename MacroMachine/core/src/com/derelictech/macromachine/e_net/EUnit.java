@@ -1,12 +1,17 @@
 package com.derelictech.macromachine.e_net;
 
-import com.derelictech.macromachine.util.GridDirection;
-
 /**
  * A unit that can interact with an ENetwork
  * @author Tim Slippy, voxelv
  */
 public interface EUnit {
+
+    /**
+     * Traverse Net at this EUnit and merge all
+     * @param eNetwork The network to set all merged EUnits to
+     */
+    void reCalcNet(ENetwork eNetwork);
+
     /**
      * Returns the network of this EUnit
      * @return The network.

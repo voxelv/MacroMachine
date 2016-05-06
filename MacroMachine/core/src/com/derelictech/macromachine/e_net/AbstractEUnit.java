@@ -1,11 +1,9 @@
 package com.derelictech.macromachine.e_net;
 
-import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.units.Cell;
 import com.derelictech.macromachine.tiles.units.Unit;
 import com.derelictech.macromachine.tiles.units.Wire;
-import com.derelictech.macromachine.util.Grid;
 import com.derelictech.macromachine.util.GridDirection;
 import com.derelictech.macromachine.util.TileGrid;
 
@@ -17,6 +15,7 @@ import com.derelictech.macromachine.util.TileGrid;
 public abstract class AbstractEUnit extends Unit implements EUnit{
 
     protected ENetwork eNet;
+    private boolean disabled;
 
     /**
      * Constructor for AbstractEUnit
@@ -54,14 +53,16 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      * Removes the connections of wires adjacent to this EUnit
      */
     public void unsetConnections() {
-        Tile unit;
+        eNet.split(this);
+
         if(this instanceof Wire) ((Wire) this).resetFrame();
+
+        Tile unit;
         for(GridDirection dir : GridDirection.values()) {
 
             unit = getNeighbor(dir);
 
             if(unit instanceof AbstractEUnit && ((Unit) unit).isInSameCell(this.getCell())) {
-                setNetwork(eNet.split(this));
                 if(this instanceof Wire) ((Wire) this).addConnection(dir);
             }
 
@@ -78,32 +79,48 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
 
     @Override
     public void postAdditionToGrid(TileGrid grid, int x, int y) {
+        super.postAdditionToGrid(grid, x, y);
         setConnections();
     }
 
     @Override
     public void preRemovalFromGrid(TileGrid grid) {
+        super.preRemovalFromGrid(grid);
+        this.disable();
         unsetConnections();
     }
 
+    private void disable() {
+        this.disabled = true;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
     @Override
-    public void setNetwork(ENetwork net) {
-        eNet.remove(this);
-        if(net != null && getNetwork() != net) { // If not already in net
+    public void postRemovalFromGrid(TileGrid grid) {
+        super.postRemovalFromGrid(grid);
+    }
+
+    @Override
+    public void reCalcNet(ENetwork net) {
+        if(net != null && eNet != net) { // If not already in net
             this.eNet = net;
             net.add(this); // Add this to the network
 
-            // If this is a Wire, traverse it
-            if (this instanceof Wire) {
-                for (GridDirection dir : GridDirection.values()) {          // Loop through all neighbors
-                    Tile unit = getNeighbor(dir);                                   // Get neighbor
-                    if (unit == null) continue;                                // Nothing's there, continue
-                    if (unit instanceof Wire) ((Wire) unit).setNetwork(net); // If a neighbor is a Wire, set its network too
-                    else if (unit instanceof AbstractEUnit)
-                        ((AbstractEUnit) unit).setNetwork(net);           // If a neighbor is an AbstractEUnit, set its network
+            for (GridDirection dir : GridDirection.values()) {          // Loop through all neighbors
+                Tile unit = getNeighbor(dir);                                   // Get neighbor
+                if (unit == null) continue;                                // Nothing's there, continue
+                if (unit instanceof AbstractEUnit && !((AbstractEUnit) unit).isDisabled()) {
+                    ((AbstractEUnit) unit).reCalcNet(net);      // If a neighbor is an AbstractEUnit, set its network
                 }
-            } // End if Wire
+            }
         } // End if not already in net
     }
 
+    @Override
+    public void setNetwork(ENetwork eNetwork) {
+        this.eNet = eNetwork;
+    }
 }

@@ -67,11 +67,12 @@ public class ENetwork implements Disposable{
         // TODO: probably a traversal to find neighbors and reconstruct
         // TODO: possibly four entirely new ENetworks.
 
+        remove(unit);
         for(GridDirection dir : GridDirection.values()) {
             ENetwork newNet = new ENetwork();
             Tile tile = unit.getNeighbor(dir);
             if(tile instanceof AbstractEUnit) {
-                ((AbstractEUnit) tile).setNetwork(newNet);
+                ((AbstractEUnit) tile).reCalcNet(newNet);
             }
         }
         return this;
