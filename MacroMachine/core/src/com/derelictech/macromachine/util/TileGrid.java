@@ -106,8 +106,8 @@ public class TileGrid extends SlotGrid {
                 for(int x = multitile.getGridX() + multitile.getGridWidth() - 1; x >= multitile.getGridX(); x--) {
                     for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
                         if(getTileAt(x, y) != null) {
-                            Tile tile = removeTileAt(x, y);
-                            addTileAt(tile, x + 1, y);
+                            Tile tile = getTileAt(x, y);
+                            moveTile(tile, x + 1, y);
                         }
                     }
                 }
@@ -117,8 +117,8 @@ public class TileGrid extends SlotGrid {
                 for(int y = multitile.getGridY() + multitile.getGridHeight() - 1; y >= multitile.getGridY(); y--) {
                     for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
                         if(getTileAt(x, y) != null) {
-                            Tile tile = removeTileAt(x, y);
-                            addTileAt(tile, x, y + 1);
+                            Tile tile = getTileAt(x, y);
+                            moveTile(tile, x, y + 1);
                         }
                     }
                 }
@@ -128,8 +128,8 @@ public class TileGrid extends SlotGrid {
                 for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
                     for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
                         if(getTileAt(x, y) != null) {
-                            Tile tile = removeTileAt(x, y);
-                            addTileAt(tile, x - 1, y);
+                            Tile tile = getTileAt(x, y);
+                            moveTile(tile, x - 1, y);
                         }
                     }
                 }
@@ -139,8 +139,8 @@ public class TileGrid extends SlotGrid {
                 for(int y = multitile.getGridY(); y < multitile.getGridY() + multitile.getGridHeight(); y++) {
                     for(int x = multitile.getGridX(); x < multitile.getGridX() + multitile.getGridWidth(); x++) {
                         if(getTileAt(x, y) != null) {
-                            Tile tile = removeTileAt(x, y);
-                            addTileAt(tile, x, y - 1);
+                            Tile tile = getTileAt(x, y);
+                            moveTile(tile, x, y - 1);
                         }
                     }
                 }

@@ -168,6 +168,18 @@ public class Cell extends MultiTile {
     }
 
     @Override
+    public boolean addTileAt(Tile tile, int gridX, int gridY) {
+        networksDirty = true;
+        return super.addTileAt(tile, gridX, gridY);
+    }
+
+    @Override
+    public Tile removeTileAt(int gridX, int gridY) {
+        networksDirty = true;
+        return super.removeTileAt(gridX, gridY);
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
     }

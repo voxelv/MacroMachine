@@ -32,6 +32,14 @@ public class SlotGrid extends Grid<Slot> {
         }
     }
 
+    protected void moveTile(Tile tile, int toX, int toY) {
+        Slot sFrom = getItemAt(tile.getGridX(), tile.getGridY());
+        Slot sTo = getItemAt(toX, toY);
+        sTo.setTile(sFrom.removeTile());
+        sTo.setPosition(xSnap(toX), ySnap(toY));  // Set Position
+        sTo.setGridPos(toX, toY);                 // Set Grid Index
+    }
+
     public boolean addTileAt(Tile tile, int x, int y) {
         Slot s = getItemAt(x, y);
         if(s.getTile() == null) {
