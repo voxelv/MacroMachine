@@ -38,6 +38,7 @@ public class Cell extends MultiTile {
         private float timer = 0;
         @Override
         public boolean act(float delta) {
+            if(timer == 0) Cell.this.disableNetTick(); // Disable Net Ticking
             closeAnimCurrentFrame.setRegion(closeAnimation.getKeyFrame(timer));
             timer += delta;
             if(closeAnimation.isAnimationFinished(timer)) {
