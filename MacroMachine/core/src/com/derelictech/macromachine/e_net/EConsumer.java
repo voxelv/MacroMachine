@@ -6,6 +6,12 @@ package com.derelictech.macromachine.e_net;
  */
 public interface EConsumer extends EUnit {
     /**
+     * Says whether this will consume at all
+     * @return whether this will consume anything
+     */
+    boolean willConsume();
+
+    /**
      * Consumes energy.
      * @param amount The amount of energy to consume
      * @return Returns the amount not consumed if any. Returns 0 (zero) if all of amount was consumed.

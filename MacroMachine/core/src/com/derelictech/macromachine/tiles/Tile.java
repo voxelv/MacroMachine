@@ -78,7 +78,7 @@ public abstract class Tile extends Group {
      * @return Returns the Unit adjacent to this Unit at direction {@link Tile#getNeighbor(GridDirection)}.
      * Returns null if no Unit at that position or out of the {@link Grid} bounds
      */
-    protected Tile getNeighbor(GridDirection dir) {
+    public Tile getNeighbor(GridDirection dir) {
         Tile unit = null;
         switch (dir) {
             case RIGHT:

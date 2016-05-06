@@ -3,6 +3,7 @@ package com.derelictech.macromachine.tiles.units;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
+import com.derelictech.macromachine.e_net.ENetwork;
 import com.derelictech.macromachine.e_net.EUnit;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.util.Assets;
@@ -16,6 +17,7 @@ public class Wire extends AbstractEUnit {
 
     private Array<TextureRegion> wireTextures;
     private int frame = 0;
+    private ENetwork wireNet;
 
     /**
      * Constructor for Wire
@@ -27,6 +29,11 @@ public class Wire extends AbstractEUnit {
 
         setSize(1, 1); // A wire occupies a 1x1 space
         wireTextures = Assets.inst.getWireTextures();
+        wireNet = eNet;
+    }
+
+    public void resetFrame() {
+        frame = 0;
     }
 
     @Override
@@ -34,47 +41,47 @@ public class Wire extends AbstractEUnit {
         return "WIR";
     }
 
-    /**
-     * Overrides the super by copying functionality and adds setting this Wire's connections
-     */
-    @Override
-    public void setConnections() {
-        Tile unit;
-        frame = 0;
-        for(GridDirection dir : GridDirection.values()) {
-
-            unit = getNeighbor(dir);
-
-            if(unit instanceof EUnit && ((Unit) unit).isInSameCell(this.getCell())) {
-                addConnection(dir);
-            }
-
-            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
-                ((Wire) unit).addConnection(dir.invert());
-            }
-        }
-    }
-
-    /**
-     * Overrides the super by copying functionality and adds unsetting this Wire's connections
-     */
-    @Override
-    public void unsetConnections() {
-        Tile unit;
-        frame = 0;
-        for(GridDirection dir : GridDirection.values()) {
-
-            unit = getNeighbor(dir);
-
-            if(unit instanceof EUnit && ((Unit) unit).isInSameCell(this.getCell())) {
-                addConnection(dir);
-            }
-
-            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
-                ((Wire) unit).remConnection(dir.invert());
-            }
-        }
-    }
+//    /**
+//     * Overrides the super by copying functionality and adds setting this Wire's connections
+//     */
+//    @Override
+//    public void setConnections() {
+//        Tile unit;
+//        frame = 0;
+//        for(GridDirection dir : GridDirection.values()) {
+//
+//            unit = getNeighbor(dir);
+//
+//            if(unit instanceof AbstractEUnit && ((Unit) unit).isInSameCell(this.getCell())) {
+//                addConnection(dir);
+//            }
+//
+//            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
+//                ((Wire) unit).addConnection(dir.invert());
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Overrides the super by copying functionality and adds unsetting this Wire's connections
+//     */
+//    @Override
+//    public void unsetConnections() {
+//        Tile unit;
+//        frame = 0;
+//        for(GridDirection dir : GridDirection.values()) {
+//
+//            unit = getNeighbor(dir);
+//
+//            if(unit instanceof AbstractEUnit && ((Unit) unit).isInSameCell(this.getCell())) {
+//                addConnection(dir);
+//            }
+//
+//            if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
+//                ((Wire) unit).remConnection(dir.invert());
+//            }
+//        }
+//    }
 
     /**
      * Uses some binary trickery to determine which frame to display

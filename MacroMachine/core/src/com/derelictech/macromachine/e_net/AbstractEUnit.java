@@ -16,8 +16,7 @@ import com.derelictech.macromachine.util.TileGrid;
  */
 public abstract class AbstractEUnit extends Unit implements EUnit{
 
-    protected ENetwork rNet, uNet, lNet, dNet;
-    protected Array<ENetwork> networks = new Array<ENetwork>(true, 4);
+    protected ENetwork eNet;
 
     /**
      * Constructor for AbstractEUnit
@@ -25,15 +24,9 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      */
     public AbstractEUnit(String unit_name, Cell cell) {
         super(unit_name, cell);
-        ENetwork selfNet = new ENetwork();
-        rNet = selfNet;
-        uNet = selfNet;
-        lNet = selfNet;
-        dNet = selfNet;
-        networks.add(rNet);
-        networks.add(uNet);
-        networks.add(lNet);
-        networks.add(dNet);
+        eNet = new ENetwork();
+
+        eNet.add(this);
     }
 
     /**
@@ -41,9 +34,15 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      */
     public void setConnections() {
         Tile unit;
+        if(this instanceof Wire) ((Wire) this).resetFrame();
         for(GridDirection dir : GridDirection.values()) {
 
             unit = getNeighbor(dir);
+
+            if(unit instanceof AbstractEUnit && ((Unit) unit).isInSameCell(this.getCell())) {
+                setNetwork(((AbstractEUnit) unit).getNetwork().merge(this.eNet));
+                if(this instanceof Wire) ((Wire) this).addConnection(dir);
+            }
 
             if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).addConnection(dir.invert());
@@ -56,9 +55,15 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
      */
     public void unsetConnections() {
         Tile unit;
+        if(this instanceof Wire) ((Wire) this).resetFrame();
         for(GridDirection dir : GridDirection.values()) {
 
             unit = getNeighbor(dir);
+
+            if(unit instanceof AbstractEUnit && ((Unit) unit).isInSameCell(this.getCell())) {
+                setNetwork(eNet.split(this));
+                if(this instanceof Wire) ((Wire) this).addConnection(dir);
+            }
 
             if(unit instanceof Wire && ((Unit) unit).isInSameCell(this.getCell())) {
                 ((Wire) unit).remConnection(dir.invert());
@@ -67,18 +72,8 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     }
 
     @Override
-    public ENetwork getNetwork(GridDirection side) {
-        switch(side) {
-            case RIGHT:
-                return rNet;
-            case UP:
-                return uNet;
-            case LEFT:
-                return lNet;
-            case DOWN:
-                return dNet;
-        }
-        return null;
+    public ENetwork getNetwork() {
+        return eNet;
     }
 
     @Override
@@ -92,40 +87,20 @@ public abstract class AbstractEUnit extends Unit implements EUnit{
     }
 
     @Override
-    public void setNetwork(ENetwork net, GridDirection fromSide) {
-        Tile unit;
-        GridDirection thisSide = fromSide.invert();      // This side interaction is opposite the fromSide
-        if(net != null && getNetwork(thisSide) != net) { // If not already in net
-            if(thisSide != null) {
-                switch (thisSide) { // Set the side network
-                    case RIGHT:
-                        rNet = net;
-                        networks.set(0, net);
-                        break;
-                    case UP:
-                        uNet = net;
-                        networks.set(1, net);
-                        break;
-                    case LEFT:
-                        lNet = net;
-                        networks.set(2, net);
-                        break;
-                    case DOWN:
-                        dNet = net;
-                        networks.set(3, net);
-                        break;
-                }
-            }
+    public void setNetwork(ENetwork net) {
+        eNet.remove(this);
+        if(net != null && getNetwork() != net) { // If not already in net
+            this.eNet = net;
             net.add(this); // Add this to the network
 
             // If this is a Wire, traverse it
             if (this instanceof Wire) {
                 for (GridDirection dir : GridDirection.values()) {          // Loop through all neighbors
-                    unit = getNeighbor(dir);                                   // Get neighbor
+                    Tile unit = getNeighbor(dir);                                   // Get neighbor
                     if (unit == null) continue;                                // Nothing's there, continue
-                    if (unit instanceof Wire) ((Wire) unit).setNetwork(net, dir); // If a neighbor is a Wire, set its network too
+                    if (unit instanceof Wire) ((Wire) unit).setNetwork(net); // If a neighbor is a Wire, set its network too
                     else if (unit instanceof AbstractEUnit)
-                        ((AbstractEUnit) unit).setNetwork(net, dir);           // If a neighbor is an AbstractEUnit, set its network
+                        ((AbstractEUnit) unit).setNetwork(net);           // If a neighbor is an AbstractEUnit, set its network
                 }
             } // End if Wire
         } // End if not already in net

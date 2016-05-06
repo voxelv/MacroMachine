@@ -30,4 +30,10 @@ public interface EStorage extends EUnit {
      * @return Returns whether this Storage is full
      */
     boolean isFull();
+
+    /**
+     * How much is in this
+     * @return The amount of energy stored in this
+     */
+    long amountStored();
 }
