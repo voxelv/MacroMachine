@@ -78,8 +78,11 @@ public class Grid<T extends Actor> extends Group {
             for(int x = 0; x < cols; x++) {
                 T t = items[(y*cols) + x];
                 if(t != null) {
-                    if(t instanceof Tile) {
+                    if(t instanceof Tile && ((Tile) t).TAG() != null) {
                         sb.append(((Tile) t).TAG());
+                    }
+                    else if(t instanceof Tile && ((Tile) t).TAG() == null) {
+                        sb.append("___");
                     }
                     else {
                         sb.append(t);

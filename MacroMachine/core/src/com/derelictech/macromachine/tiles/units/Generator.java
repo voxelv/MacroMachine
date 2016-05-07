@@ -43,4 +43,9 @@ public class Generator extends EProducerUnit {
     private void increaseProductionAmount(long amount) {
         produceAmount += amount;
     }
+
+    @Override
+    public String TAG() {
+        return "GEN";
+    }
 }

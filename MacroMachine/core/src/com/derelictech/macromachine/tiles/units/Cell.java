@@ -91,6 +91,7 @@ public class Cell extends MultiTile {
         addUnitAt(new Generator(this), gridX + 3, gridY + 1);
         addUnitAt(new Generator(this), gridX + 2, gridY + 1);
         addUnitAt(new Generator(this), gridX + 1, gridY + 1);
+        addUnitAt(new EBattery(this), gridX + 2, gridY + 3);
 
         addListener(new InputListener(){
             int count = 0;

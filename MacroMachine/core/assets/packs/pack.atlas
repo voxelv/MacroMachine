@@ -222,7 +222,7 @@ units/drill_extend
   orig: 48, 32
   offset: 0, 0
   index: 2
-units/e_storage
+units/e_battery
   rotate: false
   xy: 152, 70
   size: 32, 32

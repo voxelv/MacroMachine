@@ -96,19 +96,11 @@ public class EConsumerProducerStorageUnit extends AbstractEUnit implements ECons
         }
     }
 
+
+
     @Override
     public long amountStored() {
         return energyStored;
-    }
-
-    @Override
-    public long produce() {
-        return produceAmount;
-    }
-
-    @Override
-    public long getProduceAmount() {
-        return produceAmount;
     }
 
     @Override
@@ -145,5 +137,16 @@ public class EConsumerProducerStorageUnit extends AbstractEUnit implements ECons
     @Override
     public long getCapacity() {
         return energyStorageCapacity;
+    }
+
+
+    @Override
+    public long produce() {
+        return produceAmount;
+    }
+
+    @Override
+    public long getProduceAmount() {
+        return produceAmount;
     }
 }
