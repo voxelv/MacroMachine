@@ -1,5 +1,6 @@
 package com.derelictech.macromachine.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,9 +51,9 @@ public class Level extends Group {
         this.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.print("LEVEL GOT CLICK TOO. ");
-                if (event.getRelatedActor() != null) System.out.println(" ITEM: " + event.getRelatedActor());
-                else System.out.println();
+                Gdx.app.debug("LEVEL", "LEVEL GOT CLICK TOO. ");
+                if (event.getRelatedActor() != null) Gdx.app.debug("LEVEL", " ITEM: " + event.getRelatedActor());
+                else Gdx.app.debug("--", "\n");
 
                 Slot s;
                 if (event.getRelatedActor() instanceof Slot) {
@@ -136,7 +137,7 @@ public class Level extends Group {
 
         powerLevel++;
 
-        System.out.println(lowerCells.toString());
+        Gdx.app.debug("LEVEL", lowerCells.toString());
     }
 
     //TODO Optimize, this is brute force O(N^3), horrible yes, but N is small...

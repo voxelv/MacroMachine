@@ -35,7 +35,7 @@ public class Slot extends Actor{
             int counter = 0;
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("["+ counter++ +"] Touched Slot: x"+gridX+" y"+gridY+" Tile"+ ((tile == null) ? " NULL" : " bounds: " + tile.getX() + " " + tile.getY() + " " + tile.getWidth() + " " + tile.getHeight()
+                Gdx.app.debug("SLOT", "["+ counter++ +"] Touched Slot: x"+gridX+" y"+gridY+" Tile"+ ((tile == null) ? " NULL" : " bounds: " + tile.getX() + " " + tile.getY() + " " + tile.getWidth() + " " + tile.getHeight()
                         + " Contains: " + tile.toString() +" | hash: "+ tile.hashCode()));
                 event.setRelatedActor(Slot.this);
                 return true;

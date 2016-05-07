@@ -84,7 +84,7 @@ public class ENetwork implements Disposable{
     }
 
     private void tick() {
-        Gdx.app.log("NET", "Want to tick.");
+        Gdx.app.debug("NET", "Want to tick.");
         if(eProducers.size + eConsumers.size + eStorage.size < 2) return; // Skip if only one in this net. Saves CPU.
         /**
          * PRODUCTION PHASE
@@ -92,7 +92,7 @@ public class ENetwork implements Disposable{
          * - Gets all producers production amounts
          * - Gets all storage extraction amounts
          */
-        Gdx.app.log("NET", "BEGIN PRODUCTION PHASE");
+        Gdx.app.debug("NET", "BEGIN PRODUCTION PHASE");
         long availableEnergy;
         availableEnergy = 0;
         for(EProducer ep : eProducers) {
@@ -102,14 +102,14 @@ public class ENetwork implements Disposable{
             availableEnergy += es.extract(es.getCapacity());
         }
 
-        Gdx.app.log("NET", "Available Energy: " + availableEnergy);
+        Gdx.app.debug("NET", "Available Energy: " + availableEnergy);
 
         /**
          * CONSUMPTION PHASE
          * Splits the available energy into equal parts for all consumers, then iterates until all consumers are full,
          * or available energy is 0 (zero)
          */
-        Gdx.app.log("NET", "BEGIN CONSUMPTION PHASE");
+        Gdx.app.debug("NET", "BEGIN CONSUMPTION PHASE");
         boolean allConsumersFull = true;
         long numConsumersNotFull = 0;
 
@@ -120,7 +120,7 @@ public class ENetwork implements Disposable{
             }
         }
 
-        Gdx.app.log("NET", "Calculated Consumers not full");
+        Gdx.app.debug("NET", "Calculated Consumers not full");
 
         while(!allConsumersFull && availableEnergy > 0) {
 
@@ -153,7 +153,7 @@ public class ENetwork implements Disposable{
          * STORAGE PHASE
          * Stores extra energy into storage on the network using the same algorithm
          */
-        Gdx.app.log("NET", "BEGIN STORAGE PHASE");
+        Gdx.app.debug("NET", "BEGIN STORAGE PHASE");
         boolean allStorageFull = true;
         long numStorageNotFull = 0;
 
@@ -200,13 +200,13 @@ public class ENetwork implements Disposable{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
-        sb.append("\nEUnits: \n");
+        sb.append("\n\tEUnits: \n\t\t");
         sb.append(eUnits.toString());
-        sb.append("\nEProducers: \n");
+        sb.append("\n\tEProducers: \n\t\t");
         sb.append(eProducers.toString());
-        sb.append("\nEConsumers: \n");
+        sb.append("\n\tEConsumers: \n\t\t");
         sb.append(eConsumers.toString());
-        sb.append("\nEStorage: \n");
+        sb.append("\n\tEStorage: \n\t\t");
         sb.append(eStorage.toString());
         return sb.toString();
     }

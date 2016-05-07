@@ -26,14 +26,14 @@ public class Cell extends MultiTile {
 
     private Array<TextureRegion> cellCloseTextures;
     private Animation closeAnimation;
-    private float closeAnimSpeed = 0.25f;
+    private float closeAnimSpeed = 0.15f;
     private Sprite closeAnimCurrentFrame;
+    private boolean closed = false;
 
     private Array<ENetwork> eNetworks;
     private boolean networksDirty = false;
     private float netTickRate = 1;
     private Timer.Task netTickTask;
-    private boolean closed = false;
 
     private class CloseAction extends Action {
         private float timer = 0;
@@ -85,7 +85,7 @@ public class Cell extends MultiTile {
         addListener(new InputListener(){
             int count = 0;
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("Clicked Cell! " + count++);
+                Gdx.app.debug("CELL", "Clicked Cell! " + count++);
                 return false;
             }
         });
@@ -98,17 +98,20 @@ public class Cell extends MultiTile {
                 if(networksDirty) recalculateNetworks();
                 for(ENetwork net : eNetworks) {
                     ENetwork.tickNetwork(net);
-                    Gdx.app.log("CELL NET", "Ticked " + net.toString());
+                    Gdx.app.debug("CELL NET", "Ticked " + net.toString());
                 }
-                Gdx.app.log("CELL", "Control Unit Storage: " + controlUnit.amountStored());
-                Gdx.app.log("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
+                Gdx.app.debug("CELL", "Control Unit Storage: " + controlUnit.amountStored());
+                Gdx.app.debug("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
             }
         };
         Timer.schedule(netTickTask, netTickRate, netTickRate);
     }
 
     public boolean move(GridDirection dir) {
-        return tileGrid.moveMultitile(this, dir);
+        if(!closed) {
+            return tileGrid.moveMultitile(this, dir);
+        }
+        else return false;
     }
 
     public void addUnitAt(Unit unit, int gridX, int gridY) {
@@ -136,19 +139,19 @@ public class Cell extends MultiTile {
     }
 
     public Grid<Unit> getUnits() {
-        System.out.println("GETTING UNITS FROM CELL *****");
+        Gdx.app.debug("CELL", "GETTING UNITS FROM CELL *****");
         Grid<Unit> unitGrid = new Grid<Unit>(this.gridWidth, this.gridHeight);
         for(int x = this.gridX; x < this.gridX + this.gridWidth; x++){
         for(int y = this.gridY; y < this.gridY + this.gridHeight; y++) {
             Tile t = tileGrid.getTileAt(x, y);
             if(t instanceof Unit) {
-                System.out.println("Found unit: " + t + " at x: "+x+" y: "+y);
+                Gdx.app.debug("CELL", "Found unit: " + t + " at x: "+x+" y: "+y);
                 unitGrid.addItemAt(((Unit) t), x - this.gridX, y - this.gridY);
             }
         }
         }
 
-        System.out.println(unitGrid.toString());
+        Gdx.app.debug("CELL", unitGrid.toString());
         return unitGrid;
     }
 
@@ -170,7 +173,7 @@ public class Cell extends MultiTile {
     }
 
     private void recalculateNetworks() {
-        Gdx.app.log("CELL", "RECALCULATING NETS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Gdx.app.debug("CELL", "RECALCULATING NETS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         eNetworks.clear();
         for(int x = this.gridX; x < this.gridX + this.gridWidth; x++){
         for(int y = this.gridY; y < this.gridY + this.gridHeight; y++) { // Iterate through all Units in Cell
@@ -233,7 +236,7 @@ public class Cell extends MultiTile {
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        System.out.println("CELL GRID POS: x: " + gridX + " y: " + gridY);
+        Gdx.app.debug("CELL", "CELL GRID POS: x: " + gridX + " y: " + gridY);
         if(cellBackground != null)
             cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
     }

@@ -82,12 +82,12 @@ public class GameScreen extends AbstractGameScreen {
                 int width = viewport.getScreenWidth();
                 int height = viewport.getScreenHeight();
                 Vector3 prevWorldMouse = new Vector3(camera.unproject(mouseRaw));
-                System.out.print("TouchLoc: " + prevWorldMouse.toString());
-                System.out.print("\nmouseRaw: " + mouseRaw.toString());
-                System.out.print("\nGutter: " + Float.toString(gutterX) + " " + Float.toString(gutterY));
-                System.out.print("\nScreen Width/height: " + Integer.toString(width) + " " + Integer.toString(height));
-                if(event.getRelatedActor() != null) System.out.println(" Touched: " + event.getRelatedActor().toString());
-                else System.out.println();
+                Gdx.app.debug("GameScreen", "TouchLoc: " + prevWorldMouse.toString());
+                Gdx.app.debug("GameScreen", "\nmouseRaw: " + mouseRaw.toString());
+                Gdx.app.debug("GameScreen", "\nGutter: " + Float.toString(gutterX) + " " + Float.toString(gutterY));
+                Gdx.app.debug("GameScreen", "\nScreen Width/height: " + Integer.toString(width) + " " + Integer.toString(height));
+                if(event.getRelatedActor() != null) Gdx.app.debug("GameScreen", " Touched: " + event.getRelatedActor().toString());
+                else Gdx.app.debug("--", "\n");
                 return true;
             }
 
@@ -139,22 +139,22 @@ public class GameScreen extends AbstractGameScreen {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch(keycode) {
                     case Input.Keys.RIGHT:
-                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.RIGHT));
+                        Gdx.app.debug("GameScreen", "Move cell returns: " + level.moveCell(GridDirection.RIGHT));
                         break;
                     case Input.Keys.UP:
-                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.UP));
+                        Gdx.app.debug("GameScreen", "Move cell returns: " + level.moveCell(GridDirection.UP));
                         break;
                     case Input.Keys.LEFT:
-                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.LEFT));
+                        Gdx.app.debug("GameScreen", "Move cell returns: " + level.moveCell(GridDirection.LEFT));
                         break;
                     case Input.Keys.DOWN:
-                        System.out.println("Move cell returns: " + level.moveCell(GridDirection.DOWN));
+                        Gdx.app.debug("GameScreen", "Move cell returns: " + level.moveCell(GridDirection.DOWN));
                         break;
                     case Input.Keys.U:
-                        System.out.println("GO UP ONE LEVEL");
+                        Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
                         break;
                     case Input.Keys.D:
-                        System.out.println("GO DN ONE LEVEL");
+                        Gdx.app.debug("GameScreen", "GO DN ONE LEVEL");
                         break;
                     case Input.Keys.R:
                         level.upLevel();
