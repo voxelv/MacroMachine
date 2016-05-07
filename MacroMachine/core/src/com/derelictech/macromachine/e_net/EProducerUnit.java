@@ -7,7 +7,7 @@ import com.derelictech.macromachine.tiles.units.Cell;
  */
 public class EProducerUnit extends AbstractEUnit implements EProducer {
 
-    private long produceAmount = 0;
+    protected long produceAmount = 0;
 
     /**
      * Constructor for AbstractEUnit

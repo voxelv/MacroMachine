@@ -79,6 +79,12 @@ public class ENetwork implements Disposable{
         return this;
     }
 
+    public void doConsumption() {
+        for(EConsumer ec : eConsumers) {
+            ec.doConsumeAction();
+        }
+    }
+
     public static void tickNetwork(ENetwork net) {
         net.tick();
     }

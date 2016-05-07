@@ -35,6 +35,13 @@ public class Cell extends MultiTile {
     private float netTickRate = 1;
     private Timer.Task netTickTask;
 
+    public void doMining() {
+        Gdx.app.log("CELL", "MINE ALL THE THINGS WOO");
+        for(ENetwork en : eNetworks) {
+            en.doConsumption();
+        }
+    }
+
     private class CloseAction extends Action {
         private float timer = 0;
         @Override
@@ -70,7 +77,7 @@ public class Cell extends MultiTile {
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
 
-        cellCloseTextures = Assets.inst.getCellCloseAnimation();
+        cellCloseTextures = Assets.inst.getFrameSequence("cell_anim/cell_edge2_pad1");
         closeAnimation = new Animation(closeAnimSpeed, cellCloseTextures);
         closeAnimCurrentFrame = new Sprite(closeAnimation.getKeyFrames()[0]);
         closeAnimCurrentFrame.setPosition(-2.0f/ Const.TEXTURE_RESOLUTION, -2.0f/Const.TEXTURE_RESOLUTION);
@@ -81,6 +88,9 @@ public class Cell extends MultiTile {
         addUnitAt(controlUnit, gridX + 2, gridY + 2);
         addUnitAt(new Wire(this), gridX + 3, gridY + 2);
         addUnitAt(new ControlUnit(this), gridX + 4, gridY + 2);
+        addUnitAt(new Generator(this), gridX + 3, gridY + 1);
+        addUnitAt(new Generator(this), gridX + 2, gridY + 1);
+        addUnitAt(new Generator(this), gridX + 1, gridY + 1);
 
         addListener(new InputListener(){
             int count = 0;

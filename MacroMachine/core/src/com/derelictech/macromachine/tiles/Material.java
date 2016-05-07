@@ -7,6 +7,7 @@ import com.derelictech.macromachine.util.Assets;
  */
 public abstract class Material extends Tile {
     public Material(String texture_name) {
+        super(texture_name);
         sprite.setRegion(Assets.inst.getRegion(texture_name));
     }
 }

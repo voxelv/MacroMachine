@@ -4,6 +4,7 @@ package com.derelictech.macromachine.tiles;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.derelictech.macromachine.util.Assets;
@@ -15,14 +16,24 @@ import com.derelictech.macromachine.util.TileGrid;
  * Created by Tim on 4/14/2016.
  */
 public abstract class Tile extends Group {
-    public Sprite sprite;
+    protected TextureRegion initialRegion;
+    protected Sprite sprite;
     protected TileGrid grid;
     protected int gridX = 0, gridY = 0;
 
+    protected GridDirection rotation = GridDirection.RIGHT;
+
     public Tile() {
-        sprite = new Sprite(Assets.inst.getRegion("tile_placeholder"));
+        this("tile_placeholder");
+    }
+
+    public Tile(String textureName) {
+        sprite = new Sprite(Assets.inst.getRegion(textureName));
+        initialRegion = Assets.inst.getRegion(textureName);
         setSize(1, 1);
         setTouchable(Touchable.disabled);
+
+        setOrigin(0.5f, 0.5f);
     }
 
     /**
@@ -30,6 +41,45 @@ public abstract class Tile extends Group {
      * @return A Three Letter String representing this
      */
     public abstract String TAG();
+
+    public void setRotation(GridDirection dir) {
+        rotation = dir;
+        switch(dir) {
+            case RIGHT:
+                setRotation(0);
+                break;
+            case UP:
+                setRotation(90);
+                break;
+            case LEFT:
+                setRotation(180);
+                break;
+            case DOWN:
+                setRotation(270);
+                break;
+        }
+    }
+
+    public void rotate90() {
+        switch(rotation) {
+            case RIGHT:
+                setRotation(GridDirection.UP);
+                break;
+            case UP:
+                setRotation(GridDirection.LEFT);
+                break;
+            case LEFT:
+                setRotation(GridDirection.DOWN);
+                break;
+            case DOWN:
+                setRotation(GridDirection.RIGHT);
+                break;
+        }
+    }
+
+    public void setTextureRegion(TextureRegion region) {
+        sprite.setRegion(region);
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -116,6 +166,12 @@ public abstract class Tile extends Group {
     public void setSize(float width, float height) {
         super.setSize(width, height);
         sprite.setSize(width, height);
+    }
+
+    @Override
+    public void setOrigin(float originX, float originY) {
+        super.setOrigin(originX, originY);
+        sprite.setOrigin(originX, originY);
     }
 
     @Override

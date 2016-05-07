@@ -90,6 +90,13 @@ public class EConsumerProducerStorageUnit extends AbstractEUnit implements ECons
     }
 
     @Override
+    public void doConsumeAction() {
+        if(willConsume()) {
+            consumeBuffer = 0;
+        }
+    }
+
+    @Override
     public long amountStored() {
         return energyStored;
     }

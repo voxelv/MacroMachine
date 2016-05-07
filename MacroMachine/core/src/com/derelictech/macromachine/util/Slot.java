@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.units.Wire;
 
+import javax.management.RuntimeErrorException;
+
 /**
  * A Slot contains a {@link Tile}
  */
@@ -44,6 +46,7 @@ public class Slot extends Actor{
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if(tile != null) {
+                    event.setRelatedActor(Slot.this);
                     tile.setColor(Color.RED);
                 }
             }
@@ -51,6 +54,7 @@ public class Slot extends Actor{
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 if(tile != null) {
+                    event.setRelatedActor(Slot.this);
                     tile.setColor(Color.WHITE);
                 }
             }

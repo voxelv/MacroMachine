@@ -3,6 +3,7 @@ package com.derelictech.macromachine.util;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -48,29 +49,13 @@ public class Assets implements Disposable{
     }
 
     /**
-     * Sends the TextureRegion array of wire connection configurations
-     * @return Returns the {@link Array<TextureRegion>} of the wire configurations
-     */
-    public Array<TextureRegion> getWireTextures() {
-        Array<TextureAtlas.AtlasRegion> regions = atlas.findRegions("units/wire");
-        for(TextureAtlas.AtlasRegion ar : regions) {
-            wireTextures.add(ar);
-        }
-        return wireTextures;
-    }
-
-    /**
-     * Sends the TextureRegion array of cell closing animation
+     * Sends the TextureRegion array of given name
+     * @param frame_sequence_name The name of the frame sequence
      * @return Returns the {@link Array<TextureRegion>}
      */
-    public Array<TextureRegion> getCellCloseAnimation() {
-        if(cellAnimation.size < 2) {
-            Array<TextureAtlas.AtlasRegion> regions = atlas.findRegions("cell_anim/cell_edge2_pad1");
-            for(TextureAtlas.AtlasRegion ar : regions) {
-                cellAnimation.add(ar);
-            }
-        }
-        return cellAnimation;
+    public Array<TextureRegion> getFrameSequence(String frame_sequence_name) {
+        Array<TextureAtlas.AtlasRegion> atlasRegions = atlas.findRegions(frame_sequence_name);
+        return new Array<TextureRegion>(atlasRegions);
     }
 
     /**

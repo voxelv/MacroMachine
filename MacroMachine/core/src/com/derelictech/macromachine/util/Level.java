@@ -17,10 +17,7 @@ import com.derelictech.macromachine.tiles.Material;
 import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
-import com.derelictech.macromachine.tiles.units.Cell;
-import com.derelictech.macromachine.tiles.units.ControlUnit;
-import com.derelictech.macromachine.tiles.units.Unit;
-import com.derelictech.macromachine.tiles.units.Wire;
+import com.derelictech.macromachine.tiles.units.*;
 
 /**
  * Contains all the information for a Power Level
@@ -63,7 +60,7 @@ public class Level extends Group {
                         if (!cell.isClosed()) {
                             switch (button) {
                                 case Input.Buttons.LEFT:
-                                    cell.addUnitAt(new ControlUnit(cell), s.getGridX(), s.getGridY());
+                                    cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
                                     break;
                                 case Input.Buttons.MIDDLE:
                                     cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
@@ -107,6 +104,10 @@ public class Level extends Group {
 
     public int getPowerLevel() {
         return powerLevel;
+    }
+
+    public Cell getCell() {
+        return cell;
     }
 
     public void upLevel() {

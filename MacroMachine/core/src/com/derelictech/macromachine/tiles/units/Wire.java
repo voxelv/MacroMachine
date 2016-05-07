@@ -28,7 +28,7 @@ public class Wire extends AbstractEUnit {
         super("units/wire", cell);
 
         setSize(1, 1); // A wire occupies a 1x1 space
-        wireTextures = Assets.inst.getWireTextures();
+        wireTextures = Assets.inst.getFrameSequence("units/wire");
         wireNet = eNet;
     }
 

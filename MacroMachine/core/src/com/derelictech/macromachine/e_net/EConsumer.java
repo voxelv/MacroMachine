@@ -26,4 +26,6 @@ public interface EConsumer extends EUnit {
 
     long getConsumeAmount();
     long getConsumeBuffer();
+
+    void doConsumeAction();
 }

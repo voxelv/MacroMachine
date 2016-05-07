@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.GridDirection;
 import com.derelictech.macromachine.util.Level;
+import com.derelictech.macromachine.util.Slot;
 
 /**
  * Main Game Screen
@@ -30,6 +31,7 @@ public class GameScreen extends AbstractGameScreen {
     private OrthographicCamera camera;
     private Viewport viewport;
     private Stage stage;
+    private Slot selectedSlot;
 
     private Camera hud_cam;
     private Viewport hud_view;
@@ -152,18 +154,31 @@ public class GameScreen extends AbstractGameScreen {
                         break;
                     case Input.Keys.U:
                         Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
+                        level.upLevel();
                         break;
-                    case Input.Keys.D:
-                        Gdx.app.debug("GameScreen", "GO DN ONE LEVEL");
+                    case Input.Keys.SPACE:
+                        level.getCell().doMining();
                         break;
                     case Input.Keys.R:
-                        level.upLevel();
+                        if(selectedSlot != null && selectedSlot.getTile() != null) selectedSlot.getTile().rotate90();
                         break;
 
                     default:
                         break;
                 }
                 return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if(event.getRelatedActor() instanceof Slot) {
+                    selectedSlot = ((Slot) event.getRelatedActor());
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                selectedSlot = null;
             }
         });
 

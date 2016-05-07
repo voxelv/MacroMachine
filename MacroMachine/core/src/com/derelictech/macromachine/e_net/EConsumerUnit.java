@@ -7,9 +7,9 @@ import com.derelictech.macromachine.tiles.units.Cell;
  */
 public class EConsumerUnit extends AbstractEUnit implements EConsumer {
 
-    private long consumeAmount = 5; // Amount of energy needed to perform an operation
-    private long consumeBuffer = 0; // Amount of energy contained to apply to operation
-    private boolean willConsume;
+    protected long consumeAmount = 5; // Amount of energy needed to perform an operation
+    protected long consumeBuffer = 0; // Amount of energy contained to apply to operation
+    protected boolean willConsume;
 
     /**
      * Constructor for AbstractEUnit
@@ -59,7 +59,7 @@ public class EConsumerUnit extends AbstractEUnit implements EConsumer {
 
     @Override
     public boolean isFull() {
-        return false;
+        return consumeBuffer >= consumeAmount;
     }
 
     @Override
@@ -70,5 +70,12 @@ public class EConsumerUnit extends AbstractEUnit implements EConsumer {
     @Override
     public long getConsumeBuffer() {
         return consumeBuffer;
+    }
+
+    @Override
+    public void doConsumeAction() {
+        if(isFull()) {
+            consumeBuffer = 0;
+        }
     }
 }
