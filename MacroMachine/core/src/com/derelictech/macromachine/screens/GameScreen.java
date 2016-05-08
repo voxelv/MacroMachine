@@ -42,6 +42,7 @@ public class GameScreen extends AbstractGameScreen {
     Label value;
     public Button buttonMulti;
     public Button levelUp;
+    public Button test;
 
     private Table table;
 
@@ -57,31 +58,34 @@ public class GameScreen extends AbstractGameScreen {
         super(game);
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
+//        viewport = new ScreenViewport(camera);
         viewport = new ExtendViewport(Const.VIEWPORT_W,Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
 //        viewport= new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H);
         stage = new Stage(viewport);
         camera.update();
 
 
-        hud = new Stage(new ScreenViewport());
+        hud = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-//        table = new Table();
-//        table.setWidth(hud.getWidth());
-//        table.align( Align.center|Align.top);
-//        table.setPosition(0,Gdx.graphics.getHeight());
+        table = new Table();
+        table.setWidth(hud.getWidth());
+        table.align( Align.center|Align.top);
+        table.setPosition(0,Const.HUD_VIEWPORT_H);
 
         buttonMulti = new TextButton("test", skin, "toggle");
         buttonMulti.setWidth(200);
         buttonMulti.setHeight(50);
-        buttonMulti.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/8);
+//        buttonMulti.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/8);
         Gdx.app.debug("height", Float.toString(Gdx.graphics.getHeight()));
+
+
 
         levelUp = new TextButton("Level up", skin);
         levelUp.setWidth(200);
         levelUp.setHeight(50);
-        levelUp.setPosition(0, 0);
+//        levelUp.setPosition(0, 0);
 
         levelUp.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
@@ -90,13 +94,21 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-//        table.add(buttonMulti);
-//        table.row();
-//        table.add(levelUp);
+        int position = 700;
+        test = new TextButton("I hate buttons", skin);
+        test.setWidth(200);
+        test.setHeight(50);
+        test.setPosition(position,position);
+        hud.addActor(test);
 
-//        hud.addActor(table);
-        hud.addActor(buttonMulti);
-        hud.addActor(levelUp);
+        table.add(buttonMulti);
+
+        table.add(levelUp);
+        table.debug();
+
+        hud.addActor(table);
+//        hud.addActor(buttonMulti);
+//        hud.addActor(levelUp);
 
 
 
@@ -242,7 +254,7 @@ public class GameScreen extends AbstractGameScreen {
         hud.act(delta);
 
 
-        camera.update();
+
 
 
         stage.draw();
