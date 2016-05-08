@@ -12,9 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
+
 import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.Const;
 import com.derelictech.macromachine.util.GridDirection;
@@ -33,11 +34,16 @@ public class GameScreen extends AbstractGameScreen {
     private Stage stage;
     private Slot selectedSlot;
 
-    private Camera hud_cam;
-    private Viewport hud_view;
+
+
     private Stage hud;
     private Skin skin;
+    Texture texture1;
+    Label value;
+    public Button buttonMulti;
+    public Button levelUp;
 
+    private Table table;
 
     private InputMultiplexer multiplexer;
 
@@ -51,23 +57,53 @@ public class GameScreen extends AbstractGameScreen {
         super(game);
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
-        viewport = new ExtendViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+        viewport = new ExtendViewport(Const.VIEWPORT_W,Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
+//        viewport= new FitViewport(Const.VIEWPORT_W, Const.VIEWPORT_H);
         stage = new Stage(viewport);
         camera.update();
 
-//        hud_cam = new OrthographicCamera();
-//        hud_view = new ExtendViewport(Const.HUI_VIEWPORT_W,Const.HUI_VIEWPORT_H, Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
-        hud = new Stage();
-//        skin = new Skin();
-//        skin.add("buttonPressed", new Texture("ui_object/pressed_button.png"));
-//        skin.add("button", new Texture("button.png"));
-////        hud_cam.update();
-//        Table table = new Table();
-//        table.setFillParent(true);
+
+        hud = new Stage(new ScreenViewport());
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+//        table = new Table();
+//        table.setWidth(hud.getWidth());
+//        table.align( Align.center|Align.top);
+//        table.setPosition(0,Gdx.graphics.getHeight());
+
+        buttonMulti = new TextButton("test", skin, "toggle");
+        buttonMulti.setWidth(200);
+        buttonMulti.setHeight(50);
+        buttonMulti.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/8);
+        Gdx.app.debug("height", Float.toString(Gdx.graphics.getHeight()));
+
+        levelUp = new TextButton("Level up", skin);
+        levelUp.setWidth(200);
+        levelUp.setHeight(50);
+        levelUp.setPosition(0, 0);
+
+        levelUp.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
+                level.upLevel();
+            }
+        });
+
+//        table.add(buttonMulti);
+//        table.row();
+//        table.add(levelUp);
+
 //        hud.addActor(table);
-//        Button button = new Button(skin);
-//        table.add(button);
-//        table.setDebug(true);
+        hud.addActor(buttonMulti);
+        hud.addActor(levelUp);
+
+
+
+
+        //buttonMulti.addListener(new TextTooltip("this is a tooltip test!", skin));
+
+
 
 
 
@@ -183,15 +219,9 @@ public class GameScreen extends AbstractGameScreen {
         });
 
 
-        hud_cam = new OrthographicCamera();
-        hud_view = new FitViewport(Const.HUI_VIEWPORT_W, Const.HUI_VIEWPORT_H, hud_cam);
-        hud = new Stage(hud_view);
-//        hud.addActor(world_back);
-
-
         multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
         multiplexer.addProcessor(hud);
+        multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
 
         level = new Level(this, 0);
@@ -211,6 +241,10 @@ public class GameScreen extends AbstractGameScreen {
         stage.act(delta);
         hud.act(delta);
 
+
+        camera.update();
+
+
         stage.draw();
         hud.draw();
     }
@@ -223,12 +257,12 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+
         camera.update();
 
 
+
         hud.getViewport().update(width, height, true);
-//        hud_view.update(width, height, true);
-//        hud_cam.update();
 
     }
 

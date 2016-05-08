@@ -25,7 +25,7 @@ import com.derelictech.macromachine.tiles.units.*;
  */
 public class Level extends Group {
 
-    private GameScreen gameScreen;
+    private static GameScreen gameScreen;
     private int powerLevel;
     private TileGrid gameGrid;
     private Cell cell;
@@ -77,16 +77,19 @@ public class Level extends Group {
                         Material m;
                         switch(button) {
                             case Input.Buttons.LEFT:
-                                m = new BasicMaterial();
-                                if(gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
-                                    gameGrid.addActor(m);
+                                if(gameScreen.buttonMulti.isChecked()) {
+                                    m = new BasicMaterial();
+                                    if (gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
+                                        gameGrid.addActor(m);
+                                    }
                                 }
-                                break;
-                            case Input.Buttons.MIDDLE:
+                            else{
                                 m = new MetalicMaterial();
-                                if(gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
+                                if (gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
                                     gameGrid.addActor(m);
                                 }
+                            }
+                                gameScreen.buttonMulti.toggle();
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());
