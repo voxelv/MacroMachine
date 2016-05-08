@@ -29,7 +29,7 @@ public class Cell extends MultiTile {
 
     private Array<ENetwork> eNetworks;
     private boolean networksDirty = false;
-    private float netTickRate = 1;
+    private float netTickRate = 0.3f;
     private Timer.Task netTickTask;
 
     private long currentHP = 300;
