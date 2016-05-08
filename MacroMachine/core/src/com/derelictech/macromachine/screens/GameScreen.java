@@ -16,10 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.*;
-import com.derelictech.macromachine.util.Const;
-import com.derelictech.macromachine.util.GridDirection;
-import com.derelictech.macromachine.util.Level;
-import com.derelictech.macromachine.util.Slot;
+import com.derelictech.macromachine.util.*;
 
 /**
  * Main Game Screen
@@ -73,7 +70,13 @@ public class GameScreen extends AbstractGameScreen {
 
 
 
-
+        stage.addListener(new MacroMachineListener(){
+            @Override
+            public boolean cellDeath(MacroMachineEvent event) {
+                Gdx.app.log("GameScreen", "CELL HAS DIED XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                return true;
+            }
+        });
 
         stage.addListener(new InputListener(){
             @Override
@@ -161,6 +164,9 @@ public class GameScreen extends AbstractGameScreen {
                         break;
                     case Input.Keys.R:
                         if(selectedSlot != null && selectedSlot.getTile() != null) selectedSlot.getTile().rotate90();
+                        break;
+                    case Input.Keys.X:
+                        level.getCell().takeDamage(100);
                         break;
 
                     default:

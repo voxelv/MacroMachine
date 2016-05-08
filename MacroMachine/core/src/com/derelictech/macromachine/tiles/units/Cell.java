@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
@@ -34,6 +31,9 @@ public class Cell extends MultiTile {
     private boolean networksDirty = false;
     private float netTickRate = 1;
     private Timer.Task netTickTask;
+
+    private long currentHP = 300;
+    private long maxHP = 300;
 
     public void doMining() {
         Gdx.app.log("CELL", "MINE ALL THE THINGS WOO");
@@ -86,6 +86,8 @@ public class Cell extends MultiTile {
         // The ControlUnit
         controlUnit = new ControlUnit(this, 0, 0, 5, 0, 500);
         addUnitAt(controlUnit, gridX + 2, gridY + 2);
+
+
         addUnitAt(new Wire(this), gridX + 3, gridY + 2);
         addUnitAt(new ControlUnit(this), gridX + 4, gridY + 2);
         addUnitAt(new Generator(this), gridX + 3, gridY + 1);
@@ -168,6 +170,24 @@ public class Cell extends MultiTile {
 
     public ControlUnit getControlUnit() {
         return controlUnit;
+    }
+
+    public long getHP() {
+        return currentHP;
+    }
+
+    public void setHP(long currentHP) {
+        this.currentHP = currentHP;
+    }
+
+    public void takeDamage(long damage) {
+        Gdx.app.log("CELL", "HP: " + currentHP + "/" + maxHP);
+        if(damage >= currentHP) {
+            currentHP = 0;
+            fire(new MacroMachineEvent(MacroMachineEvent.Type.cellDeath));
+        }
+        else
+            currentHP -= damage;
     }
 
     public void closeCell() {
