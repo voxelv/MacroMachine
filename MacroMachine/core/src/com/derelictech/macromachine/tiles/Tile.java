@@ -184,6 +184,11 @@ public abstract class Tile extends Group {
         return sprite.getColor();
     }
 
+    @Override
+    public String toString() {
+        return TAG();
+    }
+
     /**
      * Executes before this is added to a {@link TileGrid}
      * @param grid The {@link TileGrid} this is about to be added to

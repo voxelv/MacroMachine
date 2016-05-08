@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.*;
 import com.derelictech.macromachine.util.*;
 
@@ -42,10 +43,10 @@ public class GameScreen extends AbstractGameScreen {
 
     /**
      * Constructor for {@link GameScreen}
-     * @param game The game to set. Used to switch screens.
+     * @param inputGame The game to set. Used to switch screens.
      */
-    public GameScreen(Game game) {
-        super(game);
+    public GameScreen(Game inputGame) {
+        super(inputGame);
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
         viewport = new ExtendViewport(Const.VIEWPORT_W, Const.VIEWPORT_H, Const.VIEWPORT_W, Const.VIEWPORT_H, camera);
@@ -74,6 +75,15 @@ public class GameScreen extends AbstractGameScreen {
             @Override
             public boolean cellDeath(MacroMachineEvent event) {
                 Gdx.app.log("GameScreen", "CELL HAS DIED XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                Timer.Task gameOver = new Timer.Task() {
+                    @Override
+                    public void run() {
+                        stage.clear();
+                        Timer.instance().clear();
+                        game.setScreen(new GameOverScreen(game, level.getPowerLevel()));
+                    }
+                };
+                Timer.schedule(gameOver, 2);
                 return true;
             }
         });
@@ -167,6 +177,9 @@ public class GameScreen extends AbstractGameScreen {
                         break;
                     case Input.Keys.X:
                         level.getCell().takeDamage(100);
+                        break;
+                    case Input.Keys.P:
+                        level.purgeGrid();
                         break;
 
                     default:

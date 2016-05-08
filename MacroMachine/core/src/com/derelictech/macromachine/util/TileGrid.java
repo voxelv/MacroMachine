@@ -198,6 +198,17 @@ public class TileGrid extends SlotGrid {
         return empty;
     }
 
+    public void clearMaterials() {
+        for(int x = 0; x < cols; x++) {
+            for(int y = 0; y < rows; y++) {
+                Tile t = getTileAt(x, y);
+                if(t != null && t instanceof Material) {
+                    removeTileAt(x, y);
+                }
+            }
+        }
+    }
+
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);

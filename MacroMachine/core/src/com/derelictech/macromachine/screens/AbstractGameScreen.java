@@ -8,14 +8,14 @@ import com.badlogic.gdx.ScreenAdapter;
  */
 public class AbstractGameScreen extends ScreenAdapter {
 
-    private Game game;
+    protected final Game game;
 
     /**
      * Constructor for this screen that sets its {@link AbstractGameScreen#game}
      * Used to set the next screen to display
-     * @param game The game this screen in
+     * @param inputGame The game this screen in
      */
-    public AbstractGameScreen(Game game) {
-        this.game = game;
+    public AbstractGameScreen(Game inputGame) {
+        this.game = inputGame;
     }
 }

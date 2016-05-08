@@ -5,9 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.derelictech.macromachine.e_net.EConsumer;
 import com.derelictech.macromachine.e_net.EConsumerProducerStorageUnit;
 import com.derelictech.macromachine.e_net.EProducer;
@@ -117,7 +117,7 @@ public class Level extends Group {
         cell.closeCell();
         lowerCells.put(powerLevel, cell.getUnits()); // Save the old cell contents into an IntMap
 
-        Task finishUpLevelTask = new Task() {
+        Timer.Task finishUpLevelTask = new Timer.Task() {
             @Override
             public void run() {
                 removeActor(gameGrid);
@@ -149,26 +149,39 @@ public class Level extends Group {
         long energyStored = 0;
         long energyStorageCapacity =  0;
 
-        for(Grid g : lowerCells.values()) {
+        for(int key = 0; key < powerLevel; key++) {
+            Grid g = lowerCells.get(key);
             for(int x = 0; x < g.getCols(); x++) {
                 for(int y = 0; y < g.getRows(); y++) {
                     Object o = g.getItemAt(x, y);
-                    if(!(o instanceof ControlUnit)) // Don't count control units because we have them here.
-                        if(o instanceof EProducer) {
-                            produceAmount += ((EProducer) o).getProduceAmount();
-                        }
-                        if(o instanceof EConsumer) {
-                            consumeAmount += ((EConsumer) o).getConsumeAmount();
-                            consumeBuffer += ((EConsumer) o).getConsumeBuffer();
-                        }
-                        if(o instanceof EStorage) {
-                            energyStored += ((EStorage) o).amountStored();
-                            energyStorageCapacity += ((EStorage) o).getCapacity();
-                        }
+
+                    if(o instanceof ControlUnit && key != 0) continue; // Only count Fundamental Control Unit.
+
+                    if(o instanceof EProducer) {
+                        produceAmount += ((EProducer) o).getProduceAmount();
+                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Produce +" + ((EProducer) o).getProduceAmount());
+                    }
+                    if(o instanceof EConsumer) {
+                        consumeAmount += ((EConsumer) o).getConsumeAmount();
+                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Consume +" + ((EConsumer) o).getConsumeAmount());
+                        consumeBuffer += ((EConsumer) o).getConsumeBuffer();
+                        Gdx.app.log("LEVEL", "upLevel: Cell Stat CBuffer +" + ((EConsumer) o).getConsumeBuffer());
+                    }
+                    if(o instanceof EStorage) {
+                        energyStored += ((EStorage) o).amountStored();
+                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Stored +" + ((EStorage) o).amountStored());
+                        energyStorageCapacity += ((EStorage) o).getCapacity();
+                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Storage +" + ((EStorage) o).getCapacity());
+                    }
                 }
             }
         }
         cell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
+        Gdx.app.log("CELL", "New Stats [Consume="+consumeAmount+", Produce="+produceAmount+", Storage="+energyStorageCapacity+"]");
+    }
+
+    public void purgeGrid() {
+        gameGrid.clearMaterials();
     }
 
     private boolean cellAtCenter() {

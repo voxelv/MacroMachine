@@ -52,11 +52,16 @@ public class Drill extends EConsumerUnit {
         super("units/drill", cell);
         setSize(1.5f, 1.0f);
 
-        consumeAmount = 2;
+        consumeAmount = 20;
 
         drillAnimationFrames = Assets.inst.getFrameSequence("units/drill_extend");
         drillAnimation = new Animation(0.15f, drillAnimationFrames);
         drillAnimation.setPlayMode(Animation.PlayMode.LOOP);
+    }
+
+    @Override
+    public String TAG() {
+        return "DRL";
     }
 
     private Tile acquireMinedTile() {

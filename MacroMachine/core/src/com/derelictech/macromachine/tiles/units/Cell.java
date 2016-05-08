@@ -89,7 +89,6 @@ public class Cell extends MultiTile {
 
 
         addUnitAt(new Wire(this), gridX + 3, gridY + 2);
-        addUnitAt(new ControlUnit(this), gridX + 4, gridY + 2);
         addUnitAt(new Generator(this), gridX + 3, gridY + 1);
         addUnitAt(new Generator(this), gridX + 2, gridY + 1);
         addUnitAt(new Generator(this), gridX + 1, gridY + 1);
@@ -113,7 +112,7 @@ public class Cell extends MultiTile {
                     ENetwork.tickNetwork(net);
                     Gdx.app.debug("CELL NET", "Ticked " + net.toString());
                 }
-                Gdx.app.debug("CELL", "Control Unit Storage: " + controlUnit.amountStored());
+                Gdx.app.debug("CELL", "Control Unit Storage: " + controlUnit.amountStored() + "/" + controlUnit.getCapacity());
                 Gdx.app.debug("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
             }
         };
@@ -184,6 +183,7 @@ public class Cell extends MultiTile {
         Gdx.app.log("CELL", "HP: " + currentHP + "/" + maxHP);
         if(damage >= currentHP) {
             currentHP = 0;
+            disableNetTick();
             fire(new MacroMachineEvent(MacroMachineEvent.Type.cellDeath));
         }
         else
