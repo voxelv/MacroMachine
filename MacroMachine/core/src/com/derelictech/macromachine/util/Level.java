@@ -169,10 +169,13 @@ public class Level extends Group {
         long produceAmount = 0;
         long energyStored = 0;
         long energyStorageCapacity =  0;
+        long hullPoints = cell.getBaseHP();
 
         for(int key = 0; key < powerLevel; key++) {
             Grid g = lowerCells.get(key);
             for(Object o : g.toArray()) {
+
+                if(o instanceof HullUpgrade) hullPoints += ((HullUpgrade) o).getAdditionalHP();
 
                 if(o instanceof ProximityDetector) cell.setHasProximityDetector(true);
 
@@ -197,9 +200,10 @@ public class Level extends Group {
             }
         }
         applyToThisCell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
+        applyToThisCell.setMaxHP(hullPoints);
+        applyToThisCell.setHP(hullPoints);
         powerStored = energyStored;
         powerCapacity = energyStorageCapacity;
-        cell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
         Gdx.app.log("CELL", "New Stats [Consume="+consumeAmount+", Produce="+produceAmount+", Storage="+energyStorageCapacity+"]");
     }
 

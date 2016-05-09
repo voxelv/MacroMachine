@@ -11,6 +11,10 @@ public class HullUpgrade extends Unit {
         super("units/hull_upgrade", cell);
     }
 
+    public long getAdditionalHP() {
+        return additionalHP;
+    }
+
     @Override
     public String TAG() {
         return "HUL";

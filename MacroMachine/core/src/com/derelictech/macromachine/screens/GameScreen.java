@@ -107,11 +107,11 @@ public class GameScreen extends AbstractGameScreen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         float x = 5, y = -55;
-        material1 = new Image(new Texture("materials/basic.png"));
+        material1 = new Image(new Texture("materials/basic_resource.png"));
         material1.setPosition(x, y + 85);
-        material2 = new Image(new Texture("materials/metalic.png"));
+        material2 = new Image(new Texture("materials/metalic_resource.png"));
         material2.setPosition(x + 100, y + 85);
-        material3 = new Image(new Texture("materials/radical.png"));
+        material3 = new Image(new Texture("materials/radical_resource.png"));
         material3.setPosition(x, y);
 
         powerLvl = new Label("initializing", skin);
@@ -428,6 +428,7 @@ public class GameScreen extends AbstractGameScreen {
                         break;
                     case Input.Keys.P:
                         level.purgeGrid();
+                        collected_this_level = level.getRadicalNum();
                         break;
                     case Input.Keys.B:
                         build.toggle();

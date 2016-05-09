@@ -40,6 +40,7 @@ public class Cell extends MultiTile {
 
     private long currentHP = 300;
     private long maxHP = 300;
+    private long baseHP = maxHP;
 
     public void stopMining() {
         drilling = false;
@@ -271,6 +272,12 @@ public class Cell extends MultiTile {
     public void downgradeMaxHP(long amount) {
         this.maxHP -= amount;
         if(currentHP >= maxHP) this.currentHP = maxHP;
+    }
+    public long getBaseHP() {
+        return baseHP;
+    }
+    public void setMaxHP(long maxHP) {
+        this.maxHP = maxHP;
     }
 
     public void takeDamage(long damage) {

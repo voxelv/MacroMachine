@@ -19,6 +19,7 @@ public class Assets implements Disposable{
 
     private TextureAtlas atlas;
 
+    private Music music;
     private Music drill;
     private Music proximity_alert;
     public Sound move;
@@ -39,6 +40,9 @@ public class Assets implements Disposable{
             atlas = null;
         }
 
+        music = Gdx.audio.newMusic(Gdx.files.internal("sfx/music.mp3"));
+        music.setLooping(true);
+        musics.add(music);
         drill = Gdx.audio.newMusic(Gdx.files.internal("sfx/drill.wav"));
         musics.add(drill);
         proximity_alert = Gdx.audio.newMusic(Gdx.files.internal("sfx/proximity_alert.wav"));
@@ -82,6 +86,11 @@ public class Assets implements Disposable{
     public void playProximityAlert(boolean play) {
         if(play) proximity_alert.play();
         else proximity_alert.stop();
+    }
+
+    public void playMusic(boolean play) {
+        if(play) music.play();
+        else music.stop();
     }
 
     /**

@@ -136,7 +136,7 @@ items/wire
   index: 0
 
 pack5.png
-size: 128,64
+size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -147,18 +147,39 @@ materials/basic
   orig: 32, 32
   offset: 0, 0
   index: -1
+materials/basic_resource
+  rotate: false
+  xy: 2, 36
+  size: 68, 68
+  orig: 68, 68
+  offset: 0, 0
+  index: -1
 materials/metalic
+  rotate: false
+  xy: 212, 72
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+materials/metalic_resource
+  rotate: false
+  xy: 72, 36
+  size: 68, 68
+  orig: 68, 68
+  offset: 0, 0
+  index: -1
+materials/radical
   rotate: false
   xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-materials/radical
+materials/radical_resource
   rotate: false
-  xy: 70, 2
-  size: 32, 32
-  orig: 32, 32
+  xy: 142, 36
+  size: 68, 68
+  orig: 68, 68
   offset: 0, 0
   index: -1
 
