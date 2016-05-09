@@ -16,7 +16,7 @@ import com.derelictech.macromachine.util.Const;
 /**
  * Created by Tim on 5/7/2016.
  */
-public class GameOverScreen extends AbstractGameScreen {
+public class GameStartScreen extends AbstractGameScreen {
     private Skin skin;
     private Stage stage;
     /**
@@ -25,30 +25,31 @@ public class GameOverScreen extends AbstractGameScreen {
      *
      * @param inputGame The game this screen in
      */
-    public GameOverScreen(Game inputGame, int powerLevel) {
+    public GameStartScreen(Game inputGame) {
         super(inputGame);
-        Gdx.app.log("GAMEOVERSCREEN", "You Lost.");
-        Assets.inst.playMusic(false);
 
         stage = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        Label gameOver = new Label("Game Over.", skin, "default");
-        gameOver.setFontScale(3);
-        gameOver.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 30);
-        stage.addActor(gameOver);
+        Label welcome = new Label("Welcome to MacroMachine", skin, "default");
+        welcome.setFontScale(4);
+        welcome.setPosition(10, Gdx.graphics.getHeight() + 75);
+        stage.addActor(welcome);
 
-        Label levelAchieved = new Label("You Made it to Level: " + Integer.toString(powerLevel), skin, "default");
-        levelAchieved.setFontScale(3);
-        levelAchieved.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 90);
-        stage.addActor(levelAchieved);
+        Label info = new Label(
+                "Gather Resources, \nPress Space to Activate drills, \nMove with Arrow Keys when no obstacle, \nRightclick to remove an object from the Cell and" +
+                        "\n  place it in the inventory, \nSelect Unit to build, click build and then click location, \nWhen level is empty, click Level Up, \n" +
+                        "Observe help messages", skin, "default");
+        info.setFontScale(2);
+        info.setPosition(10, Gdx.graphics.getHeight() - 200);
+        stage.addActor(info);
 
 
 
         TextButton quitButton = new TextButton("Quit", skin, "default");
         quitButton.setWidth(100);
         quitButton.setHeight(50);
-        quitButton.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 160);
+        quitButton.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 350);
         quitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -58,17 +59,17 @@ public class GameOverScreen extends AbstractGameScreen {
             }
         });
         stage.addActor(quitButton);
-        TextButton rePlayButton = new TextButton("Play Again", skin, "default");
-        rePlayButton.setWidth(100);
-        rePlayButton.setHeight(50);
-        rePlayButton.setPosition(Gdx.graphics.getWidth()/2 + 100, Gdx.graphics.getHeight() - 160);
-        rePlayButton.addListener(new ChangeListener() {
+        TextButton playButton = new TextButton("Play", skin, "default");
+        playButton.setWidth(100);
+        playButton.setHeight(50);
+        playButton.setPosition(Gdx.graphics.getWidth()/2 + 100, Gdx.graphics.getHeight() - 350);
+        playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
             }
         });
-        stage.addActor(rePlayButton);
+        stage.addActor(playButton);
 
         Gdx.input.setInputProcessor(stage);
 

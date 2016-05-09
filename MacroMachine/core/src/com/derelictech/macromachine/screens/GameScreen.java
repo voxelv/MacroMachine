@@ -88,12 +88,12 @@ public class GameScreen extends AbstractGameScreen {
 
 
 
-    private int num_drills = 0;
+    private int num_drills = 1;
     private int num_battery = 0;
     private int num_generator = 0;
     private int num_hull = 0;
     private int num_detector = 0;
-    private int num_wires = 0;
+    private int num_wires = 3;
     private int numberOf = 0;
 
 
@@ -422,7 +422,10 @@ public class GameScreen extends AbstractGameScreen {
                     if(tooExpensive)
                         message.setText("Need more resources!");
                     else
-                        message.setText("Press build if you wish to build\n item, then click destination");
+                        if(button == Input.Keys.RIGHT)
+                                message.setText("Item added to inventory");
+                        else
+                             message.setText("Press build if you wish to build\n item, then click destination");
                 }
                 if(build.isChecked())
                     build.toggle();
@@ -515,6 +518,9 @@ public class GameScreen extends AbstractGameScreen {
                         amount1 += 10;
                         amount2 += 10;
                         amount3 += 10;
+                        break;
+                    case Input.Keys.O:
+                        game.setScreen(new GameOverScreen(game, level.getPowerLevel()));
                         break;
                     default:
                         break;
