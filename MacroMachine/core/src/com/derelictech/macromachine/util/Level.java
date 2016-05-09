@@ -41,7 +41,7 @@ public class Level extends Group {
     }
 
     public int getRadicalNum(){
-        return 0;
+        return gameGrid.radical;
     }
 
     public void init() {
@@ -83,7 +83,7 @@ public class Level extends Group {
                         Material m;
                         switch(button) {
                             case Input.Buttons.LEFT:
-                                if(gameScreen.buttonMulti.isChecked()) {
+                                if(gameScreen.build.isChecked()) {
                                     m = new BasicMaterial();
                                     if (gameGrid.addTileAt(m, s.getGridX(), s.getGridY())) {
                                         gameGrid.addActor(m);
@@ -95,7 +95,7 @@ public class Level extends Group {
                                     gameGrid.addActor(m);
                                 }
                             }
-                                gameScreen.buttonMulti.toggle();
+                                gameScreen.build.toggle();
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());
@@ -119,9 +119,9 @@ public class Level extends Group {
         return cell;
     }
 
-    public void upLevel() {
-        if(!gameGrid.isEmpty()) return;
-        if(!cellAtCenter()) return;
+    public boolean upLevel() {
+        if(!gameGrid.isEmpty()) return false;
+        if(!cellAtCenter()) return false;
 
         cell.closeCell();
         lowerCells.put(powerLevel, cell.getUnits()); // Save the old cell contents into an IntMap
@@ -148,6 +148,7 @@ public class Level extends Group {
         powerLevel++;
 
         Gdx.app.debug("LEVEL", lowerCells.toString());
+        return true;
     }
 
     //TODO Optimize, this is brute force O(N^3), horrible yes, but N is small...

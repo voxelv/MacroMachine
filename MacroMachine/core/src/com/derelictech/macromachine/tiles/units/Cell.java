@@ -248,6 +248,7 @@ public class Cell extends MultiTile {
     public long getHP() {
         return currentHP;
     }
+    public long getMaxHP() { return maxHP; }
 
     public void setHP(long currentHP) {
         this.currentHP = currentHP;
