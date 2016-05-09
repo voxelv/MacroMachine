@@ -21,6 +21,7 @@ public class TileGrid extends SlotGrid {
 
     private Sprite gridBackground;
     private Array<MultiTile> multitiles;
+    public int radical = 0;
 
 
     public TileGrid(int cols, int rows, float edgePad, float inPad, boolean initWithTiles, String bgFileName) {
@@ -49,7 +50,10 @@ public class TileGrid extends SlotGrid {
     private Material genMaterial() {
         float r =  MathUtils.random(0, 99);
         Material m;
-        if(r == 0) m = new RadicalMaterial();
+        if(r == 0){
+            m = new RadicalMaterial();
+            radical++;
+        }
         else if(r >= 1 && r < 26) m = new MetalicMaterial();
         else m = new BasicMaterial();
         return m;
@@ -92,7 +96,9 @@ public class TileGrid extends SlotGrid {
 
         for(int i = 0; i < multiTile.getGridWidth(); i++) {
             for(int j = 0; j < multiTile.getGridHeight(); j++) {
-                removeTileAt(multiTile.getGridX() + i, multiTile.getGridY() + j);
+                if(removeTileAt(multiTile.getGridX() + i, multiTile.getGridY() + j) instanceof RadicalMaterial)
+                    radical--;
+
             }
         }
         return true;
