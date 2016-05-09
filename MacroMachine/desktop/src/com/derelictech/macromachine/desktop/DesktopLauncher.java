@@ -7,7 +7,7 @@ import com.derelictech.macromachine.MacroMachine;
 
 public class DesktopLauncher {
 
-	private static boolean repackTextures = true;
+	private static boolean repackTextures = false;
 
 	public static void main (String[] arg) {
 
