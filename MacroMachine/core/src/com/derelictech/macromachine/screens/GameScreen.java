@@ -22,6 +22,7 @@ import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
 import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
+import com.derelictech.macromachine.tiles.units.*;
 import com.derelictech.macromachine.util.*;
 
 /**
@@ -75,6 +76,25 @@ public class GameScreen extends AbstractGameScreen {
 
     final SelectBox selectBox;
     public static int index;
+    final SelectBox inventory;
+    public static int index2;
+
+
+    private Label buildTag;
+    private Label inventoryTag;
+    private Label inventoryAmount;
+    public  Button addBack;
+
+
+
+    private int num_drills = 0;
+    private int num_battery = 0;
+    private int num_generator = 0;
+    private int num_hull = 0;
+    private int num_detector = 0;
+    private int num_wires = 0;
+    private int numberOf = 0;
+
 
     public int amount1 = 0;
     public int amount2 = 0;
@@ -82,12 +102,14 @@ public class GameScreen extends AbstractGameScreen {
     public int power;
 
     public boolean tooExpensive = false;
+    public boolean EmptyInventory = false;
 
     private Table resourceTable;
 
     private InputMultiplexer multiplexer;
 
     private Level level;
+    private Tile invTile;
 
     /**
      * Constructor for {@link GameScreen}
@@ -104,6 +126,7 @@ public class GameScreen extends AbstractGameScreen {
         camera.update();
 
         im = new Image(new Texture("hud_bg.png"));
+
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         float x = 5, y = -55;
@@ -132,8 +155,8 @@ public class GameScreen extends AbstractGameScreen {
         mat3.setPosition(x + 45, y + 5);
 
         message = new Label("Message box", skin);
-        message.setFontScale(2);
-        message.setPosition(x + 450, y + 5);
+//        message.setFontScale(2);
+        message.setPosition(x + 450, y + 20);
 
         hud = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
 
@@ -146,7 +169,7 @@ public class GameScreen extends AbstractGameScreen {
 
         collected = new Label("initializing", skin);
         collected.setFontScale(2);
-        collected.setPosition(x + 100, y + 5);
+        collected.setPosition(x + 150, y + 5);
 
         goal = new Label("Mines Collected", skin);
         goal.setPosition(x +100, y + 30);
@@ -207,10 +230,6 @@ public class GameScreen extends AbstractGameScreen {
         levelUp.setPosition(640, -685);
 //        levelUp.addListener(new TextTooltip("This is how you complete the level", skin));
 
-        info = new TextButton("?", skin);
-        info.setWidth(50);
-        info.setHeight(50);
-        info.setPosition(745, -685);
 
         levelUp.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
@@ -234,7 +253,7 @@ public class GameScreen extends AbstractGameScreen {
         selectBox = new SelectBox(skin);
         selectBox.setWidth(150);
         selectBox.setHeight(50);
-        selectBox.setPosition(640, -350);
+        selectBox.setPosition(640, -400);
         selectBox.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
                 System.out.println(selectBox.getSelected());
@@ -242,13 +261,46 @@ public class GameScreen extends AbstractGameScreen {
 //                message.setText(Integer.toString(index));
             }
         });
-        selectBox.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire", "Remove");
+        selectBox.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire");
         selectBox.setSelected("Drill");
 
+        inventory = new SelectBox(skin);
+        inventory.setWidth(150);
+        inventory.setHeight(50);
+        inventory.setPosition(640, -190);
+        inventory.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                System.out.println(inventory.getSelected());
+                index = inventory.getSelectedIndex();
+//                message.setText(Integer.toString(index));
+            }
+        });
+        inventory.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire");
+        inventory.setSelected("Drill");
+
+        buildTag = new Label("Build", skin);
+        buildTag.setPosition(640, -350);
+
+        inventoryTag = new Label("Inventory", skin);
+        inventoryTag.setPosition(640, -135);
+
+        inventoryAmount = new Label("You have " +Integer.toString(numberOf) + " number\n of this item in\n your inventory.", skin);
+        inventoryAmount.setPosition(640, -260);
+
         build_cost = new Label("initialize", skin);
-        build_cost.setPosition(640, -405);
+        build_cost.setPosition(640, -455);
+
+        addBack = new TextButton("Place", skin, "toggle");
+        addBack.setWidth(100);
+        addBack.setHeight(50);
+        addBack.setPosition(640, -315);
 
 
+        resourceTable.addActor(addBack);
+        resourceTable.addActor(buildTag);
+        resourceTable.addActor(inventoryTag);
+        resourceTable.addActor(inventoryAmount);
+        resourceTable.addActor(inventory);
         resourceTable.addActor(selectBox);
         resourceTable.addActor(build_cost);
         resourceTable.addActor(message);
@@ -259,7 +311,6 @@ public class GameScreen extends AbstractGameScreen {
         resourceTable.addActor(repair);
         resourceTable.addActor(build);
         resourceTable.addActor(levelUp);
-        resourceTable.addActor(info);
         resourceTable.padRight(20f);
         resourceTable.addActor(material1);
         resourceTable.addActor(mat1);
@@ -333,8 +384,15 @@ public class GameScreen extends AbstractGameScreen {
                 Gdx.app.debug("GameScreen", "\nmouseRaw: " + mouseRaw.toString());
                 Gdx.app.debug("GameScreen", "\nGutter: " + Float.toString(gutterX) + " " + Float.toString(gutterY));
                 Gdx.app.debug("GameScreen", "\nScreen Width/height: " + Integer.toString(width) + " " + Integer.toString(height));
-                if(event.getRelatedActor() != null) Gdx.app.debug("GameScreen", " Touched: " + event.getRelatedActor().toString());
+                if(event.getRelatedActor() != null){ }
                 else Gdx.app.debug("--", "\n");
+                if(addBack.isChecked() && !EmptyInventory)
+                {
+                    RemoveItem(index2);
+                }
+                else
+                    message.setText("You don't have any of that\n item in your inventory");
+
                 if(build.isChecked() && !tooExpensive) {
                     message.setText("Unit was built");
                     amount1 -= base;
@@ -346,7 +404,7 @@ public class GameScreen extends AbstractGameScreen {
                     if(tooExpensive)
                         message.setText("Need more resources!");
                     else
-                        message.setText("Item selected, press build to build Item");
+                        message.setText("Press build if you wish to build\n item, then click destination");
                 }
                 if(build.isChecked())
                     build.toggle();
@@ -476,6 +534,7 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Builder(index);
+        Space(index2);
         mat1.setText(Integer.toString(amount1));
         mat2.setText(Integer.toString(amount2));
         mat3.setText(Integer.toString(amount3));
@@ -514,6 +573,80 @@ public class GameScreen extends AbstractGameScreen {
     public void dispose() {
         stage.dispose();
         hud.dispose();
+    }
+
+    public void Space(int choice) {
+
+        if(invTile != null) {
+
+            Gdx.app.error("GAMESCREEN", "It's a: " + invTile.TAG());
+            if (invTile instanceof Drill)
+                num_drills++;
+            if (invTile instanceof EBattery)
+                num_battery++;
+            if (invTile instanceof Generator)
+                num_generator++;
+            if (invTile instanceof HullUpgrade)
+                num_hull++;
+            if (invTile instanceof ProximityDetector)
+                num_detector++;
+            if (invTile instanceof Wire)
+                num_wires++;
+
+            invTile = null;
+        }
+        switch(choice) {
+            case 0:
+                numberOf = num_drills;
+                break;
+            case 1:
+                numberOf = num_battery;
+                break;
+            case 2:
+                numberOf = num_generator;
+                break;
+            case 3:
+                numberOf = num_hull;
+                break;
+            case 4:
+                numberOf = num_detector;
+                break;
+            case 5:
+                numberOf = num_wires;
+                break;
+            default:
+                numberOf = 0;
+        }
+
+        if(numberOf == 0)
+            EmptyInventory = true;
+        else
+            EmptyInventory = false;
+
+        inventoryAmount.setText("You have " +Integer.toString(numberOf) + " number\n of this item in\n your inventory.");
+    }
+
+    public void RemoveItem(int choice) {
+        switch(choice) {
+            case 0:
+                num_drills--;
+                break;
+            case 1:
+                num_battery--;
+                break;
+            case 2:
+                num_generator--;
+                break;
+            case 3:
+                num_hull--;
+                break;
+            case 4:
+                num_detector--;
+                break;
+            case 5:
+                num_wires--;
+                break;
+        }
     }
 
     public void Builder(int choice){
@@ -564,5 +697,9 @@ public class GameScreen extends AbstractGameScreen {
 
     void set_tooExpensive(boolean indicator) {
         tooExpensive = indicator;
+    }
+
+    public void takeTheTile(Tile tile) {
+        this.invTile = tile;
     }
 }
