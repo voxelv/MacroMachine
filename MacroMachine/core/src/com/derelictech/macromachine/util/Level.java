@@ -151,34 +151,31 @@ public class Level extends Group {
 
         for(int key = 0; key < powerLevel; key++) {
             Grid g = lowerCells.get(key);
-            for(int x = 0; x < g.getCols(); x++) {
-                for(int y = 0; y < g.getRows(); y++) {
-                    Object o = g.getItemAt(x, y);
+            for(Object o : g.toArray()) {
 
-                    if(o instanceof ProximityDetector) cell.setHasProximityDetector(true);
+                if(o instanceof ProximityDetector) cell.setHasProximityDetector(true);
 
-                    if(o instanceof ControlUnit && key != 0) continue; // Only count Fundamental Control Unit.
+                if(o instanceof ControlUnit && key != 0) continue; // Only count Fundamental Control Unit.
 
-                    if(o instanceof EProducer) {
-                        produceAmount += ((EProducer) o).getProduceAmount();
-                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Produce +" + ((EProducer) o).getProduceAmount());
-                    }
-                    if(o instanceof EConsumer) {
-                        consumeAmount += ((EConsumer) o).getConsumeAmount();
-                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Consume +" + ((EConsumer) o).getConsumeAmount());
-                        consumeBuffer += ((EConsumer) o).getConsumeBuffer();
-                        Gdx.app.log("LEVEL", "upLevel: Cell Stat CBuffer +" + ((EConsumer) o).getConsumeBuffer());
-                    }
-                    if(o instanceof EStorage) {
-                        energyStored += ((EStorage) o).amountStored();
-                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Stored +" + ((EStorage) o).amountStored());
-                        energyStorageCapacity += ((EStorage) o).getCapacity();
-                        Gdx.app.log("LEVEL", "upLevel: Cell Stat Storage +" + ((EStorage) o).getCapacity());
-                    }
+                if(o instanceof EProducer) {
+                    produceAmount += ((EProducer) o).getProduceAmount();
+                    Gdx.app.log("LEVEL", "upLevel: Cell Stat Produce +" + ((EProducer) o).getProduceAmount());
+                }
+                if(o instanceof EConsumer) {
+                    consumeAmount += ((EConsumer) o).getConsumeAmount();
+                    Gdx.app.log("LEVEL", "upLevel: Cell Stat Consume +" + ((EConsumer) o).getConsumeAmount());
+                    consumeBuffer += ((EConsumer) o).getConsumeBuffer();
+                    Gdx.app.log("LEVEL", "upLevel: Cell Stat CBuffer +" + ((EConsumer) o).getConsumeBuffer());
+                }
+                if(o instanceof EStorage) {
+                    energyStored += ((EStorage) o).amountStored();
+                    Gdx.app.log("LEVEL", "upLevel: Cell Stat Stored +" + ((EStorage) o).amountStored());
+                    energyStorageCapacity += ((EStorage) o).getCapacity();
+                    Gdx.app.log("LEVEL", "upLevel: Cell Stat Storage +" + ((EStorage) o).getCapacity());
                 }
             }
         }
-        cell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
+        applyToThisCell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
         Gdx.app.log("CELL", "New Stats [Consume="+consumeAmount+", Produce="+produceAmount+", Storage="+energyStorageCapacity+"]");
     }
 

@@ -2,6 +2,7 @@ package com.derelictech.macromachine.util;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.derelictech.macromachine.tiles.Tile;
 
@@ -110,5 +111,13 @@ public class Grid<T extends Actor> extends Group {
      */
     public int getRows() {
         return rows;
+    }
+
+    public Array<T> toArray() {
+        Array<T> array = new Array<T>();
+        for(int i = 0; i < (rows * cols) - 1; i++) {
+            array.add(items[i]);
+        }
+        return array;
     }
 }
