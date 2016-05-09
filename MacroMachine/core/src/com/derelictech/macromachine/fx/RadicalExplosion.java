@@ -1,4 +1,4 @@
-package fx;
+package com.derelictech.macromachine.fx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * Created by Tim on 5/8/2016.
  */
 public class RadicalExplosion extends Actor {
-    private static ParticleEffect radicalExplode = new ParticleEffect();
+    private ParticleEffect radicalExplode = new ParticleEffect();
 
 
     public RadicalExplosion() {
@@ -18,8 +18,8 @@ public class RadicalExplosion extends Actor {
 
     @Override
     public void act(float delta) {
-        super.act(delta);
         radicalExplode.update(delta);
+        super.act(delta);
     }
 
     @Override

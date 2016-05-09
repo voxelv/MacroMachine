@@ -2,7 +2,6 @@ package com.derelictech.macromachine.tiles.units;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.utils.Array;
@@ -11,7 +10,6 @@ import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.MacroMachineEvent;
-import fx.RadicalExplosion;
 
 /**
  * Created by Tim on 5/7/2016.
@@ -21,8 +19,6 @@ public class Drill extends EConsumerUnit {
     private Animation drillAnimation;
     private static float miningTime = 0.5f; // Time in seconds
     private boolean drilling = false;
-
-    private static RadicalExplosion radicalExplosion = new RadicalExplosion();
 
     private class DrillAction extends Action {
         float time = 0;
@@ -81,21 +77,8 @@ public class Drill extends EConsumerUnit {
         }
         if(tile instanceof RadicalMaterial) {
             fire((new MacroMachineEvent(MacroMachineEvent.Type.cellTakeDamage)).setDamageAmount(((RadicalMaterial) tile).getDamageAmount()));
-            radicalExplosion.explodeAt(1.5f, 0.5f);
-            addActor(radicalExplosion);
         }
         return grid.removeTileAt(tile.getGridX(), tile.getGridY());
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if(radicalExplosion.isComplete()) removeActor(radicalExplosion);
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
     }
 
     @Override
