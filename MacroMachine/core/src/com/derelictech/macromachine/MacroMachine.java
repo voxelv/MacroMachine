@@ -15,7 +15,7 @@ public class MacroMachine extends Game {
 
 	@Override
 	public void create () {
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Gdx.app.setLogLevel(Application.LOG_NONE);
 		Assets.inst.init();
 		Assets.inst.playMusic(true);
 		setScreen(new GameStartScreen(this));

@@ -208,7 +208,7 @@ public class GameScreen extends AbstractGameScreen {
 
                     new Dialog("Repair Window", skin, "dialog") {
                         protected void result(Object object) {
-                            System.out.println("Chosen: " + object);
+                            Gdx.app.log("GameScreen", "Chosen: " + object);
                             if (object.toString().equals("true")) {
                                 if(amount1 < basic_cost || amount2 < metalic_cost) {
                                     message.setText("Not enough resources");
@@ -243,13 +243,13 @@ public class GameScreen extends AbstractGameScreen {
         levelUp.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 if(level.upLevel()) {
-                    Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
+                    Gdx.app.log("GameScreen", "GO UP ONE LEVEL");
                     collected_this_level = 0;
                 }
                 else{
                     new Dialog("Level Up Window", skin, "dialog") {
                         protected void result (Object object) {
-                            System.out.println("Chosen: " + object);
+                            Gdx.app.log("GameScreen", "Chosen: " + object);
                         }
                     }.text("You are not Ready to level up!\nYou still have bombs to disarm!").button("OK", true).button("Cancel", false).key(Input.Keys.ENTER, true)
                             .key(Input.Keys.ESCAPE, false).show(hud);
@@ -265,7 +265,7 @@ public class GameScreen extends AbstractGameScreen {
         selectBox.setPosition(640, -400);
         selectBox.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                System.out.println(selectBox.getSelected());
+                Gdx.app.log("GameScreen", selectBox.getSelected().toString());
                 index = selectBox.getSelectedIndex();
 //                message.setText(Integer.toString(index));
             }
@@ -279,7 +279,7 @@ public class GameScreen extends AbstractGameScreen {
         inventory.setPosition(640, -190);
         inventory.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
-                System.out.println(inventory.getSelected());
+                Gdx.app.log("GameScreen", inventory.getSelected().toString());
                 index2 = inventory.getSelectedIndex();
 //                message.setText(Integer.toString(index));
             }

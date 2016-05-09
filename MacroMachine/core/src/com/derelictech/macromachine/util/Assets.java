@@ -41,6 +41,7 @@ public class Assets implements Disposable{
         }
 
         music = Gdx.audio.newMusic(Gdx.files.internal("sfx/music.mp3"));
+        music.setVolume(0.3f);
         music.setLooping(true);
         musics.add(music);
         drill = Gdx.audio.newMusic(Gdx.files.internal("sfx/drill.wav"));

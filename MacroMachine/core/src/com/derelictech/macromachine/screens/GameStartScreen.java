@@ -38,10 +38,11 @@ public class GameStartScreen extends AbstractGameScreen {
 
         Label info = new Label(
                 "Gather Resources, \nPress Space to Activate drills, \nMove with Arrow Keys when no obstacle, \nRightclick to remove an object from the Cell and" +
-                        "\n  place it in the inventory, \nSelect Unit to build, click build and then click location, \nWhen level is empty, click Level Up, \n" +
+                        "\n  place it in the inventory, \nSelect Unit to build, click build and then click location, \nPress 'R' to rotate hovered Unit," +
+                        " \nWhen level is empty, click Level Up, \n" +
                         "Observe help messages", skin, "default");
         info.setFontScale(2);
-        info.setPosition(10, Gdx.graphics.getHeight() - 200);
+        info.setPosition(10, Gdx.graphics.getHeight() - 220);
         stage.addActor(info);
 
 
@@ -49,7 +50,7 @@ public class GameStartScreen extends AbstractGameScreen {
         TextButton quitButton = new TextButton("Quit", skin, "default");
         quitButton.setWidth(100);
         quitButton.setHeight(50);
-        quitButton.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 350);
+        quitButton.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight() - 400);
         quitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -62,7 +63,7 @@ public class GameStartScreen extends AbstractGameScreen {
         TextButton playButton = new TextButton("Play", skin, "default");
         playButton.setWidth(100);
         playButton.setHeight(50);
-        playButton.setPosition(Gdx.graphics.getWidth()/2 + 100, Gdx.graphics.getHeight() - 350);
+        playButton.setPosition(Gdx.graphics.getWidth()/2 + 100, Gdx.graphics.getHeight() - 400);
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

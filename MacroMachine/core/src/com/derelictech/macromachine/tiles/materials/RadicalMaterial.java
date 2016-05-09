@@ -12,6 +12,8 @@ public class RadicalMaterial extends Material {
     private long damageAmount = 100;
     public RadicalMaterial() {
         super("materials/basic");
+        rotate90();
+        rotate90();
     }
 
     @Override
