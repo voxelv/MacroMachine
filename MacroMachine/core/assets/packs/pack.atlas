@@ -264,7 +264,7 @@ units/motor
   orig: 32, 32
   offset: 0, 0
   index: -1
-units/sub-grid
+units/proximity_detector
   rotate: false
   xy: 120, 2
   size: 32, 32

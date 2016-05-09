@@ -229,6 +229,9 @@ public class GameScreen extends AbstractGameScreen {
                     case Input.Keys.P:
                         level.purgeGrid();
                         break;
+                    case Input.Keys.A:
+                        level.getCell().proximityAlert();
+                        break;
 
                     default:
                         break;

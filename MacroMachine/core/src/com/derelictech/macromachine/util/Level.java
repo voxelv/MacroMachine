@@ -5,16 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Timer;
 import com.derelictech.macromachine.e_net.EConsumer;
-import com.derelictech.macromachine.e_net.EConsumerProducerStorageUnit;
 import com.derelictech.macromachine.e_net.EProducer;
 import com.derelictech.macromachine.e_net.EStorage;
 import com.derelictech.macromachine.screens.GameScreen;
 import com.derelictech.macromachine.tiles.Material;
-import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
 import com.derelictech.macromachine.tiles.units.*;
@@ -157,6 +154,8 @@ public class Level extends Group {
             for(int x = 0; x < g.getCols(); x++) {
                 for(int y = 0; y < g.getRows(); y++) {
                     Object o = g.getItemAt(x, y);
+
+                    if(o instanceof ProximityDetector) cell.setHasProximityDetector(true);
 
                     if(o instanceof ControlUnit && key != 0) continue; // Only count Fundamental Control Unit.
 

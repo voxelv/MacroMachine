@@ -8,7 +8,7 @@ import com.derelictech.macromachine.tiles.Material;
 public class RadicalMaterial extends Material {
     private long damageAmount = 100;
     public RadicalMaterial() {
-        super("materials/basic");
+        super("materials/radical");
     }
 
     @Override

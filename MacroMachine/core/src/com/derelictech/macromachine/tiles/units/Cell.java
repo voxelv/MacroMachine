@@ -1,6 +1,7 @@
 package com.derelictech.macromachine.tiles.units;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.ENetwork;
 import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.util.*;
 
 /**
@@ -27,6 +29,8 @@ public class Cell extends MultiTile {
     private Sprite closeAnimCurrentFrame;
     private boolean closed = false;
     private boolean dead = false;
+
+    private boolean hasProximityDetector = false;
 
     private Array<ENetwork> eNetworks;
     private boolean networksDirty = false;
@@ -95,6 +99,7 @@ public class Cell extends MultiTile {
         addUnitAt(new Generator(this), gridX + 1, gridY + 1);
         addUnitAt(new EBattery(this), gridX + 2, gridY + 3);
         addUnitAt(new HullUpgrade(this), gridX + 1, gridY + 3);
+        addUnitAt(new ProximityDetector(this), gridX + 1, gridY + 2);
 
         addListener(new MacroMachineListener() {
             @Override
@@ -124,14 +129,76 @@ public class Cell extends MultiTile {
     }
 
     public boolean move(GridDirection dir) {
+        boolean result;
         if(!closed && !dead) {
-            return tileGrid.moveMultitile(this, dir);
+            result = tileGrid.moveMultitile(this, dir);
+
+            // Proximity Check
+            switch(dir) {
+                case RIGHT:
+                    for(int y = 0; y < gridHeight; y++) {
+                        if(tileGrid.getTileAt(gridX + gridWidth, gridY + y) instanceof RadicalMaterial) proximityAlert(); // Side
+                    }
+                    if(tileGrid.getTileAt(gridX + gridWidth - 1, gridY - 1) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    if(tileGrid.getTileAt(gridX + gridWidth - 1, gridY + gridHeight) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    break;
+                case UP:
+                    for(int x = 0; x < gridWidth; x++) {
+                        if(tileGrid.getTileAt(gridX + x, gridY + gridHeight) instanceof RadicalMaterial) proximityAlert(); // Side
+                    }
+                    if(tileGrid.getTileAt(gridX - 1, gridY + gridHeight - 1) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    if(tileGrid.getTileAt(gridX + gridWidth, gridY + gridHeight - 1) instanceof  RadicalMaterial) proximityAlert(); // Corner
+                    break;
+                case LEFT:
+                    for(int y = 0; y < gridHeight; y++) {
+                        if(tileGrid.getTileAt(gridX - 1, gridY + y) instanceof RadicalMaterial) proximityAlert(); // Side
+                    }
+                    if(tileGrid.getTileAt(gridX, gridY - 1) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    if(tileGrid.getTileAt(gridX, gridY + gridHeight) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    break;
+                case DOWN:
+                    for(int x = 0; x < gridWidth; x++) {
+                        if(tileGrid.getTileAt(gridX + x, gridY - 1) instanceof RadicalMaterial) proximityAlert(); // Side
+                    }
+                    if(tileGrid.getTileAt(gridX - 1, gridY) instanceof RadicalMaterial) proximityAlert(); // Corner
+                    if(tileGrid.getTileAt(gridX + gridWidth, gridY) instanceof  RadicalMaterial) proximityAlert(); // Corner
+                    break;
+            }
         }
-        else return false;
+        else result = false;
+
+        return result;
+    }
+
+    public void setHasProximityDetector(boolean hasProximityDetector) {
+        this.hasProximityDetector = hasProximityDetector;
+    }
+
+    public void proximityAlert() {
+        if(!hasProximityDetector) return;
+
+        Timer.Task proximityAlertTask = new Timer.Task() {
+            boolean flash = true;
+            @Override
+            public void run() {
+                if(flash) controlUnit.setColor(Color.YELLOW);
+                else controlUnit.setColor(Color.WHITE);
+                flash = !flash;
+            }
+
+            @Override
+            public synchronized void cancel() {
+                controlUnit.setColor(Color.WHITE);
+                super.cancel();
+            }
+        };
+
+        Timer.schedule(proximityAlertTask, 0, 0.2f, 11);
     }
 
     public void addUnitAt(Unit unit, int gridX, int gridY) {
         addTileAt(unit, gridX, gridY);
+        if(unit instanceof ProximityDetector) hasProximityDetector = true;
         networksDirty = true;
     }
 
@@ -142,6 +209,7 @@ public class Cell extends MultiTile {
             Gdx.app.log("CELL", "Cannot remove the Cell's ControlUnit.");
             return null;
         }
+        if(temp instanceof ProximityDetector) hasProximityDetector = false;
         networksDirty = true;
 
         Tile t = removeTileAt(gridX, gridY);
