@@ -496,6 +496,9 @@ public class GameScreen extends AbstractGameScreen {
                         amount2 += 10;
                         amount3 += 10;
                         break;
+                    case Input.Keys.O:
+                        game.setScreen(new GameOverScreen(game, level.getPowerLevel()));
+                        break;
                     default:
                         break;
                 }
