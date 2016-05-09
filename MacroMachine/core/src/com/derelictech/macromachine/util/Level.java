@@ -64,18 +64,28 @@ public class Level extends Group {
 
                     if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
                         if (!cell.isClosed()) {
-                            if(gameScreen.build.isChecked()) {
+                            if(gameScreen.build.isChecked() && !gameScreen.tooExpensive) {
                                 switch (gameScreen.index) {
                                     case 0:
                                         cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
                                         break;
+                                    case 1:
+                                        cell.addUnitAt(new EBattery(cell), s.getGridX(), s.getGridY());
+                                        break;
+                                    case 2:
+                                        cell.addUnitAt(new Generator(cell), s.getGridX(), s.getGridY());
+                                        break;
+                                    case 3:
+                                        cell.addUnitAt(new HullUpgrade(cell), s.getGridX(), s.getGridY());
+                                        break;
+                                    case 4:
+                                        cell.addUnitAt(new ProximityDetector(cell), s.getGridX(), s.getGridY());
+                                        break;
                                     case 5:
                                         cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
                                         break;
-                                    case 10:
-                                        cell.removeUnitAt(s.getGridX(), s.getGridY());
-                                        break;
                                     default:
+                                        cell.removeUnitAt(s.getGridX(), s.getGridY());
                                         break;
                                 }
                             }
@@ -97,7 +107,6 @@ public class Level extends Group {
                                     gameGrid.addActor(m);
                                 }
                             }
-                                gameScreen.build.toggle();
                                 break;
                             case Input.Buttons.RIGHT:
                                 gameGrid.removeTileAt(s.getGridX(), s.getGridY());

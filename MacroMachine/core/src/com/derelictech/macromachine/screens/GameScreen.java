@@ -63,9 +63,9 @@ public class GameScreen extends AbstractGameScreen {
 
     private Label build_cost;
 
-    private int base;
-    private int meta;
-    private int rad;
+    private int base = 0;
+    private int meta = 0;
+    private int rad = 0;
 
     private Label message;
 
@@ -81,6 +81,7 @@ public class GameScreen extends AbstractGameScreen {
     public int amount3 = 0;
     public int power;
 
+    public boolean tooExpensive = false;
 
     private Table resourceTable;
 
@@ -241,11 +242,11 @@ public class GameScreen extends AbstractGameScreen {
 //                message.setText(Integer.toString(index));
             }
         });
-        selectBox.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire");
+        selectBox.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire", "Remove");
         selectBox.setSelected("Drill");
 
         build_cost = new Label("initialize", skin);
-        build_cost.setPosition(640, -400);
+        build_cost.setPosition(640, -405);
 
 
         resourceTable.addActor(selectBox);
@@ -334,6 +335,22 @@ public class GameScreen extends AbstractGameScreen {
                 Gdx.app.debug("GameScreen", "\nScreen Width/height: " + Integer.toString(width) + " " + Integer.toString(height));
                 if(event.getRelatedActor() != null) Gdx.app.debug("GameScreen", " Touched: " + event.getRelatedActor().toString());
                 else Gdx.app.debug("--", "\n");
+                if(build.isChecked() && !tooExpensive) {
+                    message.setText("Unit was built");
+                    amount1 -= base;
+                    amount2 -= meta;
+                    if( rad > 0)
+                        amount3 -= rad;
+                }
+                else {
+                    if(tooExpensive)
+                        message.setText("Need more resources!");
+                    else
+                        message.setText("Item selected, press build to build Item");
+                }
+                if(build.isChecked())
+                    build.toggle();
+
                 return true;
             }
 
@@ -411,6 +428,9 @@ public class GameScreen extends AbstractGameScreen {
                         break;
                     case Input.Keys.P:
                         level.purgeGrid();
+                        break;
+                    case Input.Keys.B:
+                        build.toggle();
                         break;
                     case Input.Keys.A:
                         amount1 += 10;
@@ -529,9 +549,20 @@ public class GameScreen extends AbstractGameScreen {
                 rad = 0;
                 break;
             default:
+                rad = -2;
         }
-        build_cost.setText("Resource Cost\nBasic: " + Integer.toString(base) +"\nMetalic: " + Integer.toString(meta) + "\nRadical: " + Integer.toString(rad));
+        if(rad < 0)
+            build_cost.setText("Left Clicking an item \nwill remove it with \nno refund of \nresources");
+        else
+            build_cost.setText("Resource Cost\nBasic: " + Integer.toString(base) +"\nMetalic: " + Integer.toString(meta) + "\nRadical: " + Integer.toString(rad));
+        if(base > amount1 || meta > amount2 || rad > amount3)
+            set_tooExpensive(true);
+        else
+            set_tooExpensive(false);
 
+    }
 
+    void set_tooExpensive(boolean indicator) {
+        tooExpensive = indicator;
     }
 }
