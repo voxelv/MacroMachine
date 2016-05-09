@@ -18,6 +18,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.materials.BasicMaterial;
+import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
+import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.util.*;
 
 /**
@@ -36,12 +40,11 @@ public class GameScreen extends AbstractGameScreen {
 
     private Stage hud;
     private Skin skin;
-    Texture texture1;
-    Label value;
-    public Button buttonMulti;
+
+    public Button build;
     public Button levelUp;
     public Button info;
-    public Button test;
+    public Button repair;
 
     private Image material1;
     private Image material2;
@@ -52,11 +55,18 @@ public class GameScreen extends AbstractGameScreen {
     private Label mat3;
     private Label powerLvl;
     private Label powerName;
+    private Label health;
+    private Label healthName;
+
+    private Label goal;
+    private Label collected;
+    private int collected_this_level = 0;
 
     public int amount1 = 0;
     public int amount2 = 0;
     public int amount3 = 0;
-    public int power = 0;
+    public int power;
+
 
     private Table resourceTable;
 
@@ -83,11 +93,11 @@ public class GameScreen extends AbstractGameScreen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         float x = 5, y = -55;
         material1 = new Image(new Texture("materials/basic.png"));
-        material1.setPosition(x, y);
+        material1.setPosition(x, y + 85);
         material2 = new Image(new Texture("materials/metalic.png"));
-        material2.setPosition(x + 100, y);
+        material2.setPosition(x + 100, y + 85);
         material3 = new Image(new Texture("materials/radical.png"));
-        material3.setPosition(x + 200, y);
+        material3.setPosition(x, y);
 
         powerLvl = new Label("initializing", skin);
         powerLvl.setFontScale(2);
@@ -98,16 +108,29 @@ public class GameScreen extends AbstractGameScreen {
 
         mat1 = new Label(Integer.toString(amount1) ,skin);
         mat1.setFontScale(2);
-        mat1.setPosition(x + 40, y + 5);
+        mat1.setPosition(x + 45, y + 90);
         mat2 = new Label(Integer.toString(amount2) ,skin);
         mat2.setFontScale(2);
-        mat2.setPosition(x + 140, y + 5);
+        mat2.setPosition(x + 145, y + 90);
         mat3 = new Label(Integer.toString(amount3) ,skin);
         mat3.setFontScale(2);
-        mat3.setPosition(x + 240, y + 5);
+        mat3.setPosition(x + 45, y + 5);
 
         hud = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
 
+        healthName = new Label("Cell Durability", skin);
+        healthName.setPosition(x+300, y +90);
+
+        health = new Label(Integer.toString(power), skin);
+        health.setFontScale(2);
+        health.setPosition(x + 300, y + 60);
+
+        collected = new Label("initializing", skin);
+        collected.setFontScale(2);
+        collected.setPosition(x + 100, y + 5);
+
+        goal = new Label("Mines Collected", skin);
+        goal.setPosition(x +100, y + 30);
 
 
         resourceTable = new Table();
@@ -115,10 +138,14 @@ public class GameScreen extends AbstractGameScreen {
         resourceTable.align( Align.center|Align.top);
         resourceTable.setPosition(0,Const.HUD_VIEWPORT_H - 100);
 
-        buttonMulti = new TextButton("test", skin, "toggle");
-        buttonMulti.setWidth(200);
-        buttonMulti.setHeight(50);
+        build = new TextButton("Build", skin, "toggle");
+        build.setWidth(100);
+        build.setHeight(50);
+        build.setPosition(640, -550);
 
+        repair = new TextButton("repair", skin);
+        repair.setWidth(200);
+        repair.setHeight(50);
 
 
 
@@ -135,8 +162,19 @@ public class GameScreen extends AbstractGameScreen {
 
         levelUp.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
-                level.upLevel();
+                if(level.upLevel()) {
+                    Gdx.app.debug("GameScreen", "GO UP ONE LEVEL");
+                    collected_this_level = 0;
+                }
+                else{
+                    new Dialog("Some Dialog", skin, "dialog") {
+                        protected void result (Object object) {
+                            System.out.println("Chosen: " + object);
+                        }
+                    }.text("You are not Ready to level up!\nYou still have bombs to disarm!").button("OK", true).button("Cancel", false).key(Input.Keys.ENTER, true)
+                            .key(Input.Keys.ESCAPE, false).show(hud);
+                }
+
             }
         });
 
@@ -144,7 +182,11 @@ public class GameScreen extends AbstractGameScreen {
 
 
 
-        resourceTable.addActor(buttonMulti);
+        resourceTable.addActor(goal);
+        resourceTable.addActor(collected);
+        resourceTable.addActor(health);
+        resourceTable.addActor(healthName);
+        resourceTable.addActor(build);
         resourceTable.addActor(levelUp);
         resourceTable.addActor(info);
         resourceTable.padRight(20f);
@@ -158,7 +200,7 @@ public class GameScreen extends AbstractGameScreen {
         resourceTable.addActor(powerLvl);
         resourceTable.addActor(powerName);
 
-        resourceTable.debug();
+
 
         hud.addActor(im);
         hud.addActor(resourceTable);
@@ -190,6 +232,20 @@ public class GameScreen extends AbstractGameScreen {
                 };
                 Timer.schedule(gameOver, 2);
                 return true;
+            }
+
+            @Override
+            public boolean drilledMaterial(MacroMachineEvent event, Tile tile) {
+                if(tile instanceof BasicMaterial)
+                    amount1++;
+                if(tile instanceof MetalicMaterial)
+                    amount2++;
+                if(tile instanceof RadicalMaterial) {
+                    amount3++;
+                    collected_this_level++;
+                }
+
+                return super.drilledMaterial(event, tile);
             }
         });
 
@@ -332,10 +388,12 @@ public class GameScreen extends AbstractGameScreen {
 
         mat1.setText(Integer.toString(amount1));
         mat2.setText(Integer.toString(amount2));
-        mat3.setText(Integer.toString(level.getRadicalNum()));
+        mat3.setText(Integer.toString(amount3));
 
+        collected.setText(Integer.toString(collected_this_level) + "/" + Integer.toString(level.getRadicalNum()));
 
-        powerLvl.setText(Long.toString(level.powerStored) + "/" + level.powerCapacity);
+        health.setText(Long.toString(level.getCell().getHP()) + "/" + Long.toString(level.getCell().getMaxHP()));
+        powerLvl.setText(Long.toString(level.getCell().getControlUnit().amountStored()) + "/" + Long.toString(level.getCell().getControlUnit().getCapacity()));
 
 
         stage.act(delta);
