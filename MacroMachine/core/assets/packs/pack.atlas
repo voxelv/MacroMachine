@@ -271,114 +271,121 @@ units/proximity_detector
   orig: 32, 32
   offset: 0, 0
   index: -1
-units/wire
+units/proximity_dish
   rotate: false
   xy: 170, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 0
+  index: -1
 units/wire
   rotate: false
   xy: 220, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 1
+  index: 0
 units/wire
   rotate: false
   xy: 154, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 2
+  index: 1
 units/wire
   rotate: false
   xy: 204, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 3
+  index: 2
 units/wire
   rotate: false
   xy: 254, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 4
+  index: 3
 units/wire
   rotate: false
   xy: 188, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 5
+  index: 4
 units/wire
   rotate: false
   xy: 238, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 6
+  index: 5
 units/wire
   rotate: false
   xy: 288, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 7
+  index: 6
 units/wire
   rotate: false
   xy: 222, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 8
+  index: 7
 units/wire
   rotate: false
   xy: 272, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 9
+  index: 8
 units/wire
   rotate: false
   xy: 322, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 10
+  index: 9
 units/wire
   rotate: false
   xy: 256, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 11
+  index: 10
 units/wire
   rotate: false
   xy: 306, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 12
+  index: 11
 units/wire
   rotate: false
   xy: 356, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 13
+  index: 12
 units/wire
   rotate: false
   xy: 290, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 14
+  index: 13
 units/wire
   rotate: false
   xy: 340, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 14
+units/wire
+  rotate: false
+  xy: 390, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

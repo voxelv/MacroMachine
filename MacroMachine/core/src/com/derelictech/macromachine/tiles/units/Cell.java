@@ -190,6 +190,7 @@ public class Cell extends MultiTile {
             public void run() {
                 if(flash) controlUnit.setColor(Color.YELLOW);
                 else controlUnit.setColor(Color.WHITE);
+                Assets.inst.playProximityAlert(flash);
                 flash = !flash;
             }
 
@@ -200,7 +201,7 @@ public class Cell extends MultiTile {
             }
         };
 
-        Timer.schedule(proximityAlertTask, 0, 0.2f, 11);
+        Timer.schedule(proximityAlertTask, 0, 0.2f, 7);
     }
 
     public void addUnitAt(Unit unit, int gridX, int gridY) {
