@@ -57,6 +57,11 @@ public abstract class MultiTile extends Group {
         return tileGrid.removeTileAt(gridX, gridY);
     }
 
+    public boolean containsUnitAt(int gridX, int gridY) {
+        return (gridX >= this.gridX && gridX < this.gridX + this.gridWidth &&
+                gridY >= this.gridY && gridY < this.gridY + this.gridHeight);
+    }
+
     /**
      * To draw the multitile background
      * @param batch the batch to draw to.

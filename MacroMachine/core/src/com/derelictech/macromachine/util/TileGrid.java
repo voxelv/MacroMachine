@@ -219,9 +219,6 @@ public class TileGrid extends SlotGrid {
     public void draw(Batch batch, float parentAlpha) {
         applyTransform(batch, computeTransform());
         gridBackground.draw(batch, parentAlpha);
-        for(MultiTile m : multitiles) {
-            m.mtDraw(batch, parentAlpha);
-        }
         resetTransform(batch);
         super.draw(batch, parentAlpha);
     }

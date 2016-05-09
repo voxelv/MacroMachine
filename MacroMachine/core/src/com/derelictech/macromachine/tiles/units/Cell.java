@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.StringBuilder;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.derelictech.macromachine.e_net.AbstractEUnit;
 import com.derelictech.macromachine.e_net.ENetwork;
 import com.derelictech.macromachine.tiles.Tile;
@@ -26,6 +26,7 @@ public class Cell extends MultiTile {
     private float closeAnimSpeed = 0.15f;
     private Sprite closeAnimCurrentFrame;
     private boolean closed = false;
+    private boolean dead = false;
 
     private Array<ENetwork> eNetworks;
     private boolean networksDirty = false;
@@ -73,7 +74,7 @@ public class Cell extends MultiTile {
         super(tileGrid, gridX, gridY, gridWidth, gridHeight);
 
         cellBackground = new Sprite(Assets.inst.getRegion("cell_edge2_pad1"));
-        cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
+        cellBackground.setPosition(-2.0f/ Const.TEXTURE_RESOLUTION, -2.0f/Const.TEXTURE_RESOLUTION);
         cellBackground.setSize(2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridWidth - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridWidth,
                 2*(2.0f/Const.TEXTURE_RESOLUTION) + (this.gridHeight - 1)*3.0f/Const.TEXTURE_RESOLUTION + this.gridHeight);
 
@@ -93,12 +94,14 @@ public class Cell extends MultiTile {
         addUnitAt(new Generator(this), gridX + 2, gridY + 1);
         addUnitAt(new Generator(this), gridX + 1, gridY + 1);
         addUnitAt(new EBattery(this), gridX + 2, gridY + 3);
+        addUnitAt(new HullUpgrade(this), gridX + 1, gridY + 3);
 
-        addListener(new InputListener(){
-            int count = 0;
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.debug("CELL", "Clicked Cell! " + count++);
-                return false;
+        addListener(new MacroMachineListener() {
+            @Override
+            public boolean cellTakeDamage(MacroMachineEvent event, long amount) {
+
+                takeDamage(amount);
+                return super.cellTakeDamage(event, amount);
             }
         });
 
@@ -112,7 +115,8 @@ public class Cell extends MultiTile {
                     ENetwork.tickNetwork(net);
                     Gdx.app.debug("CELL NET", "Ticked " + net.toString());
                 }
-                Gdx.app.debug("CELL", "Control Unit Storage: " + controlUnit.amountStored() + "/" + controlUnit.getCapacity());
+                Gdx.app.debug("CELL", "Control Unit Storage: " + controlUnit.amountStored() + "/" + controlUnit.getCapacity() +
+                " Damage: " + currentHP +"/"+ maxHP);
                 Gdx.app.debug("CELL", "Ticked " + eNetworks.size + " nets.----------------------------------------------\n");
             }
         };
@@ -120,7 +124,7 @@ public class Cell extends MultiTile {
     }
 
     public boolean move(GridDirection dir) {
-        if(!closed) {
+        if(!closed && !dead) {
             return tileGrid.moveMultitile(this, dir);
         }
         else return false;
@@ -143,11 +147,6 @@ public class Cell extends MultiTile {
         Tile t = removeTileAt(gridX, gridY);
         if(t instanceof Unit) return (Unit) t;
         else return null;
-    }
-
-    public boolean containsUnitAt(int gridX, int gridY) {
-        return (gridX >= this.gridX && gridX < this.gridX + this.gridWidth &&
-                gridY >= this.gridY && gridY < this.gridY + this.gridHeight);
     }
 
     public Grid<Unit> getUnits() {
@@ -179,11 +178,30 @@ public class Cell extends MultiTile {
         this.currentHP = currentHP;
     }
 
+    public void repairDamage(long amount) {
+        if(currentHP + amount > maxHP) {
+            currentHP = maxHP;
+        }
+        else {
+            currentHP += amount;
+        }
+    }
+
+    public void upgradeMaxHP(long amount) {
+        this.maxHP += amount;
+        this.currentHP += amount;
+    }
+    public void downgradeMaxHP(long amount) {
+        this.maxHP -= amount;
+        if(currentHP >= maxHP) this.currentHP = maxHP;
+    }
+
     public void takeDamage(long damage) {
         Gdx.app.log("CELL", "HP: " + currentHP + "/" + maxHP);
         if(damage >= currentHP) {
             currentHP = 0;
             disableNetTick();
+            dead = true;
             fire(new MacroMachineEvent(MacroMachineEvent.Type.cellDeath));
         }
         else
@@ -257,18 +275,14 @@ public class Cell extends MultiTile {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        applyTransform(batch, computeTransform());
+        cellBackground.draw(batch, parentAlpha);
+        resetTransform(batch);
+
         super.draw(batch, parentAlpha);
 
         applyTransform(batch, computeTransform());
         closeAnimCurrentFrame.draw(batch, parentAlpha);
         resetTransform(batch);
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-        Gdx.app.debug("CELL", "CELL GRID POS: x: " + gridX + " y: " + gridY);
-        if(cellBackground != null)
-            cellBackground.setPosition(this.getX() - 2.0f/ Const.TEXTURE_RESOLUTION, this.getY() - 2.0f/Const.TEXTURE_RESOLUTION);
     }
 }

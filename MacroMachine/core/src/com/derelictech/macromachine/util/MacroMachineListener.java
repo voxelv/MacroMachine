@@ -15,12 +15,18 @@ public class MacroMachineListener implements EventListener {
         switch(event.getType()) {
             case cellDeath:
                 return cellDeath(event);
+            case cellTakeDamage:
+                return cellTakeDamage(event, event.getDamageAmount());
         }
 
         return false;
     }
 
     public boolean cellDeath(MacroMachineEvent event) {
+        return false;
+    }
+
+    public boolean cellTakeDamage(MacroMachineEvent event, long amount) {
         return false;
     }
 }

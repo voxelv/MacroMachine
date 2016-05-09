@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 public class MacroMachineEvent extends Event {
     private Type type;
 
+    private long amount = 0;
+
     public MacroMachineEvent(Type type) {
         setType(type);
     }
@@ -22,8 +24,17 @@ public class MacroMachineEvent extends Event {
     }
 
     public static enum Type {
-        cellDeath
+        cellDeath,
+        cellTakeDamage
     }
 
+    public long getDamageAmount() {
+        return amount;
+    }
+
+    public MacroMachineEvent setDamageAmount(long amount) {
+        this.amount = amount;
+        return this;
+    }
 
 }

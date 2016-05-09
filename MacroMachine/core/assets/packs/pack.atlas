@@ -236,6 +236,13 @@ units/generator
   orig: 32, 32
   offset: 0, 0
   index: -1
+units/hull_upgrade
+  rotate: false
+  xy: 136, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 units/laser
   rotate: false
   xy: 52, 36
@@ -252,126 +259,126 @@ units/laser_firing
   index: -1
 units/motor
   rotate: false
-  xy: 136, 36
+  xy: 186, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 units/sub-grid
   rotate: false
-  xy: 186, 70
+  xy: 120, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 units/wire
   rotate: false
-  xy: 120, 2
+  xy: 170, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 units/wire
   rotate: false
-  xy: 170, 36
+  xy: 220, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 units/wire
   rotate: false
-  xy: 220, 70
+  xy: 154, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 units/wire
   rotate: false
-  xy: 154, 2
+  xy: 204, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 units/wire
   rotate: false
-  xy: 204, 36
+  xy: 254, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
 units/wire
   rotate: false
-  xy: 254, 70
+  xy: 188, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
 units/wire
   rotate: false
-  xy: 188, 2
+  xy: 238, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
 units/wire
   rotate: false
-  xy: 238, 36
+  xy: 288, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 7
 units/wire
   rotate: false
-  xy: 288, 70
+  xy: 222, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 8
 units/wire
   rotate: false
-  xy: 222, 2
+  xy: 272, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 9
 units/wire
   rotate: false
-  xy: 272, 36
+  xy: 322, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 10
 units/wire
   rotate: false
-  xy: 322, 70
+  xy: 256, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 11
 units/wire
   rotate: false
-  xy: 256, 2
+  xy: 306, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 12
 units/wire
   rotate: false
-  xy: 306, 36
+  xy: 356, 70
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 13
 units/wire
   rotate: false
-  xy: 356, 70
+  xy: 290, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 14
 units/wire
   rotate: false
-  xy: 290, 2
+  xy: 340, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

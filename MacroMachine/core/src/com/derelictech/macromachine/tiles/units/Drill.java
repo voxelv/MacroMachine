@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.derelictech.macromachine.e_net.EConsumerUnit;
 import com.derelictech.macromachine.tiles.Tile;
+import com.derelictech.macromachine.tiles.materials.RadicalMaterial;
 import com.derelictech.macromachine.util.Assets;
+import com.derelictech.macromachine.util.MacroMachineEvent;
 
 /**
  * Created by Tim on 5/7/2016.
@@ -69,6 +70,9 @@ public class Drill extends EConsumerUnit {
         if(tile == null) return null; // Nothing there
         if(cell.containsUnitAt(tile.getGridX(), tile.getGridY())) {
             return null; // Can't mine units in this cell.
+        }
+        if(tile instanceof RadicalMaterial) {
+            fire((new MacroMachineEvent(MacroMachineEvent.Type.cellTakeDamage)).setDamageAmount(((RadicalMaterial) tile).getDamageAmount()));
         }
         return grid.removeTileAt(tile.getGridX(), tile.getGridY());
     }
