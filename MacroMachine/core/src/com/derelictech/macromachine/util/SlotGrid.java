@@ -61,7 +61,8 @@ public class SlotGrid extends Grid<Slot> {
     }
 
     public Tile getTileAt(int x, int y) {
-        return getItemAt(x, y).getTile();
+        if(getItemAt(x, y) != null) return getItemAt(x, y).getTile();
+        else return null;
     }
 
     public Tile removeTileAt(int x, int y) {

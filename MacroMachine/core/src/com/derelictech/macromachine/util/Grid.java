@@ -64,6 +64,8 @@ public class Grid<T extends Actor> extends Group {
      * @return Returns the item. Returns null no item was there.
      */
     public T getItemAt(int x, int y) {
+        if(x < 0 || y < 0) return null;
+        if((x > cols - 1) || (y > rows - 1)) return null;
         return items[cols*y + x];
     }
 

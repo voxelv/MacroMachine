@@ -1,9 +1,11 @@
 package com.derelictech.macromachine.util;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -16,8 +18,13 @@ public class Assets implements Disposable{
     public static Assets inst = new Assets();
 
     private TextureAtlas atlas;
-    private Array<TextureRegion> wireTextures = new Array<TextureRegion>();
-    private Array<TextureRegion> cellAnimation = new Array<TextureRegion>();
+
+    private Music drill;
+    public Sound move;
+    public Sound radical_explosion;
+
+    private Array<Sound> sounds = new Array<Sound>();
+    private Array<Music> musics = new Array<Music>();
 
     /**
      * Able to be called to get the textures again
@@ -30,6 +37,13 @@ public class Assets implements Disposable{
             System.err.println("Could not load packs/pack.atlas");
             atlas = null;
         }
+
+        drill = Gdx.audio.newMusic(Gdx.files.internal("sfx/drill.wav"));
+        musics.add(drill);
+        move = Gdx.audio.newSound(Gdx.files.internal("sfx/move.wav"));
+        sounds.add(move);
+        radical_explosion = Gdx.audio.newSound(Gdx.files.internal("sfx/radical_explosion.wav"));
+        sounds.add(radical_explosion);
     }
 
     /**
@@ -58,14 +72,23 @@ public class Assets implements Disposable{
         return new Array<TextureRegion>(atlasRegions);
     }
 
+    public void playDrillSound() {
+        if(!drill.isPlaying()) drill.play();
+    }
+
     /**
-     * Disposes of the atlas and clears {@link Assets#wireTextures}.
+     * Disposes stuff
      * If this is called during runtime, {@link Assets#init()} must be called again to get the textures from
      * the pack again.
      */
     @Override
     public void dispose() {
         if(atlas != null) atlas.dispose();
-        wireTextures.clear();
+        for(Sound s : sounds) {
+            s.dispose();
+        }
+        for(Music m : musics) {
+            m.dispose();
+        }
     }
 }

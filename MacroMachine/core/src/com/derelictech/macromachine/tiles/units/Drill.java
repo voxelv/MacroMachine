@@ -39,6 +39,8 @@ public class Drill extends EConsumerUnit {
                 setTextureRegion(initialRegion);
 
                 removeAction(this);
+
+                cell.stopMining();
             }
 
             return false;
@@ -88,6 +90,7 @@ public class Drill extends EConsumerUnit {
             drilling = true;
             super.doConsumeAction();
             this.addAction(drillAction);
+            Assets.inst.playDrillSound();
         }
     }
 }

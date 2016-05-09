@@ -29,6 +29,7 @@ public class Cell extends MultiTile {
     private Sprite closeAnimCurrentFrame;
     private boolean closed = false;
     private boolean dead = false;
+    private boolean drilling = false;
 
     private boolean hasProximityDetector = false;
 
@@ -40,8 +41,13 @@ public class Cell extends MultiTile {
     private long currentHP = 300;
     private long maxHP = 300;
 
+    public void stopMining() {
+        drilling = false;
+    }
+
     public void doMining() {
         Gdx.app.log("CELL", "MINE ALL THE THINGS WOO");
+        drilling = true;
         for(ENetwork en : eNetworks) {
             en.doConsumption();
         }
@@ -130,8 +136,9 @@ public class Cell extends MultiTile {
 
     public boolean move(GridDirection dir) {
         boolean result;
-        if(!closed && !dead) {
+        if(!closed && !dead && !drilling) {
             result = tileGrid.moveMultitile(this, dir);
+            Assets.inst.move.play();
 
             // Proximity Check
             switch(dir) {

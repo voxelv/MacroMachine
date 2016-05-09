@@ -2,6 +2,7 @@ package com.derelictech.macromachine.tiles.materials;
 
 import com.derelictech.macromachine.fx.RadicalExplosion;
 import com.derelictech.macromachine.tiles.Material;
+import com.derelictech.macromachine.util.Assets;
 import com.derelictech.macromachine.util.TileGrid;
 
 /**
@@ -10,7 +11,7 @@ import com.derelictech.macromachine.util.TileGrid;
 public class RadicalMaterial extends Material {
     private long damageAmount = 100;
     public RadicalMaterial() {
-        super("materials/radical");
+        super("materials/basic");
     }
 
     @Override
@@ -26,5 +27,6 @@ public class RadicalMaterial extends Material {
     public void preRemovalFromGrid(TileGrid grid) {
         super.preRemovalFromGrid(grid);
         grid.addActor((new RadicalExplosion()).explodeAt(getX() + 0.5f, getY() + 0.5f));
+        Assets.inst.radical_explosion.play();
     }
 }
