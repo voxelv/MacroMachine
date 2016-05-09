@@ -78,6 +78,7 @@ public class GameScreen extends AbstractGameScreen {
     public static int index;
     final SelectBox inventory;
     public static int index2;
+    public int currIndex;
 
 
     private Label buildTag;
@@ -184,6 +185,14 @@ public class GameScreen extends AbstractGameScreen {
         build.setWidth(100);
         build.setHeight(50);
         build.setPosition(640, -550);
+        build.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                currIndex = index;
+                if(addBack.isChecked())
+                    addBack.toggle();
+            }
+        });
 
         repair = new TextButton("repair", skin);
         repair.setWidth(100);
@@ -271,7 +280,7 @@ public class GameScreen extends AbstractGameScreen {
         inventory.addListener(new ChangeListener() {
             public void changed (ChangeEvent event, Actor actor) {
                 System.out.println(inventory.getSelected());
-                index = inventory.getSelectedIndex();
+                index2 = inventory.getSelectedIndex();
 //                message.setText(Integer.toString(index));
             }
         });
@@ -294,6 +303,14 @@ public class GameScreen extends AbstractGameScreen {
         addBack.setWidth(100);
         addBack.setHeight(50);
         addBack.setPosition(640, -315);
+        addBack.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                currIndex = index2;
+                if(build.isChecked())
+                    build.toggle();
+            }
+        });
 
 
         resourceTable.addActor(addBack);
@@ -389,6 +406,7 @@ public class GameScreen extends AbstractGameScreen {
                 if(addBack.isChecked() && !EmptyInventory)
                 {
                     RemoveItem(index2);
+                    addBack.toggle();
                 }
                 else
                     message.setText("You don't have any of that\n item in your inventory");
@@ -489,6 +507,8 @@ public class GameScreen extends AbstractGameScreen {
                         collected_this_level = level.getRadicalNum();
                         break;
                     case Input.Keys.B:
+                        if(addBack.isChecked())
+                            addBack.toggle();
                         build.toggle();
                         break;
                     case Input.Keys.A:

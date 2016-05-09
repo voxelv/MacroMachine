@@ -66,7 +66,7 @@ public class Level extends Group {
                     if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
                         if (!cell.isClosed()) {
                             if((gameScreen.build.isChecked() && !gameScreen.tooExpensive) || (gameScreen.addBack.isChecked() && !gameScreen.EmptyInventory)) {
-                                switch (gameScreen.index) {
+                                switch (gameScreen.currIndex) {
                                     case 0:
                                         cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
                                         break;
