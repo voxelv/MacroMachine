@@ -32,7 +32,7 @@ public class GameScreen extends AbstractGameScreen {
     private Stage stage;
     private Slot selectedSlot;
 
-
+    private Image im;
 
     private Stage hud;
     private Skin skin;
@@ -40,9 +40,25 @@ public class GameScreen extends AbstractGameScreen {
     Label value;
     public Button buttonMulti;
     public Button levelUp;
+    public Button info;
     public Button test;
 
-    private Table table;
+    private Image material1;
+    private Image material2;
+    private Image material3;
+
+    private Label mat1;
+    private Label mat2;
+    private Label mat3;
+    private Label powerLvl;
+    private Label powerName;
+
+    public int amount1 = 0;
+    public int amount2 = 0;
+    public int amount3 = 0;
+    public int power = 0;
+
+    private Table resourceTable;
 
     private InputMultiplexer multiplexer;
 
@@ -62,28 +78,60 @@ public class GameScreen extends AbstractGameScreen {
         stage = new Stage(viewport);
         camera.update();
 
+        im = new Image(new Texture("hud_bg.png"));
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        float x = 5, y = -55;
+        material1 = new Image(new Texture("materials/basic.png"));
+        material1.setPosition(x, y);
+        material2 = new Image(new Texture("materials/metalic.png"));
+        material2.setPosition(x + 100, y);
+        material3 = new Image(new Texture("materials/radical.png"));
+        material3.setPosition(x + 200, y);
+
+        powerLvl = new Label("initializing", skin);
+        powerLvl.setFontScale(2);
+        powerLvl.setPosition(x + 300, y + 5);
+        powerName = new Label("Power",skin);
+        powerName.setPosition(x+300, y + 30);
+
+
+        mat1 = new Label(Integer.toString(amount1) ,skin);
+        mat1.setFontScale(2);
+        mat1.setPosition(x + 40, y + 5);
+        mat2 = new Label(Integer.toString(amount2) ,skin);
+        mat2.setFontScale(2);
+        mat2.setPosition(x + 140, y + 5);
+        mat3 = new Label(Integer.toString(amount3) ,skin);
+        mat3.setFontScale(2);
+        mat3.setPosition(x + 240, y + 5);
 
         hud = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        table = new Table();
-        table.setWidth(hud.getWidth());
-        table.align( Align.center|Align.top);
-        table.setPosition(0,Const.HUD_VIEWPORT_H);
+
+        resourceTable = new Table();
+        resourceTable.setWidth(hud.getWidth());
+        resourceTable.align( Align.center|Align.top);
+        resourceTable.setPosition(0,Const.HUD_VIEWPORT_H - 100);
 
         buttonMulti = new TextButton("test", skin, "toggle");
         buttonMulti.setWidth(200);
         buttonMulti.setHeight(50);
-//        buttonMulti.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/8);
-        Gdx.app.debug("height", Float.toString(Gdx.graphics.getHeight()));
+
 
 
 
         levelUp = new TextButton("Level up", skin);
-        levelUp.setWidth(200);
+        levelUp.setWidth(100);
         levelUp.setHeight(50);
-//        levelUp.setPosition(0, 0);
+        levelUp.setPosition(640, -685);
+//        levelUp.addListener(new TextTooltip("This is how you complete the level", skin));
+
+        info = new TextButton("?", skin);
+        info.setWidth(50);
+        info.setHeight(50);
+        info.setPosition(745, -685);
 
         levelUp.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
@@ -92,21 +140,30 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 
-        int position = 700;
-        test = new TextButton("I hate buttons", skin);
-        test.setWidth(200);
-        test.setHeight(50);
-        test.setPosition(position,position);
-        hud.addActor(test);
 
-        table.add(buttonMulti);
 
-        table.add(levelUp);
-        table.debug();
 
-        hud.addActor(table);
-//        hud.addActor(buttonMulti);
-//        hud.addActor(levelUp);
+
+        resourceTable.addActor(buttonMulti);
+        resourceTable.addActor(levelUp);
+        resourceTable.addActor(info);
+        resourceTable.padRight(20f);
+        resourceTable.addActor(material1);
+        resourceTable.addActor(mat1);
+        resourceTable.addActor(material2);
+        resourceTable.addActor(mat2);
+        resourceTable.addActor(material3);
+        resourceTable.addActor(mat3);
+
+        resourceTable.addActor(powerLvl);
+        resourceTable.addActor(powerName);
+
+        resourceTable.debug();
+
+        hud.addActor(im);
+        hud.addActor(resourceTable);
+
+//
 
 
 
@@ -230,9 +287,10 @@ public class GameScreen extends AbstractGameScreen {
                         level.purgeGrid();
                         break;
                     case Input.Keys.A:
-                        level.getCell().proximityAlert();
+                        amount1 += 10;
+                        amount2 += 10;
+                        amount3 += 10;
                         break;
-
                     default:
                         break;
                 }
@@ -272,12 +330,16 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+        mat1.setText(Integer.toString(amount1));
+        mat2.setText(Integer.toString(amount2));
+        mat3.setText(Integer.toString(level.getRadicalNum()));
+
+
+        powerLvl.setText(Long.toString(level.powerStored) + "/" + level.powerCapacity);
+
+
         stage.act(delta);
         hud.act(delta);
-
-
-
-
 
         stage.draw();
         hud.draw();

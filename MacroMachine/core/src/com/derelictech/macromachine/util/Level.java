@@ -27,12 +27,21 @@ public class Level extends Group {
     private TileGrid gameGrid;
     private Cell cell;
     private IntMap<Grid<Unit>> lowerCells;
+    public static long powerStored;
+    public static long powerCapacity;
+
+
+
 
     public Level(GameScreen gameScreen, int power) {
         this.gameScreen = gameScreen;
         this.powerLevel = power;
         this.lowerCells = new IntMap<Grid<Unit>>();
         this.init();
+    }
+
+    public int getRadicalNum(){
+        return 0;
     }
 
     public void init() {
@@ -176,6 +185,9 @@ public class Level extends Group {
             }
         }
         applyToThisCell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
+        powerStored = energyStored;
+        powerCapacity = energyStorageCapacity;
+        cell.getControlUnit().setStats(consumeAmount, consumeBuffer, produceAmount, energyStored, energyStorageCapacity);
         Gdx.app.log("CELL", "New Stats [Consume="+consumeAmount+", Produce="+produceAmount+", Storage="+energyStorageCapacity+"]");
     }
 
