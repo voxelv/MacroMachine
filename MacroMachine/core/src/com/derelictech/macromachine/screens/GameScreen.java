@@ -46,6 +46,9 @@ public class GameScreen extends AbstractGameScreen {
     public Button info;
     public Button repair;
 
+    public int repair_cost = 2;
+    public int repair_scale = 20;
+
     private Image material1;
     private Image material2;
     private Image material3;
@@ -57,6 +60,8 @@ public class GameScreen extends AbstractGameScreen {
     private Label powerName;
     private Label health;
     private Label healthName;
+
+    private Label message;
 
     private Label goal;
     private Label collected;
@@ -116,6 +121,10 @@ public class GameScreen extends AbstractGameScreen {
         mat3.setFontScale(2);
         mat3.setPosition(x + 45, y + 5);
 
+        message = new Label("Message box", skin);
+        message.setFontScale(2);
+        message.setPosition(x + 450, y + 5);
+
         hud = new Stage(new ExtendViewport(Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H, Const.HUD_VIEWPORT_W, Const.HUD_VIEWPORT_H));
 
         healthName = new Label("Cell Durability", skin);
@@ -144,10 +153,43 @@ public class GameScreen extends AbstractGameScreen {
         build.setPosition(640, -550);
 
         repair = new TextButton("repair", skin);
-        repair.setWidth(200);
+        repair.setWidth(100);
         repair.setHeight(50);
+        repair.setPosition(x + 450, y + 60);
 
+        repair.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
 
+                if (level.getCell().getHP() != level.getCell().getMaxHP()) {
+                    final int basic_cost = repair_cost % repair_scale;
+                    final int metalic_cost = repair_cost / repair_scale;
+
+                    new Dialog("Repair Window", skin, "dialog") {
+                        protected void result(Object object) {
+                            System.out.println("Chosen: " + object);
+                            if (object.toString().equals("true")) {
+                                if(amount1 < basic_cost || amount2 < metalic_cost) {
+                                    message.setText("Not enough resources");
+                                }
+                                else {
+                                    message.setText("Repairs Complete");
+                                    Gdx.app.log("button", "repairing 20");
+                                    level.getCell().repairDamage(20);
+                                    repair_cost += 4;
+                                    amount1 = amount1 - basic_cost;
+                                    amount2 = amount2 - metalic_cost;
+                                }
+                            }
+                        }
+                    }.text("This repair will cost " + Integer.toString(basic_cost) + " basic resources and \n" +
+                            Integer.toString(metalic_cost) + " metalic to repair 20 health").button("OK", true).button("Cancel", false).key(Input.Keys.ENTER, true)
+                            .key(Input.Keys.ESCAPE, false).show(hud);
+
+                }
+                else
+                    message.setText("Your At Full Health!");
+            }
+        });
 
         levelUp = new TextButton("Level up", skin);
         levelUp.setWidth(100);
@@ -167,7 +209,7 @@ public class GameScreen extends AbstractGameScreen {
                     collected_this_level = 0;
                 }
                 else{
-                    new Dialog("Some Dialog", skin, "dialog") {
+                    new Dialog("Level Up Window", skin, "dialog") {
                         protected void result (Object object) {
                             System.out.println("Chosen: " + object);
                         }
@@ -181,11 +223,12 @@ public class GameScreen extends AbstractGameScreen {
 
 
 
-
+        resourceTable.addActor(message);
         resourceTable.addActor(goal);
         resourceTable.addActor(collected);
         resourceTable.addActor(health);
         resourceTable.addActor(healthName);
+        resourceTable.addActor(repair);
         resourceTable.addActor(build);
         resourceTable.addActor(levelUp);
         resourceTable.addActor(info);
