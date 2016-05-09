@@ -64,18 +64,20 @@ public class Level extends Group {
 
                     if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
                         if (!cell.isClosed()) {
-                            switch (button) {
-                                case Input.Buttons.LEFT:
-                                    cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
-                                    break;
-                                case Input.Buttons.MIDDLE:
-                                    cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
-                                    break;
-                                case Input.Buttons.RIGHT:
-                                    cell.removeUnitAt(s.getGridX(), s.getGridY());
-                                    break;
-                                default:
-                                    break;
+                            if(gameScreen.build.isChecked()) {
+                                switch (gameScreen.index) {
+                                    case 0:
+                                        cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
+                                        break;
+                                    case 5:
+                                        cell.addUnitAt(new Wire(cell), s.getGridX(), s.getGridY());
+                                        break;
+                                    case 10:
+                                        cell.removeUnitAt(s.getGridX(), s.getGridY());
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
                     }

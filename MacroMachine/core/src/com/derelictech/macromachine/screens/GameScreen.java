@@ -61,11 +61,20 @@ public class GameScreen extends AbstractGameScreen {
     private Label health;
     private Label healthName;
 
+    private Label build_cost;
+
+    private int base;
+    private int meta;
+    private int rad;
+
     private Label message;
 
     private Label goal;
     private Label collected;
     private int collected_this_level = 0;
+
+    final SelectBox selectBox;
+    public static int index;
 
     public int amount1 = 0;
     public int amount2 = 0;
@@ -221,8 +230,26 @@ public class GameScreen extends AbstractGameScreen {
         });
 
 
+        selectBox = new SelectBox(skin);
+        selectBox.setWidth(150);
+        selectBox.setHeight(50);
+        selectBox.setPosition(640, -350);
+        selectBox.addListener(new ChangeListener() {
+            public void changed (ChangeEvent event, Actor actor) {
+                System.out.println(selectBox.getSelected());
+                index = selectBox.getSelectedIndex();
+//                message.setText(Integer.toString(index));
+            }
+        });
+        selectBox.setItems("Drill", "E-battery", "Generator", "Hull Upgrade", "Proximity Detector", "Wire");
+        selectBox.setSelected("Drill");
+
+        build_cost = new Label("initialize", skin);
+        build_cost.setPosition(640, -400);
 
 
+        resourceTable.addActor(selectBox);
+        resourceTable.addActor(build_cost);
         resourceTable.addActor(message);
         resourceTable.addActor(goal);
         resourceTable.addActor(collected);
@@ -428,7 +455,7 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        Builder(index);
         mat1.setText(Integer.toString(amount1));
         mat2.setText(Integer.toString(amount2));
         mat3.setText(Integer.toString(amount3));
@@ -467,5 +494,44 @@ public class GameScreen extends AbstractGameScreen {
     public void dispose() {
         stage.dispose();
         hud.dispose();
+    }
+
+    public void Builder(int choice){
+        switch(choice) {
+            case 0:
+                base = 8;
+                meta = 2;
+                rad = 0;
+                break;
+            case 1:
+                base = 15;
+                meta = 6;
+                rad = 0;
+                break;
+            case 2:
+                base = 5;
+                meta = 5;
+                rad = 0;
+                break;
+            case 3:
+                base = 25;
+                meta = 10;
+                rad = 0;
+                break;
+            case 4:
+                base = 20;
+                meta = 10;
+                rad = 0;
+                break;
+            case 5:
+                base = 0;
+                meta = 1;
+                rad = 0;
+                break;
+            default:
+        }
+        build_cost.setText("Resource Cost\nBasic: " + Integer.toString(base) +"\nMetalic: " + Integer.toString(meta) + "\nRadical: " + Integer.toString(rad));
+
+
     }
 }
