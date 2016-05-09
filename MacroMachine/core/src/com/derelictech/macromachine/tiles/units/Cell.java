@@ -99,15 +99,6 @@ public class Cell extends MultiTile {
         controlUnit = new ControlUnit(this, 0, 0, 5, 0, 500);
         addUnitAt(controlUnit, gridX + 2, gridY + 2);
 
-
-        addUnitAt(new Wire(this), gridX + 3, gridY + 2);
-        addUnitAt(new Generator(this), gridX + 3, gridY + 1);
-        addUnitAt(new Generator(this), gridX + 2, gridY + 1);
-        addUnitAt(new Generator(this), gridX + 1, gridY + 1);
-        addUnitAt(new EBattery(this), gridX + 2, gridY + 3);
-        addUnitAt(new HullUpgrade(this), gridX + 1, gridY + 3);
-        addUnitAt(new ProximityDetector(this), gridX + 1, gridY + 2);
-
         addListener(new MacroMachineListener() {
             @Override
             public boolean cellTakeDamage(MacroMachineEvent event, long amount) {
