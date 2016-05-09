@@ -12,6 +12,7 @@ import com.derelictech.macromachine.e_net.EProducer;
 import com.derelictech.macromachine.e_net.EStorage;
 import com.derelictech.macromachine.screens.GameScreen;
 import com.derelictech.macromachine.tiles.Material;
+import com.derelictech.macromachine.tiles.Tile;
 import com.derelictech.macromachine.tiles.materials.BasicMaterial;
 import com.derelictech.macromachine.tiles.materials.MetalicMaterial;
 import com.derelictech.macromachine.tiles.units.*;
@@ -64,7 +65,7 @@ public class Level extends Group {
 
                     if (cell.containsUnitAt(s.getGridX(), s.getGridY())) {
                         if (!cell.isClosed()) {
-                            if(gameScreen.build.isChecked() && !gameScreen.tooExpensive) {
+                            if((gameScreen.build.isChecked() && !gameScreen.tooExpensive) || (gameScreen.addBack.isChecked() && !gameScreen.EmptyInventory)) {
                                 switch (gameScreen.index) {
                                     case 0:
                                         cell.addUnitAt(new Drill(cell), s.getGridX(), s.getGridY());
@@ -88,7 +89,12 @@ public class Level extends Group {
                                         cell.removeUnitAt(s.getGridX(), s.getGridY());
                                         break;
                                 }
+
                             }
+                            Tile tile = null;
+                            if(button == Input.Buttons.RIGHT)
+                                tile = cell.removeUnitAt(s.getGridX(), s.getGridY());
+                            gameScreen.takeTheTile(tile);
                         }
                     }
                     else {
