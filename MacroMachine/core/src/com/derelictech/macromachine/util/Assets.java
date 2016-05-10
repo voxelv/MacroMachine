@@ -43,6 +43,7 @@ public class Assets implements Disposable{
     public static TextureRegion hull_upgrade;
     public static TextureRegion proximity_detector;
     public static TextureRegion proximity_dish;
+    public static TextureRegion wire0;
     public static Array<TextureRegion> wire;
     public static TextureRegion cell_edge2_pad1;
     public static TextureRegion game_grid_edge5_pad3;
@@ -91,6 +92,7 @@ public class Assets implements Disposable{
         hull_upgrade = new TextureRegion(atlas.findRegion("units/hull_upgrade"));
         proximity_detector = new TextureRegion(atlas.findRegion("units/proximity_detector"));
         proximity_dish = new TextureRegion(atlas.findRegion("units/proximity_dish"));
+        wire0 = new TextureRegion(atlas.findRegion("units/wire"));
         wire = new Array<TextureRegion>(atlas.findRegions("units/wire"));
 
         cell_edge2_pad1 = new TextureRegion(atlas.findRegion("cell_edge2_pad1"));
@@ -116,8 +118,9 @@ public class Assets implements Disposable{
         if(name.equals("units/generator")) return generator;
         if(name.equals("units/hull_upgrade")) return hull_upgrade;
         if(name.equals("units/proximity_detector")) return proximity_detector;
+        if(name.equals("units/wire")) return wire0;
 
-        if(name.equals("units/proximity/dish")) return proximity_dish;
+        if(name.equals("units/proximity_dish")) return proximity_dish;
         if(name.equals("cell_edge2_pad1")) return cell_edge2_pad1;
         if(name.equals("game_grid_edge5_pad3")) return game_grid_edge5_pad3;
         if(name.equals("hud_bg")) return hud_bg;
