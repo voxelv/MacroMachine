@@ -54,6 +54,7 @@ public class Assets implements Disposable{
      * Able to be called to get the textures again
      */
     public void init() {
+        Gdx.app.log("ASSETS", "Loading Assets");
         try {
             atlas = new TextureAtlas("packs/pack.atlas");
         }
@@ -83,7 +84,7 @@ public class Assets implements Disposable{
         radicalMaterial = new TextureRegion(atlas.findRegion("materials/radical"));
         radicalMaterialIcon = new TextureRegion(atlas.findRegion("materials/radical_resource"));
         control_unit = new TextureRegion(atlas.findRegion("units/control_unit"));
-        drillTexture = new TextureRegion(atlas.findRegion("units/drillTexture"));
+        drillTexture = new TextureRegion(atlas.findRegion("units/drill"));
         drill_extend = new Array<TextureRegion>(atlas.findRegions("units/drill_extend"));
         e_battery = new TextureRegion(atlas.findRegion("units/e_battery"));
         generator = new TextureRegion(atlas.findRegion("units/generator"));
@@ -110,7 +111,7 @@ public class Assets implements Disposable{
         if(name.equals("materials/radical")) return radicalMaterial;
         if(name.equals("materials/radical_resource")) return radicalMaterialIcon;
         if(name.equals("units/control_unit")) return control_unit;
-        if(name.equals("units/drillTexture")) return drillTexture;
+        if(name.equals("units/drill")) return drillTexture;
         if(name.equals("units/e_battery")) return e_battery;
         if(name.equals("units/generator")) return generator;
         if(name.equals("units/hull_upgrade")) return hull_upgrade;
@@ -131,6 +132,7 @@ public class Assets implements Disposable{
      * @return Returns the {@link Array<TextureRegion>}
      */
     public Array<TextureRegion> getFrameSequence(String frame_sequence_name) {
+        if(frame_sequence_name.equals("units/drill_extend")) return drill_extend;
         if(frame_sequence_name.equals("cell_anim/cell_edge2_pad1")) return cellCloseFrames;
         if(frame_sequence_name.equals("units/wire")) return wire;
         return null;

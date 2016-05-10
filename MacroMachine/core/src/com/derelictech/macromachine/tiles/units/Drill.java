@@ -54,7 +54,7 @@ public class Drill extends EConsumerUnit {
      * @param cell
      */
     public Drill(Cell cell) {
-        super("units/drillTexture", cell);
+        super("units/drill", cell);
         setSize(1.5f, 1.0f);
 
         consumeAmount = 20;
